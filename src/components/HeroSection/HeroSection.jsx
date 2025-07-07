@@ -145,7 +145,7 @@ const HeroSection = () => {
                 <span className={styles.headlineTextAccent}>attracting</span>
               </div>
               <div className={styles.headlineRow}>
-                <span className={styles.headlineTextAccent}>converting</span>
+                <span className={styles.headlineTextAccent}>and converting</span>
                 <span className={styles.headlineText}>customers, to</span>
               </div>
               <div className={styles.headlineRow}>
