@@ -1,0 +1,306 @@
+  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+
+  // Variables
+  $primary-pink: #ec4899;
+  $primary-purple: #8b5cf6;
+  $primary-white: #ffffff;
+  $dark-bg: #0f172a;
+  $dark-card: #1e293b;
+  $dark-card-lighter: #293548;
+
+  // Footer styles
+  .footer {
+    background-color: $dark-bg;
+    color: $primary-white;
+    font-family: 'Inter', sans-serif;
+  }
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    
+    @media (max-width: 768px) {
+      padding: 0 1.5rem;
+    }
+  }
+
+  // Top section
+  .topSection {
+    padding: 5rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    
+    @media (max-width: 768px) {
+      padding: 3.5rem 0;
+    }
+  }
+
+  .footerGrid {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr 1fr;
+    gap: 2.5rem;
+    
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem 2rem;
+    }
+    
+    @media (max-width: 640px) {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+  }
+
+  // Company info
+  .companyInfo {
+    @media (max-width: 1024px) {
+      grid-column: span 2;
+    }
+    
+    @media (max-width: 640px) {
+      grid-column: span 1;
+    }
+  }
+
+  .footerLogo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 2rem;
+    text-decoration: none;
+  }
+
+  .logoIcon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .logoText {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: $primary-white;
+  }
+
+  .contactDetails {
+    margin-top: 1.5rem;
+  }
+
+  .contactTitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 1.25rem;
+    color: $primary-white;
+  }
+
+  .contactLink {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: $primary-pink;
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  // Address columns
+  .addressBlock {
+    margin-bottom: 1.5rem;
+  }
+
+  .addressTitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 0 0 0.5rem;
+    color: $primary-white;
+  }
+
+  .addressSubtitle {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: $primary-pink;
+    margin: 0 0 1rem;
+  }
+
+  .address {
+    font-style: normal;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  // CTA
+  .ctaColumn {
+    display: flex;
+    align-items: flex-start;
+    
+    @media (max-width: 640px) {
+      justify-content: flex-start;
+    }
+  }
+
+  .ctaButton {
+    display: inline-block;
+    background: linear-gradient(135deg, $primary-pink, $primary-purple);
+    color: $primary-white;
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.875rem 2rem;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 8px 20px rgba($primary-pink, 0.4);
+    }
+  }
+
+  // Nav section
+  .navSection {
+    padding: 2rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .footerNav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    
+    @media (max-width: 640px) {
+      flex-direction: column;
+      align-items: center;
+      gap: 1.25rem;
+    }
+  }
+
+  .footerNavLink {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1rem;
+    font-weight: 500;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: $primary-pink;
+    }
+  }
+
+  // Bottom section
+  .bottomSection {
+    padding: 2rem 0;
+  }
+
+  .bottomContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: center;
+    }
+  }
+
+  .copyright {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    
+    p {
+      margin: 0;
+    }
+  }
+
+  .copyrightLink {
+    color: $primary-pink;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .legalLinks {
+    display: flex;
+    align-items: center;
+  }
+
+  .legalLink {
+    font-size: 0.875rem;
+    color: rgba(255, 255, 255, 0.6);
+    text-decoration: none;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      color: $primary-white;
+    }
+  }
+
+  .legalSeparator {
+    display: inline-block;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.3);
+    margin: 0 1rem;
+  }
+
+  .socialLinks {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .socialLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    
+    &:hover {
+      background: linear-gradient(135deg, $primary-pink, $primary-purple);
+      color: $primary-white;
+      transform: translateY(-2px);
+    }
+  }
+
+  // Add these styles to your Footer.module.scss file
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  margin-bottom: 2rem;
+  text-decoration: none;
+  
+  .logoImage {
+    height: 48px;
+    width: auto;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      transform: translateY(-3px);
+    }
+  }
+}
