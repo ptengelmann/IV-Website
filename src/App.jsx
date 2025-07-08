@@ -10,6 +10,7 @@
   import WhoWeAre from "./pages/WhoWeAre/WhoWeAre";
   import ECommerce from "./pages/eCommerce/eCommerce";
   import CocaColaCaseStudy from "./pages/CaseStudies/CocaColaCaseStudy";
+  import Careers from "./pages/Careers/Careers";
 
 
   import Portfolio from "./pages/Portfolio/Portfolio";
@@ -43,6 +44,7 @@
           <Route path="/services/ecommerce" element={<ECommerce />} />
           <Route path="/portfolio" element ={<Portfolio />} /> 
           <Route path="/portfolio/coca-cola-case-study" element={<CocaColaCaseStudy />} />
+          <Route path="/careers" element={<Careers />} />
 
         </Routes>
 

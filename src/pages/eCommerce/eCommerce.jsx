@@ -32,7 +32,7 @@ const ECommerce = () => {
       icon: Globe,
       color: '#ec4899',
       gradient: 'linear-gradient(135deg, #ec4899 0%, #d946ef 100%)',
-      description: 'We don not just create the ecommerce presence – we fortify and future-proof the brand. From simple iframes to custom, bespoke builds; we build websites to start, or grow, your online shopping offering.',
+      description: 'We do not just create the ecommerce presence – we fortify and future-proof the brand. From simple iframes to custom, bespoke builds; we build websites to start, or grow, your online shopping offering.',
       features: [
         'Responsive design',
         'Custom shopping experiences',

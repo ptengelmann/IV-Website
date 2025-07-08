@@ -2,16 +2,18 @@ import React, { useState, useEffect, useRef } from 'react';
 import {
   MessageSquare, Briefcase, Send, MapPin, Phone, Mail, 
   Zap, ArrowRight, ArrowLeft, CheckCircle2, Calendar, Sparkles, 
-  ShoppingCart, Target, Paintbrush, Truck, Globe,
-  Users, Award, Shield, ChevronRight, User, DollarSign
+  ShoppingCart, Target, Paintbrush, Truck, Globe, 
+  Users, Award, Shield, ChevronRight, User, DollarSign,
+  ChevronDown, X, ArrowUp
 } from 'lucide-react';
 import styles from './GetInTouch.module.scss';
 
 const GetInTouch = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('quick');
+  const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedApproach, setSelectedApproach] = useState(null);
+  const [isPackageVisible, setIsPackageVisible] = useState(false);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -24,8 +26,9 @@ const GetInTouch = () => {
   });
   
   const sectionRef = useRef(null);
+  const formCardRef = useRef(null);
   
-  // Service pillars data - matching your WhatWeDo component
+  // Service pillars data
   const servicePillars = [
     {
       id: 'ecommerce',
@@ -69,7 +72,7 @@ const GetInTouch = () => {
     { value: 'enterprise', label: 'Enterprise level', icon: Globe }
   ];
   
-  // Solution approaches without specific pricing
+  // Solution approaches
   const solutionApproaches = [
     {
       id: 'starter',
@@ -113,17 +116,18 @@ const GetInTouch = () => {
     }
   ];
   
-  // Featured clients from HeroSection
+  // Featured clients
   const clients = [
-    { name: 'Coca-Cola', logo: '/images/logos/coca-cola.svg' },
-    { name: 'Renais', logo: '/images/logos/renais.svg' },
-    { name: 'Moonpig', logo: '/images/logos/moonpig.svg' },
-    { name: 'Who Gives A Crap', logo: '/images/logos/wgac.svg' },
-    { name: 'Diageo', logo: '/images/logos/diageo.svg' },
-    { name: 'Glenfiddich', logo: '/images/logos/glenfiddich.svg' }
+    { name: 'Coca-Cola', color: '#FF0000' },
+    { name: 'Renais', color: '#E5DDB2' },
+    { name: 'Moonpig', color: '#FF69B4' },
+    { name: 'Who Gives A Crap', color: '#FFFFFF' },
+    { name: 'Diageo', color: '#E91E63' },
+    { name: 'Glenfiddich', color: '#D4B764' },
+    { name: 'Fox & Vamp', color: '#E9A23D' }
   ];
   
-  // Handle intersection observer to trigger animations
+  // Handle intersection observer for animations
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
@@ -163,35 +167,70 @@ const GetInTouch = () => {
     });
   };
   
-// Updated handleSubmit function in GetInTouch.jsx
-const handleSubmit = (e) => {
-  e.preventDefault();
-  console.log('Form submitted:', formData, selectedApproach);
-  // Here you would typically send the data to your backend
-  
-  // First set isSubmitted to true
-  setIsSubmitted(true);
-  
-  // Then scroll the form card to the top (needs to happen after state update, so use setTimeout)
-  setTimeout(() => {
-    // Find the form card and scroll it to top
-    const formCard = document.querySelector(`.${styles.formCard}`);
-    if (formCard) {
-      formCard.scrollTop = 0;
-      
-      // Also scroll the window to the top of the form card
-      window.scrollTo({
-        top: window.pageYOffset + formCard.getBoundingClientRect().top - 20,
-        behavior: 'smooth'
-      });
+  // Navigate to next step
+  const goToNextStep = (e) => {
+    if (e) e.preventDefault();
+    
+    if (currentStep === 1) {
+      // Check if required fields in step 1 are filled
+      if (!formData.name || !formData.email) {
+        // Show error or handle validation
+        return;
+      }
     }
-  }, 0);
-};
+    
+    setCurrentStep(prev => prev + 1);
+    
+    // Scroll to top of form
+    setTimeout(() => {
+      if (formCardRef.current) {
+        formCardRef.current.scrollTop = 0;
+      }
+    }, 100);
+  };
+  
+  // Navigate to previous step
+  const goToPreviousStep = () => {
+    setCurrentStep(prev => Math.max(1, prev - 1));
+    
+    // Scroll to top of form
+    setTimeout(() => {
+      if (formCardRef.current) {
+        formCardRef.current.scrollTop = 0;
+      }
+    }, 100);
+  };
+  
+  // Toggle package section visibility
+  const togglePackageSection = () => {
+    setIsPackageVisible(prev => !prev);
+  };
+  
+  // Handle form submission
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log('Form submitted:', formData, selectedApproach);
+    // Here you would typically send the data to your backend
+    
+    setIsSubmitted(true);
+    
+    setTimeout(() => {
+      if (formCardRef.current) {
+        formCardRef.current.scrollTop = 0;
+        
+        window.scrollTo({
+          top: window.pageYOffset + formCardRef.current.getBoundingClientRect().top - 20,
+          behavior: 'smooth'
+        });
+      }
+    }, 0);
+  };
   
   return (
     <section 
-      className={`${styles.getInTouch} ${isVisible ? styles.visible : ''}`}
+      className={styles.getInTouch}
       ref={sectionRef}
+      data-visible={isVisible}
     >
       <div className={styles.sectionBackground}>
         <div className={styles.gridPattern}></div>
@@ -296,104 +335,48 @@ const handleSubmit = (e) => {
             
             {/* Contact Form */}
             <div className={styles.contactForm}>
-              <div className={styles.formCard}>
+              <div className={styles.formCard} ref={formCardRef}>
                 {!isSubmitted ? (
                   <>
-                    <div className={styles.formTabs}>
-                      <button 
-                        className={`${styles.tab} ${activeTab === 'quick' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('quick')}
-                      >
-                        <MessageSquare size={18} />
-                        <span>Quick Enquiry</span>
-                      </button>
-                      <button 
-                        className={`${styles.tab} ${activeTab === 'project' ? styles.active : ''}`}
-                        onClick={() => setActiveTab('project')}
-                      >
-                        <Briefcase size={18} />
-                        <span>Project Request</span>
-                      </button>
+                    <div className={styles.formHeader}>
+                      <h2>Tell us about your project</h2>
+                      
+                      {/* Progress indicator */}
+                      {currentStep > 1 && (
+                        <div className={styles.progressWrapper}>
+                          <div className={styles.progressSteps}>
+                            {[1, 2, 3].map(step => (
+                              <div 
+                                key={step} 
+                                className={`${styles.progressStep} ${currentStep >= step ? styles.active : ''}`}
+                                onClick={() => step < currentStep && setCurrentStep(step)}
+                              >
+                                {step}
+                              </div>
+                            ))}
+                          </div>
+                          <div className={styles.progressBar}>
+                            <div 
+                              className={styles.progressFill} 
+                              style={{ width: `${(currentStep - 1) * 50}%` }}
+                            ></div>
+                          </div>
+                        </div>
+                      )}
                     </div>
                     
                     <form onSubmit={handleSubmit}>
-                      {activeTab === 'quick' && (
-                        <div className={styles.quickForm}>
-                          <div className={styles.formGroup}>
-                            <label htmlFor="name">Your Name</label>
-                            <input
-                              type="text"
-                              id="name"
-                              name="name"
-                              value={formData.name}
-                              onChange={handleInputChange}
-                              placeholder="Jane Smith"
-                              required
-                            />
+                      {/* Step 1: Basic Contact Info */}
+                      {currentStep === 1 && (
+                        <div className={styles.formStep}>
+                          <div className={styles.stepHeading}>
+                            <span className={styles.stepNumber}>1</span>
+                            <h3>Contact Information</h3>
                           </div>
                           
-                          <div className={styles.formGroup}>
-                            <label htmlFor="email">Email Address</label>
-                            <input
-                              type="email"
-                              id="email"
-                              name="email"
-                              value={formData.email}
-                              onChange={handleInputChange}
-                              placeholder="jane@example.com"
-                              required
-                            />
-                          </div>
-                          
-                          <div className={styles.formGroup}>
-                            <label htmlFor="phone">Phone Number (Optional)</label>
-                            <input
-                              type="tel"
-                              id="phone"
-                              name="phone"
-                              value={formData.phone}
-                              onChange={handleInputChange}
-                              placeholder="+44 7123 456789"
-                            />
-                          </div>
-                          
-                          <div className={styles.formGroup}>
-                            <label htmlFor="company">Company (Optional)</label>
-                            <input
-                              type="text"
-                              id="company"
-                              name="company"
-                              value={formData.company}
-                              onChange={handleInputChange}
-                              placeholder="Your Company Ltd"
-                            />
-                          </div>
-                          
-                          <div className={styles.formGroup}>
-                            <label htmlFor="message">How can we help?</label>
-                            <textarea
-                              id="message"
-                              name="message"
-                              value={formData.message}
-                              onChange={handleInputChange}
-                              placeholder="Tell us about your enquiry..."
-                              rows={4}
-                              required
-                            />
-                          </div>
-                          
-                          <button type="submit" className={styles.submitButton}>
-                            <span>Send Message</span>
-                            <Send size={18} />
-                          </button>
-                        </div>
-                      )}
-                      
-                      {activeTab === 'project' && (
-                        <div className={styles.projectForm}>
                           <div className={styles.formRow}>
                             <div className={styles.formGroup}>
-                              <label htmlFor="name">Your Name</label>
+                              <label htmlFor="name">Your Name *</label>
                               <input
                                 type="text"
                                 id="name"
@@ -406,13 +389,13 @@ const handleSubmit = (e) => {
                             </div>
                             
                             <div className={styles.formGroup}>
-                              <label htmlFor="email">Email Address</label>
+                              <label htmlFor="email">Email Address *</label>
                               <input
                                 type="email"
                                 id="email"
                                 name="email"
-                                onChange={handleInputChange}
                                 value={formData.email}
+                                onChange={handleInputChange}
                                 placeholder="jane@example.com"
                                 required
                               />
@@ -443,6 +426,61 @@ const handleSubmit = (e) => {
                                 placeholder="Your Company Ltd"
                               />
                             </div>
+                          </div>
+                          
+                          <div className={styles.formGroup}>
+                            <label htmlFor="message">How can we help? *</label>
+                            <textarea
+                              id="message"
+                              name="message"
+                              value={formData.message}
+                              onChange={handleInputChange}
+                              placeholder="Tell us about your project or inquiry..."
+                              rows={4}
+                              required
+                            />
+                          </div>
+                          
+                          <div className={styles.messageLength}>
+                            <span>Brief message</span>
+                            <div className={styles.messageLengthIndicator}>
+                              <div className={`${styles.messageLengthBar} ${formData.message.length > 30 ? styles.good : styles.short}`}></div>
+                            </div>
+                            <span>Detailed message</span>
+                          </div>
+                          
+                          <div className={styles.optionsToggle}>
+  <button 
+    type="button" 
+    className={styles.optionsToggleButton}
+    onClick={() => {
+      // Check if required fields are filled before proceeding
+      if (formData.name && formData.email && formData.message) {
+        goToNextStep();
+      } else {
+        // You could add validation messaging here
+        alert("Please fill in all required fields before adding more details.");
+      }
+    }}
+  >
+    <span>Add more details (optional)</span>
+    <ChevronDown size={18} />
+  </button>
+</div>  
+                          
+                          <button type="submit" className={styles.submitButton}>
+                            <span>Send Message</span>
+                            <Send size={18} />
+                          </button>
+                        </div>
+                      )}
+                      
+                      {/* Step 2: Business Details */}
+                      {currentStep === 2 && (
+                        <div className={styles.formStep}>
+                          <div className={styles.stepHeading}>
+                            <span className={styles.stepNumber}>2</span>
+                            <h3>Business Details</h3>
                           </div>
                           
                           <div className={styles.formGroup}>
@@ -489,7 +527,7 @@ const handleSubmit = (e) => {
                           </div>
                           
                           <div className={styles.formGroup}>
-                            <label>What are you interested in?</label>
+                            <label>What services are you interested in?</label>
                             <div className={styles.interestOptions}>
                               {servicePillars.map((pillar) => (
                                 <div 
@@ -510,89 +548,124 @@ const handleSubmit = (e) => {
                             </div>
                           </div>
                           
-                          <div className={styles.formGroup}>
-                            <label>Select a solution approach that best fits your needs</label>
-                            <div className={styles.solutionApproaches}>
-                              {solutionApproaches.map((approach) => (
-                                <div 
-                                  key={approach.id}
-                                  className={`${styles.approachCard} ${selectedApproach?.id === approach.id ? styles.selected : ''} ${approach.isPopular ? styles.popular : ''}`}
-                                  onClick={() => setSelectedApproach(approach)}
-                                  style={{ 
-                                    '--approach-color': approach.tier === 'BASIC' ? '#3b82f6' : 
-                                                        approach.tier === 'GROWTH' ? '#f59e0b' : 
-                                                        '#4b5563' // Lighter gray instead of dark #1e293b
-                                  }}
-                                >
-                                  {/* Add a subtle glow effect */}
-                                  <div className={styles.approachGlow}></div>
-                                  
-                                  <div className={styles.tierBadge}>
-                                    {approach.tier}
+                          <div className={styles.formNavigation}>
+                            <button 
+                              type="button" 
+                              className={styles.backButton}
+                              onClick={goToPreviousStep}
+                            >
+                              <ArrowLeft size={18} />
+                              <span>Back</span>
+                            </button>
+                            
+                            <button 
+                              type="button" 
+                              className={styles.nextButton}
+                              onClick={goToNextStep}
+                            >
+                              <span>Next: Solution Approaches</span>
+                              <ArrowRight size={18} />
+                            </button>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {/* Step 3: Solution Approaches */}
+                      {currentStep === 3 && (
+                        <div className={styles.formStep}>
+                          <div className={styles.stepHeading}>
+                            <span className={styles.stepNumber}>3</span>
+                            <h3>Solution Approaches</h3>
+                          </div>
+                          
+                          <p className={styles.stepDescription}>
+                            Based on your requirements, select an approach that best fits your needs and budget.
+                          </p>
+                          
+                          <div className={styles.solutionApproaches}>
+                            {solutionApproaches.map((approach) => (
+                              <div 
+                                key={approach.id}
+                                className={`${styles.approachCard} ${selectedApproach?.id === approach.id ? styles.selected : ''} ${approach.isPopular ? styles.popular : ''}`}
+                                onClick={() => setSelectedApproach(approach)}
+                                style={{ 
+                                  '--approach-color': approach.tier === 'BASIC' ? '#3b82f6' : 
+                                                      approach.tier === 'GROWTH' ? '#f59e0b' : 
+                                                      '#4b5563'
+                                }}
+                              >
+                                {approach.isPopular && (
+                                  <div className={styles.popularBadge}>
+                                    <Sparkles size={14} />
+                                    <span>Most Popular</span>
                                   </div>
-                                  
-                                  <div className={styles.approachHeader}>
-                                    <h4>{approach.title}</h4>
-                                    <p className={styles.approachDescription}>{approach.description}</p>
-                                    <div className={styles.targetAudience}>{approach.targetAudience}</div>
-                                  </div>
-                                  
-                                  <div className={styles.approachFeatures}>
-                                    {approach.features.map((feature, idx) => (
-                                      <div key={idx} className={styles.featureItem}>
-                                        <CheckCircle2 size={16} />
-                                        <span>{feature}</span>
-                                      </div>
-                                    ))}
-                                  </div>
-                                  
-                                  <div className={styles.approachSelectButton}>
-                                    {selectedApproach?.id === approach.id ? (
-                                      <span className={styles.selectedLabel}>
-                                        <CheckCircle2 size={18} />
-                                        Selected
-                                      </span>
-                                    ) : (
-                                      <span className={styles.selectButton}>
-                                        Select This Approach
-                                      </span>
-                                    )}
-                                  </div>
+                                )}
+                                
+                                <div className={styles.approachGlow}></div>
+                                
+                                <div className={styles.tierBadge}>
+                                  {approach.tier}
                                 </div>
-                              ))}
-                            </div>
+                                
+                                <div className={styles.approachHeader}>
+                                  <h4>{approach.title}</h4>
+                                  <p className={styles.approachDescription}>{approach.description}</p>
+                                  <div className={styles.targetAudience}>{approach.targetAudience}</div>
+                                </div>
+                                
+                                <div className={styles.approachFeatures}>
+                                  {approach.features.map((feature, idx) => (
+                                    <div key={idx} className={styles.featureItem}>
+                                      <CheckCircle2 size={16} />
+                                      <span>{feature}</span>
+                                    </div>
+                                  ))}
+                                </div>
+                                
+                                <div className={styles.approachSelectButton}>
+                                  {selectedApproach?.id === approach.id ? (
+                                    <span className={styles.selectedLabel}>
+                                      <CheckCircle2 size={18} />
+                                      Selected
+                                    </span>
+                                  ) : (
+                                    <span className={styles.selectButton}>
+                                      Select This Approach
+                                    </span>
+                                  )}
+                                </div>
+                              </div>
+                            ))}
                           </div>
                           
-                          <div className={styles.formGroup}>
-                            <label htmlFor="message">Tell us more about your project</label>
-                            <textarea
-                              id="message"
-                              name="message"
-                              value={formData.message}
-                              onChange={handleInputChange}
-                              placeholder="Share your goals, challenges, and any specific requirements..."
-                              rows={4}
-                              required
-                            />
+                          <div className={styles.formNavigation}>
+                            <button 
+                              type="button" 
+                              className={styles.backButton}
+                              onClick={goToPreviousStep}
+                            >
+                              <ArrowLeft size={18} />
+                              <span>Back</span>
+                            </button>
+                            
+                            <button type="submit" className={styles.submitButton}>
+                              <span>Submit Request</span>
+                              <Send size={18} />
+                            </button>
                           </div>
-                          
-                          <button type="submit" className={styles.submitButton}>
-                            <span>Submit Project Request</span>
-                            <Send size={18} />
-                          </button>
                         </div>
                       )}
                     </form>
                   </>
                 ) : (
                   <div className={styles.successPage}>
-  <div className={styles.successHeader}>
-    <div className={styles.successIcon}>
-      <CheckCircle2 size={40} />
-    </div>
-    <h3>Thank you {formData.name.split(' ')[0]} for reaching out!</h3>
-    <p>We've received your request and will be in touch shortly. Here's a summary of your enquiry:</p>
-  </div>
+                    <div className={styles.successHeader}>
+                      <div className={styles.successIcon}>
+                        <CheckCircle2 size={40} />
+                      </div>
+                      <h3>Thank you {formData.name.split(' ')[0]} for reaching out!</h3>
+                      <p>We've received your request and will be in touch shortly. Here's a summary of your enquiry:</p>
+                    </div>
                     
                     <div className={styles.summaryCard}>
                       <div className={styles.summarySection}>
@@ -623,73 +696,71 @@ const handleSubmit = (e) => {
                         )}
                       </div>
                       
-                      {activeTab === 'project' && (
-                        <>
-                          <div className={styles.summarySection}>
-                            <h4>Business Details</h4>
-                            {formData.businessStage && (
-                              <div className={styles.summaryItem}>
-                                <Zap size={16} />
-                                <span>Business Stage:</span>
-                                <strong>
-                                  {businessStages.find(stage => stage.value === formData.businessStage)?.label || formData.businessStage}
-                                </strong>
-                              </div>
-                            )}
-                            {formData.budget && (
-                              <div className={styles.summaryItem}>
-                                <DollarSign size={16} />
-                                <span>Budget Range:</span>
-                                <strong>
-                                  {formData.budget === 'under-5k' ? 'Under £5,000' :
-                                   formData.budget === '5k-15k' ? '£5,000 - £15,000' :
-                                   formData.budget === '15k-50k' ? '£15,000 - £50,000' :
-                                   formData.budget === 'over-50k' ? 'Over £50,000' : formData.budget}
-                                </strong>
-                              </div>
-                            )}
-                          </div>
-                          
-                          {formData.interests.length > 0 && (
-                            <div className={styles.summarySection}>
-                              <h4>Services Interested In</h4>
-                              <div className={styles.interestTags}>
-                                {formData.interests.map(interest => {
-                                  const pillar = servicePillars.find(p => p.id === interest);
-                                  return (
-                                    <div 
-                                      key={interest} 
-                                      className={styles.interestTag}
-                                      style={{ '--interest-color': pillar?.color || '#ec4899' }}
-                                    >
-                                      {pillar ? <pillar.icon size={14} /> : <Zap size={14} />}
-                                      <span>{pillar?.title || interest}</span>
-                                    </div>
-                                  );
-                                })}
-                              </div>
+                      {formData.businessStage || formData.budget ? (
+                        <div className={styles.summarySection}>
+                          <h4>Business Details</h4>
+                          {formData.businessStage && (
+                            <div className={styles.summaryItem}>
+                              <Zap size={16} />
+                              <span>Business Stage:</span>
+                              <strong>
+                                {businessStages.find(stage => stage.value === formData.businessStage)?.label || formData.businessStage}
+                              </strong>
                             </div>
                           )}
-                          
-                          {selectedApproach && (
-                            <div className={styles.summarySection}>
-                              <h4>Solution Approach</h4>
-                              <div className={styles.approachSummary}>
+                          {formData.budget && (
+                            <div className={styles.summaryItem}>
+                              <DollarSign size={16} />
+                              <span>Budget Range:</span>
+                              <strong>
+                                {formData.budget === 'under-5k' ? 'Under £5,000' :
+                                formData.budget === '5k-15k' ? '£5,000 - £15,000' :
+                                formData.budget === '15k-50k' ? '£15,000 - £50,000' :
+                                formData.budget === 'over-50k' ? 'Over £50,000' : formData.budget}
+                              </strong>
+                            </div>
+                          )}
+                        </div>
+                      ) : null}
+                      
+                      {formData.interests.length > 0 && (
+                        <div className={styles.summarySection}>
+                          <h4>Services Interested In</h4>
+                          <div className={styles.interestTags}>
+                            {formData.interests.map(interest => {
+                              const pillar = servicePillars.find(p => p.id === interest);
+                              return (
                                 <div 
-                                  className={styles.approachBadge}
-                                  style={{ 
-                                    '--approach-color': selectedApproach.tier === 'BASIC' ? '#3b82f6' : 
-                                                        selectedApproach.tier === 'GROWTH' ? '#f59e0b' : '#4b5563'
-                                  }}
+                                  key={interest} 
+                                  className={styles.interestTag}
+                                  style={{ '--interest-color': pillar?.color || '#ec4899' }}
                                 >
-                                  {selectedApproach.tier}
+                                  {pillar ? <pillar.icon size={14} /> : <Zap size={14} />}
+                                  <span>{pillar?.title || interest}</span>
                                 </div>
-                                <strong>{selectedApproach.title}</strong>
-                                <p>{selectedApproach.description}</p>
-                              </div>
+                              );
+                            })}
+                          </div>
+                        </div>
+                      )}
+                      
+                      {selectedApproach && (
+                        <div className={styles.summarySection}>
+                          <h4>Solution Approach</h4>
+                          <div className={styles.approachSummary}>
+                            <div 
+                              className={styles.approachBadge}
+                              style={{ 
+                                '--approach-color': selectedApproach.tier === 'BASIC' ? '#3b82f6' : 
+                                                    selectedApproach.tier === 'GROWTH' ? '#f59e0b' : '#4b5563'
+                              }}
+                            >
+                              {selectedApproach.tier}
                             </div>
-                          )}
-                        </>
+                            <strong>{selectedApproach.title}</strong>
+                            <p>{selectedApproach.description}</p>
+                          </div>
+                        </div>
                       )}
                       
                       {formData.message && (
@@ -746,6 +817,7 @@ const handleSubmit = (e) => {
                             interests: []
                           });
                           setSelectedApproach(null);
+                          setCurrentStep(1);
                         }}
                       >
                         <ArrowLeft size={18} />
@@ -760,162 +832,154 @@ const handleSubmit = (e) => {
                   </div>
                 )}
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Brands Section */}
-      <div className={styles.brandsSection}>
-        <div className={styles.container}>
-          <div className={styles.clientsHeading}>
-            <Sparkles size={16} />
-            <span>Trusted by brands of all shapes and sizes:</span>
-          </div>
-          
-          <div className={styles.clientLogos}>
-            {[
-              { name: 'Coca-Cola', color: '#FF0000' },
-              { name: 'Renais', color: '#E5DDB2' },
-              { name: 'Moonpig', color: '#FF69B4' },
-              { name: 'Who Gives A Crap', color: '#FFFFFF' },
-              { name: 'Diageo', color: '#E91E63' },
-              { name: 'Glenfiddich', color: '#D4B764' },
-              { name: 'Fox & Vamp', color: '#E9A23D' }
-            ].map((client, index) => (
-              <div 
-                key={index} 
-                className={styles.clientLogo}
-                style={{ '--client-color': client.color }}
-              >
-                {client.name}
               </div>
-            ))}
-          </div>
-        </div>
-      </div>
+         </div>
+       </div>
+     </div>
+     
+     {/* Brands Section */}
+     <div className={styles.brandsSection}>
+       <div className={styles.container}>
+         <div className={styles.clientsHeading}>
+           <Sparkles size={16} />
+           <span>Trusted by brands of all shapes and sizes:</span>
+         </div>
+         
+         <div className={styles.clientLogos}>
+           {clients.map((client, index) => (
+             <div 
+               key={index} 
+               className={styles.clientLogo}
+               style={{ '--client-color': client.color }}
+             >
+               {client.name}
+             </div>
+           ))}
+         </div>
+       </div>
+     </div>
 
-      {/* Process Section - Now Horizontal */}
-      <div className={styles.processSection}>
-        <div className={styles.container}>
-          <div className={styles.processHeader}>
-            <div className={styles.processBadge}>
-              <Zap size={16} />
-              <span>Our Approach</span>
-            </div>
-            <h2 className={styles.processTitle}>
-              We follow a proven <span className={styles.highlight}>process</span> to deliver results
-            </h2>
-            <p className={styles.processDescription}>
-              Our systematic approach ensures we deliver exceptional outcomes for all of our clients
-            </p>
-          </div>
-          
-          <div className={styles.processStepsHorizontal}>
-            <div className={styles.timelineTrackHorizontal}></div>
-            
-            <div className={styles.stepsGridHorizontal}>
-              <div className={styles.stepHorizontal}>
-                <div className={styles.stepNumber}>1</div>
-                <div className={styles.stepContent}>
-                  <h3>Discovery</h3>
-                  <p>We dive deep to understand your business, goals, and challenges</p>
-                </div>
-              </div>
-              
-              <div className={styles.stepHorizontal}>
-<div className={styles.stepNumber}>2</div>
-                <div className={styles.stepContent}>
-                  <h3>Strategy</h3>
-                  <p>We develop a tailored strategy to achieve your specific objectives</p>
-                </div>
-              </div>
-              
-              <div className={styles.stepHorizontal}>
-                <div className={styles.stepNumber}>3</div>
-                <div className={styles.stepContent}>
-                  <h3>Creation</h3>
-                  <p>Our team brings your vision to life with expert execution</p>
-                </div>
-              </div>
-              
-              <div className={styles.stepHorizontal}>
-                <div className={styles.stepNumber}>4</div>
-                <div className={styles.stepContent}>
-                  <h3>Launch</h3>
-                  <p>We ensure a smooth deployment and transition to market</p>
-                </div>
-              </div>
-              
-              <div className={styles.stepHorizontal}>
-                <div className={styles.stepNumber}>5</div>
-                <div className={styles.stepContent}>
-                  <h3>Growth</h3>
-                  <p>Continuous optimization and scaling to maximize your success</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Map Section with updated address */}
-      <div className={styles.mapSection}>
-        <div className={styles.container}>
-          <div className={styles.mapWrapper}>
-            <div className={styles.googleMap}>
-              <iframe 
-                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.5598092483874!2d-0.41105932328155073!3d52.99825997935183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4878765d6b4f49c9%3A0x1924ee029f91ed41!2sSleaford%20Business%20Park%2C%20Sleaford%20NG34%207EQ!5e0!3m2!1sen!2suk!4v1688655727945!5m2!1sen!2suk" 
-                width="100%" 
-                height="450" 
-                style={{ border: 0 }} 
-                allowFullScreen="" 
-                loading="lazy" 
-                referrerPolicy="no-referrer-when-downgrade"
-              ></iframe>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* CTA Section */}
-      <div className={styles.ctaSection}>
-        <div className={styles.container}>
-          <div className={styles.ctaCard}>
-            <div className={styles.ctaContent}>
-              <h2>Ready to get started?</h2>
-              <p>Book a free consultation call with our experts</p>
-              <div className={styles.ctaFeatures}>
-                <div className={styles.ctaFeature}>
-                  <CheckCircle2 size={20} />
-                  <span>No obligation</span>
-                </div>
-                <div className={styles.ctaFeature}>
-                  <CheckCircle2 size={20} />
-                  <span>Tailored advice</span>
-                </div>
-                <div className={styles.ctaFeature}>
-                  <CheckCircle2 size={20} />
-                  <span>Clear next steps</span>
-                </div>
-              </div>
-              <button className={styles.ctaButton}>
-                <Calendar size={18} />
-                <span>Schedule a Call</span>
-                <ChevronRight size={18} />
-              </button>
-            </div>
-            
-            <div className={styles.ctaDecoration}>
-              <div className={styles.ctaShape1}></div>
-              <div className={styles.ctaShape2}></div>
-              <div className={styles.ctaShape3}></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
+     {/* Process Section */}
+     <div className={styles.processSection}>
+       <div className={styles.container}>
+         <div className={styles.processHeader}>
+           <div className={styles.processBadge}>
+             <Zap size={16} />
+             <span>Our Approach</span>
+           </div>
+           <h2 className={styles.processTitle}>
+             We follow a proven <span className={styles.highlight}>process</span> to deliver results
+           </h2>
+           <p className={styles.processDescription}>
+             Our systematic approach ensures we deliver exceptional outcomes for all of our clients
+           </p>
+         </div>
+         
+         <div className={styles.processStepsHorizontal}>
+           <div className={styles.timelineTrackHorizontal}></div>
+           
+           <div className={styles.stepsGridHorizontal}>
+             <div className={styles.stepHorizontal}>
+               <div className={styles.stepNumber}>1</div>
+               <div className={styles.stepContent}>
+                 <h3>Discovery</h3>
+                 <p>We dive deep to understand your business, goals, and challenges</p>
+               </div>
+             </div>
+             
+             <div className={styles.stepHorizontal}>
+               <div className={styles.stepNumber}>2</div>
+               <div className={styles.stepContent}>
+                 <h3>Strategy</h3>
+                 <p>We develop a tailored strategy to achieve your specific objectives</p>
+               </div>
+             </div>
+             
+             <div className={styles.stepHorizontal}>
+               <div className={styles.stepNumber}>3</div>
+               <div className={styles.stepContent}>
+                 <h3>Creation</h3>
+                 <p>Our team brings your vision to life with expert execution</p>
+               </div>
+             </div>
+             
+             <div className={styles.stepHorizontal}>
+               <div className={styles.stepNumber}>4</div>
+               <div className={styles.stepContent}>
+                 <h3>Launch</h3>
+                 <p>We ensure a smooth deployment and transition to market</p>
+               </div>
+             </div>
+             
+             <div className={styles.stepHorizontal}>
+               <div className={styles.stepNumber}>5</div>
+               <div className={styles.stepContent}>
+                 <h3>Growth</h3>
+                 <p>Continuous optimization and scaling to maximize your success</p>
+               </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+     
+     {/* Map Section */}
+     <div className={styles.mapSection}>
+       <div className={styles.container}>
+         <div className={styles.mapWrapper}>
+           <div className={styles.googleMap}>
+             <iframe 
+               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.5598092483874!2d-0.41105932328155073!3d52.99825997935183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4878765d6b4f49c9%3A0x1924ee029f91ed41!2sSleaford%20Business%20Park%2C%20Sleaford%20NG34%207EQ!5e0!3m2!1sen!2suk!4v1688655727945!5m2!1sen!2suk" 
+               width="100%" 
+               height="450" 
+               style={{ border: 0 }} 
+               allowFullScreen="" 
+               loading="lazy" 
+               referrerPolicy="no-referrer-when-downgrade"
+             ></iframe>
+           </div>
+         </div>
+       </div>
+     </div>
+     
+     {/* CTA Section */}
+     <div className={styles.ctaSection}>
+       <div className={styles.container}>
+         <div className={styles.ctaCard}>
+           <div className={styles.ctaContent}>
+             <h2>Ready to get started?</h2>
+             <p>Book a free consultation call with our experts</p>
+             <div className={styles.ctaFeatures}>
+               <div className={styles.ctaFeature}>
+                 <CheckCircle2 size={20} />
+                 <span>No obligation</span>
+               </div>
+               <div className={styles.ctaFeature}>
+                 <CheckCircle2 size={20} />
+                 <span>Tailored advice</span>
+               </div>
+               <div className={styles.ctaFeature}>
+                 <CheckCircle2 size={20} />
+                 <span>Clear next steps</span>
+               </div>
+             </div>
+             <button className={styles.ctaButton}>
+               <Calendar size={18} />
+               <span>Schedule a Call</span>
+               <ChevronRight size={18} />
+             </button>
+           </div>
+           
+           <div className={styles.ctaDecoration}>
+             <div className={styles.ctaShape1}></div>
+             <div className={styles.ctaShape2}></div>
+             <div className={styles.ctaShape3}></div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </section>
+ );
 };
 
 export default GetInTouch;

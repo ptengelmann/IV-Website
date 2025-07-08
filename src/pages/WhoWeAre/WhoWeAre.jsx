@@ -1,95 +1,30 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { 
-  Users, Award, Globe, Heart, 
-  Zap, Shield, ArrowRight, Clock,
+  Users, Award, Globe, 
+  ArrowRight, Clock,
   FileText, Star, Sparkles, Building,
   CheckCircle, Target, ChevronRight, Briefcase,
-  MapPin, Calendar, Box, ExternalLink,
-  Truck, Package, Compass, Navigation
+  MapPin, Calendar, 
+  Truck, Package, Compass, Navigation,
+  ArrowDown, Hash
 } from 'lucide-react';
 import styles from './WhoWeAre.module.scss';
-import AmyImage from '../../assets/team/amy-lennox.png';
-import JimmyImage from '../../assets/team/jimmy-rossington.png';
-import ConnorImage from '../../assets/team/connor-thompson.png';
-import DannielleImage from '../../assets/team/dannielle-evat.png';
 
+// Import the banner image
+import BannerImage from '../../assets/banner-image.jpg'; // Update this path to match your image location
 
 const WhoWeAre = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const [activeTab, setActiveTab] = useState('story');
+  const [activeSection, setActiveSection] = useState('story');
   const [activeRegion, setActiveRegion] = useState('uk');
   const [animatedTitle, setAnimatedTitle] = useState(false);
+  
   const sectionRef = useRef(null);
+  const storyRef = useRef(null);
+  const journeyRef = useRef(null);
+  const teamRef = useRef(null);
+  const globalRef = useRef(null);
   const titleRef = useRef(null);
-
-  // Team members
-const teamMembers = [
-  {
-    id: 'ceo',
-    name: "Amy Lennox",
-    position: "CEO",
-    image: AmyImage
-  },
-  {
-    id: 'creative-director',
-    name: "Jimmy Rossington",
-    position: "Creative Director",
-    image: JimmyImage
-  },
-  {
-    id: 'sales-director',
-    name: "Connor Thompson",
-    position: "Sales Director",
-    image: ConnorImage
-  },
-  {
-    id: 'accounts-director',
-    name: "Dannielle Evat",
-    position: "Accounts Director",
-    image: DannielleImage
-  }
-];
-
-
-  // Company values with enhanced content
-  const values = [
-    {
-      icon: Heart,
-      title: "Passion",
-      description: "We're driven by a genuine love for what we do, infusing creativity and enthusiasm into every project.",
-      color: "#ec4899"
-    },
-    {
-      icon: Target,
-      title: "Results-Focused",
-      description: "We empower brands to turn ideas into measurable results that drive business growth.",
-      color: "#8b5cf6"
-    },
-    {
-      icon: Users,
-      title: "Collaboration",
-      description: "We work as an extension of your team, building strong partnerships through open communication.",
-      color: "#06b6d4"
-    },
-    {
-      icon: Shield,
-      title: "Integrity",
-      description: "We promise our colleagues and customers integrity, quality and accountability from a highly trusted brand.",
-      color: "#10b981"
-    },
-    {
-      icon: Zap,
-      title: "Innovation",
-      description: "We constantly push boundaries to develop pioneering solutions for our clients' unique challenges.",
-      color: "#f59e0b"
-    },
-    {
-      icon: Globe,
-      title: "Global Reach",
-      description: "From our UK base to every corner of the globe, we support businesses worldwide with local expertise.",
-      color: "#ef4444"
-    }
-  ];
 
   // Journey timeline with enhanced content
   const journeyTimeline = [
@@ -204,12 +139,76 @@ const teamMembers = [
       observer.observe(sectionRef.current);
     }
     
+    // Side navigation scroll tracking for active states
+    const handleScroll = () => {
+      const sections = [
+        { ref: storyRef, id: 'story' },
+        { ref: journeyRef, id: 'journey' },
+        { ref: teamRef, id: 'team' },
+        { ref: globalRef, id: 'global' }
+      ];
+      
+      let newActiveSection = 'story';
+      
+      for (let i = 0; i < sections.length; i++) {
+        const section = sections[i];
+        if (section.ref.current) {
+          const rect = section.ref.current.getBoundingClientRect();
+          const sectionTop = rect.top;
+          const sectionHeight = rect.height;
+          
+          if (sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight > window.innerHeight / 2) {
+            newActiveSection = section.id;
+            break;
+          }
+          else if (sectionTop < 0 && i < sections.length - 1) {
+            const nextSection = sections[i + 1];
+            if (nextSection.ref.current) {
+              const nextRect = nextSection.ref.current.getBoundingClientRect();
+              if (nextRect.top > window.innerHeight / 2) {
+                newActiveSection = section.id;
+                break;
+              }
+            }
+          }
+          else if (i === sections.length - 1 && sectionTop <= window.innerHeight) {
+            newActiveSection = section.id;
+          }
+        }
+      }
+      
+      if (newActiveSection !== activeSection) {
+        setActiveSection(newActiveSection);
+      }
+    };
+    
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+    
     return () => {
       if (sectionRef.current) {
         observer.unobserve(sectionRef.current);
       }
+      window.removeEventListener('scroll', handleScroll);
     };
-  }, []);
+  }, [activeSection]);
+
+  const scrollToSection = (sectionId) => {
+    const sectionMap = {
+      'story': storyRef,
+      'journey': journeyRef,
+      'team': teamRef,
+      'global': globalRef
+    };
+    
+    const ref = sectionMap[sectionId];
+    if (ref && ref.current) {
+      window.scrollTo({
+        top: ref.current.offsetTop - 100,
+        behavior: 'smooth'
+      });
+    }
+  };
 
   return (
     <section 
@@ -221,24 +220,23 @@ const teamMembers = [
         <div className={styles.gridPattern}></div>
         <div className={styles.gradientOverlay}></div>
       </div>
+    
       
-      {/* Hero Section - Dramatically improved */}
+      {/* Hero Section with Banner Image */}
       <div className={styles.heroSection}>
-        <div className={styles.heroBackdrop}>
-          <div className={styles.backdropGradient}></div>
-          <div className={styles.backdropGrid}></div>
-          <div className={styles.backdropLight}></div>
+        <div className={styles.heroBanner} style={{ backgroundImage: `url(${BannerImage})` }}>
+          <div className={styles.bannerOverlay}></div>
         </div>
         
         <div className={styles.container}>
-          <div className={styles.badgeWrapper}>
-            <div className={styles.badge}>
-              <Sparkles size={16} />
-              <span>Our story since 2005</span>
-            </div>
-          </div>
-          
           <div className={styles.heroContent}>
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Sparkles size={16} />
+                <span>Our story since 2005</span>
+              </div>
+            </div>
+            
             <h1 className={styles.heroTitle} ref={titleRef}>
               <div className={styles.titleRow}>
                 <span className={`${styles.titleText} ${animatedTitle ? styles.animated : ''}`}>
@@ -250,85 +248,67 @@ const teamMembers = [
             <div className={styles.heroDescription}>
               <p>Formerly Intervino and DPS Digital, and established nearly two decades ago, we've delivered thousands of projects for retailers and brands. Our unique approach creates bespoke direct-to-consumer offerings regardless of brand shape, size, or sector.</p>
             </div>
+            
+            <div className={styles.scrollDownPrompt}>
+              <p>Scroll to explore our story</p>
+              <div className={styles.scrollIcon}>
+                <ArrowDown size={24} />
+              </div>
+            </div>
           </div>
         </div>
       </div>
       
-      {/* Tabs Section */}
-      <div className={styles.tabsSection}>
+      {/* Our Story Section */}
+      <div className={styles.storySection} id="story" ref={storyRef}>
         <div className={styles.container}>
-          <div className={styles.tabs}>
-            <button 
-              className={`${styles.tab} ${activeTab === 'story' ? styles.active : ''}`}
-              onClick={() => setActiveTab('story')}
-            >
-              <FileText size={18} />
-              <span>Our Story</span>
-            </button>
-            <button 
-              className={`${styles.tab} ${activeTab === 'team' ? styles.active : ''}`}
-              onClick={() => setActiveTab('team')}
-            >
-              <Users size={18} />
-              <span>Our Team</span>
-            </button>
-            <button 
-              className={`${styles.tab} ${activeTab === 'values' ? styles.active : ''}`}
-              onClick={() => setActiveTab('values')}
-            >
-              <Heart size={18} />
-              <span>Our Values</span>
-            </button>
-            <button 
-              className={`${styles.tab} ${activeTab === 'journey' ? styles.active : ''}`}
-              onClick={() => setActiveTab('journey')}
-            >
-              <Clock size={18} />
-              <span>Our Journey</span>
-            </button>
+          <div className={styles.sectionHeader}>
+            <div className={styles.chapterIndicator}>
+              <span className={styles.chapterNumber}>01</span>
+              <Hash size={18} />
+            </div>
+            <h2>Our Story</h2>
+            <div className={styles.headerLine}></div>
           </div>
-        </div>
-      </div>
-      
-      {/* Main Content */}
-      <div className={styles.mainContent}>
-        <div className={styles.container}>
-          {/* Our Story */}
-          {activeTab === 'story' && (
-            <div className={styles.storySection}>
-              <div className={styles.sectionHeader}>
-                <h2>Our Story</h2>
-                <div className={styles.headerLine}></div>
+          
+          <div className={styles.storyContent}>
+            <div className={styles.storyNarrative}>
+              <p className={styles.narrativeIntro}>For over 15 years, IV Creative has supported global household brand names, transforming from a simple storage solution into a comprehensive creative powerhouse.</p>
+              
+              <div className={styles.narrativeBlock}>
+                <p>Initially focused on storage and distribution, we've evolved into a full-service agency specialising in e-commerce, print, personalisation, packaging, and branded gifting. Our journey has been one of constant innovation and growth, always driven by our clients' evolving needs.</p>
+                
+                <p>With our specialist team of creatives and technical experts, we take your project from concept, to reality, to result. And with our trusted suppliers, we offer a comprehensive portfolio that supports clients in launching, managing, and expanding their online businesses across the world.</p>
               </div>
               
-              <div className={styles.storyContent}>
-                <div className={styles.storyText}>
-                  <p>For over 15 years, IV Creative has supported global household brand names. Initially focused on storage and distribution, we've evolved into a full-service agency specialising in e-commerce, print, personalisation, packaging, and branded gifting.</p>
-                  
-                  <p>With our specialist team of creatives and technical experts, we take your project from concept, to reality, to result. And with our trusted suppliers, we offer a comprehensive portfolio that supports clients in launching, managing, and expanding their online businesses across the world.</p>
-                  
-                  <p>At IV Creative, we're proud to offer a truly global reach, supporting businesses across the UK and around the world. From our base in the UK, to every corner of the globe. Whether you're looking to store, fulfil or ship orders across Europe, North America, Asia, and beyond, we handle every aspect with precision to keep your business running, and growing, smoothly.</p>
-                </div>
-                
-                <div className={styles.statsGrid}>
-                  {[
-                    { value: "15+", label: "Years of Experience" },
-                    { value: "99.87%", label: "Order Accuracy Rate" },
-                    { value: "1000+", label: "Projects Delivered" },
-                    { value: "Global", label: "Distribution Network" }
-                  ].map((stat, index) => (
-                    <div key={index} className={styles.statCard}>
-                      <div className={styles.statValue}>{stat.value}</div>
-                      <div className={styles.statLabel}>{stat.label}</div>
-                    </div>
-                  ))}
-                </div>
+              <div className={styles.narrativeQuote}>
+                <p>"At IV Creative, we believe in creating experiences that elevate brands and deliver exceptional results."</p>
+              </div>
+              
+              <div className={styles.narrativeBlock}>
+                <p>At IV Creative, we're proud to offer a truly global reach, supporting businesses across the UK and around the world. From our base in the UK, to every corner of the globe. Whether you're looking to store, fulfil or ship orders across Europe, North America, Asia, and beyond, we handle every aspect with precision to keep your business running, and growing, smoothly.</p>
+              </div>
+            </div>
+            
+            <div className={styles.storyVisual}>
+              <div className={styles.statsGrid}>
+                {[
+                  { value: "15+", label: "Years of Experience" },
+                  { value: "99.87%", label: "Order Accuracy Rate" },
+                  { value: "1000+", label: "Projects Delivered" },
+                  { value: "Global", label: "Distribution Network" }
+                ].map((stat, index) => (
+                  <div key={index} className={styles.statCard}>
+                    <div className={styles.statValue}>{stat.value}</div>
+                    <div className={styles.statLabel}>{stat.label}</div>
+                  </div>
+                ))}
               </div>
               
               <div className={styles.brandsSection}>
                 <div className={styles.brandsHeading}>
                   <Sparkles size={16} />
-                  <span>Trusted by brands of all shapes and sizes:</span>
+                  <span>Trusted by brands worldwide:</span>
                 </div>
                 
                 <div className={styles.brandLogos}>
@@ -352,212 +332,277 @@ const teamMembers = [
                 </div>
               </div>
             </div>
-          )}
-          
-          {/* Our Team - Improved with 3D card effect */}
-          {activeTab === 'team' && (
-            <div className={styles.teamSection}>
-              <div className={styles.sectionHeader}>
-                <h2>Our Leadership Team</h2>
-                <div className={styles.headerLine}></div>
-              </div>
-              
-              <div className={styles.teamIntro}>
-                <p>At IV Creative, our leadership team brings decades of combined experience across e-commerce, design, development, and global operations. Together, we're dedicated to driving innovation and delivering exceptional results for our clients.</p>
-              </div>
-              
-              <div className={styles.teamGrid}>
-                {teamMembers.map((member) => (
-                  <div key={member.id} className={styles.teamCard}>
-                    <div className={styles.memberPhotoWrapper}>
-                      <div 
-                        className={styles.memberPhoto} 
-                        style={{ backgroundImage: `url(${member.image})` }}
-                      ></div>
-                      {!member.image.includes('.jpg') && (
-                        <div className={styles.photoPlaceholder}>
-                          {member.name.charAt(0)}
-                        </div>
-                      )}
-                      <div className={styles.photoOverlay}></div>
-                      <div className={styles.memberSocial}>
-                        <div className={styles.socialIcon}>
-                          <ExternalLink size={18} />
-                        </div>
-                      </div>
-                    </div>
-                    <div className={styles.memberInfo}>
-                      <h3 className={styles.memberName}>{member.name}</h3>
-                      <p className={styles.memberPosition}>{member.position}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className={styles.joinTeam}>
-                <div className={styles.joinContent}>
-                  <h3>Join Our Team</h3>
-                  <p>IV Creative is continually on the lookout for fresh talent to join our vibrant team. As we expand and take on new challenges, we're eager to welcome individuals who bring creativity, innovation, and a passion for excellence.</p>
-                  <a href="/careers" className={styles.joinButton}>
-                    <span>View Open Positions</span>
-                    <ArrowRight size={16} />
-                  </a>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Our Values - Enhanced with 3D effect */}
-          {activeTab === 'values' && (
-            <div className={styles.valuesSection}>
-              <div className={styles.sectionHeader}>
-                <h2>Our Values</h2>
-                <div className={styles.headerLine}></div>
-              </div>
-              
-              <div className={styles.valuesIntro}>
-                <p>At IV Creative, we're committed to running our business in a way that is environmentally responsible, socially conscious, and governed by strong ethical practices. We believe that integrating these principles into our operations is crucial for long-term sustainability, creating lasting value for our company, employees, clients and the communities we serve.</p>
-              </div>
-              
-              <div className={styles.valuesGrid}>
-                {values.map((value, index) => (
-                  <div 
-                    key={index} 
-                    className={styles.valueCard}
-                    style={{ '--card-delay': `${index * 0.1}s`, '--card-color': value.color }}
-                  >
-                    <div className={styles.valueIconWrapper}>
-                      <value.icon size={24} className={styles.valueIcon} />
-                      <div className={styles.valueIconGlow}></div>
-                    </div>
-                    <h3 className={styles.valueTitle}>{value.title}</h3>
-                    <p className={styles.valueDescription}>{value.description}</p>
-                  </div>
-                ))}
-              </div>
-              
-              <div className={styles.community}>
-                <div className={styles.communityContent}>
-                  <h3>Community Impact</h3>
-                  <p>Charities are vital to our community and we're very proud to support two incredible organisations throughout 2025: The James Anthony Foundation and Sophie's Journey. These causes, selected and supported by our team, inspire us as a business. We're committed to making a positive impact, both within our communities and beyond.</p>
-                </div>
-              </div>
-            </div>
-          )}
-          
-          {/* Our Journey - Simple Vertical Timeline */}
-          {activeTab === 'journey' && (
-            <div className={styles.journeySection}>
-              <div className={styles.sectionHeader}>
-                <h2>Our Journey</h2>
-                <div className={styles.headerLine}></div>
-              </div>
-              
-              <div className={styles.journeyIntro}>
-                <p>Our path from our beginnings to where we are today reflects our dedication to growth, innovation, and client success.</p>
-              </div>
-              
-              <div className={styles.verticalTimeline}>
-                <div className={styles.timelineLine}></div>
-                
-                {journeyTimeline.map((milestone, index) => (
-                  <div 
-                    key={index}
-                    className={styles.timelineItem}
-                    style={{ '--milestone-color': milestone.color }}
-                  >
-                    <div className={styles.timelinePoint}>
-                      <milestone.icon size={20} />
-                    </div>
-                    
-                    <div className={styles.timelineContent}>
-                      <div className={styles.timelineYear}>{milestone.year}</div>
-                      <h3 className={styles.timelineTitle}>{milestone.title}</h3>
-                      <div className={styles.timelineTags}>
-                        {milestone.achievements.map((achievement, idx) => (
-                          <div key={idx} className={styles.timelineTag}>
-                            {achievement}
-                          </div>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-              
-              <div className={styles.testimonialSection}>
-                <div className={styles.testimonialCard}>
-                  <div className={styles.testimonialQuote}>
-                    <p>"No matter the task the team are always ready to support, which we massively thank them for. We've been hugely impressed with their business fulfilment capabilities and team."</p>
-                  </div>
-                  <div className={styles.testimonialAuthor}>
-                    <p className={styles.authorName}>Branston</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
+          </div>
         </div>
       </div>
-{/* Global Reach Section - Simple line with continent icons */}
-<div className={styles.globalSection}>
-  <div className={styles.container}>
-    <div className={styles.globalHeader}>
-      <h2>Global Reach, Local Expertise</h2>
-      <p>From our base in the UK, to every corner of the globe. Whether you're looking to store, fulfil or ship orders across Europe, North America, Asia, and beyond, we handle every aspect with precision to keep your business running, and growing, smoothly.</p>
-    </div>
-    
-    <div className={styles.globalLine}>
-      <div className={styles.lineTrack}>
-        <div className={styles.lineGlow}></div>
-        <div className={styles.lineBase}></div>
-        
-        {regions.map((region, index) => (
-          <div 
-            key={region.id}
-            className={`${styles.regionNode} ${activeRegion === region.id ? styles.active : ''}`}
-            style={{ 
-              '--region-color': region.color,
-              '--node-position': `${index * 25 + 10}%`
-            }}
-            onClick={() => setActiveRegion(region.id)}
-          >
-            <div className={styles.nodePoint}>
-              <region.icon size={18} />
+      
+      {/* Our Journey Section - FIXED HEADER */}
+      <div className={styles.journeySection} id="journey" ref={journeyRef}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.chapterIndicator}>
+              <span className={styles.chapterNumber}>02</span>
+              <Hash size={18} />
             </div>
-            <div className={styles.nodeLabel}>{region.name}</div>
-          </div>
-        ))}
-      </div>
-    </div>
-    
-    <div className={styles.regionCards}>
-      {regions.map((region) => (
-        <div 
-          key={region.id}
-          className={`${styles.regionCard} ${activeRegion === region.id ? styles.active : ''}`}
-          style={{ '--region-color': region.color }}
-          onClick={() => setActiveRegion(region.id)}
-        >
-          <div className={styles.cardHeader}>
-            <region.icon size={20} />
-            <h3>{region.name}</h3>
-            {region.isHQ && <div className={styles.hqBadge}>HQ</div>}
+            <h2>Our Journey</h2>
+            <div className={styles.headerLine}></div>
           </div>
           
-          <div className={styles.regionStats}>
-            {Object.entries(region.stats).map(([key, value]) => (
-              <div key={key} className={styles.statItem}>
-                <div className={styles.statValue}>{value}</div>
-                <div className={styles.statLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</div>
+          <div className={styles.journeyIntro}>
+            <p>Our evolution over the years reflects our commitment to innovation and excellence. Each chapter in our story has brought new capabilities and deeper expertise.</p>
+          </div>
+          
+          <div className={styles.journeyTimeline}>
+            <div className={styles.timelineLine}>
+              <div className={styles.timelineProgress}></div>
+            </div>
+            
+            {/* Timeline Points (Year Badges) */}
+            <div className={styles.timelinePoint} style={{ top: '0%' }}>
+              <div className={styles.yearBadge} style={{ backgroundColor: '#ec4899' }}>
+                <Building size={18} />
+                <span>2005</span>
+              </div>
+            </div>
+            
+            <div className={styles.timelinePoint} style={{ top: '33%' }}>
+              <div className={styles.yearBadge} style={{ backgroundColor: '#8b5cf6' }}>
+                <Briefcase size={18} />
+                <span>2010</span>
+              </div>
+            </div>
+            
+            <div className={styles.timelinePoint} style={{ top: '66%' }}>
+              <div className={styles.yearBadge} style={{ backgroundColor: '#06b6d4' }}>
+                <Award size={18} />
+                <span>2015</span>
+              </div>
+            </div>
+            
+            <div className={styles.timelinePoint} style={{ top: '90%' }}>
+              <div className={styles.yearBadge} style={{ backgroundColor: '#10b981' }}>
+                <Globe size={18} />
+                <span>2020</span>
+              </div>
+            </div>
+            
+            {/* Timeline Cards - Adjusted positions to prevent overlap */}
+            <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '0%' }}>
+              <h3>The Beginning</h3>
+              <p>Founded as Intervino, focusing on storage and distribution for retail brands.</p>
+              <div className={styles.cardAchievements}>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Company founded</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>First warehouse established</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Initial team of 5 employees</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '33%' }}>
+              <h3>Digital Expansion</h3>
+              <p>Expanded into print and packaging solutions as DPS Digital, serving major UK brands.</p>
+              <div className={styles.cardAchievements}>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Rebranded as DPS Digital</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Added print production</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Doubled workforce</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '66%' }}>
+              <h3>Full-Service Transition</h3>
+              <p>Evolved into IV Creative, adding digital marketing and ecommerce development.</p>
+              <div className={styles.cardAchievements}>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Rebranded as IV Creative</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Digital marketing</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Ecommerce development</span>
+                </div>
+              </div>
+            </div>
+            
+            <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '90%' }}>
+              <h3>Global Growth</h3>
+              <p>Became a fully integrated agency with global reach, supporting major international brands.</p>
+              <div className={styles.cardAchievements}>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Global expansion</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Enterprise clients</span>
+                </div>
+                <div className={styles.achievementTag}>
+                  <CheckCircle size={14} />
+                  <span>Full-service agency</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Where We Are Today - Moved outside timeline to prevent overlap */}
+        <div className={styles.container}>
+          <div className={styles.journeyOutcome}>
+            <h3>Where We Are Today</h3>
+            <p>From humble beginnings to a global creative force, our journey continues with the same passion and commitment that has driven us from day one. Today, we're proud to be a trusted partner to brands of all sizes, helping them navigate the complex world of e-commerce and creative services.</p>
+          </div>
+        </div>
+      </div>
+      
+      {/* Our Team Section - Overview Only */}
+      <div className={styles.teamSection} id="team" ref={teamRef}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.chapterIndicator}>
+              <span className={styles.chapterNumber}>03</span>
+              <Hash size={18} />
+            </div>
+            <h2>Our Team</h2>
+            <div className={styles.headerLine}></div>
+          </div>
+          
+          <div className={styles.teamIntro}>
+            <p>Our success is built on the talent, passion, and expertise of our diverse team of specialists.</p>
+          </div>
+          
+          <div className={styles.teamContent}>
+            <div className={styles.teamNarrative}>
+              <p>At IV Creative, we bring together strategic thinkers, creative minds, technical experts, and operational specialists to form a powerhouse of talent dedicated to your success. Our leadership team has decades of combined experience across e-commerce, design, development, and global operations.</p>
+              
+              <p>What sets our team apart is how we work together and with our clients. We believe in true collaboration, bringing together diverse perspectives and expertise to deliver exceptional results. From strategy to execution, we're committed to excellence at every step of the journey.</p>
+              
+              <div className={styles.teamQuote}>
+                <p>"Great things in business are never done by one person; they're done by a team of people."</p>
+              </div>
+              
+              <p>We approach every project as an opportunity to push boundaries and exceed expectations. This collaborative spirit runs through everything we do, creating an environment where innovation thrives and bold ideas come to life.</p>
+            </div>
+            
+            <div className={styles.teamExpertise}>
+              <div className={styles.expertiseGrid}>
+                {[
+                  { title: "Strategic Direction", description: "Expert guidance to optimize your business goals" },
+                  { title: "Creative Design", description: "Award-winning design that captures your brand essence" },
+                  { title: "Technical Development", description: "Cutting-edge solutions that drive performance" },
+                  { title: "Operational Excellence", description: "Seamless processes that deliver results" }
+                ].map((expertise, index) => (
+                  <div key={index} className={styles.expertiseCard}>
+                    <h3>{expertise.title}</h3>
+                    <p>{expertise.description}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+          
+          <div className={styles.joinTeam}>
+            <div className={styles.joinContent}>
+              <h3>Join Our Team</h3>
+              <p>IV Creative is continually on the lookout for fresh talent to join our vibrant team. As we expand and take on new challenges, we're eager to welcome individuals who bring creativity, innovation, and a passion for excellence.</p>
+              <a href="/careers" className={styles.joinButton}>
+                <span>View Open Positions</span>
+                <ArrowRight size={16} />
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Global Reach Section */}
+      <div className={styles.globalSection} id="global" ref={globalRef}>
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <div className={styles.chapterIndicator}>
+              <span className={styles.chapterNumber}>04</span>
+              <Hash size={18} />
+            </div>
+            <h2>Global Reach, Local Expertise</h2>
+            <div className={styles.headerLine}></div>
+          </div>
+          
+          <div className={styles.globalIntro}>
+            <p>From our base in the UK to every corner of the globe, we provide seamless fulfillment and creative services that transcend borders while maintaining local relevance.</p>
+          </div>
+          
+          <div className={styles.globalMap}>
+            <div className={styles.mapBackground}></div>
+            
+            {regions.map((region) => (
+              <div 
+                key={region.id}
+                className={`${styles.regionMarker} ${activeRegion === region.id ? styles.active : ''}`}
+                style={{ 
+                  '--marker-color': region.color,
+                  left: `${region.position.x}%`,
+                  top: `${region.position.y}%`
+                }}
+                onClick={() => setActiveRegion(region.id)}
+              >
+                <div className={styles.markerIcon}>
+                  <region.icon size={16} />
+                </div>
+                <div className={styles.markerPulse}></div>
+                <div className={styles.markerLabel}>{region.name}</div>
+              </div>
+            ))}
+            
+            <div className={styles.connectionLines}></div>
+          </div>
+          
+          <div className={styles.regionDetails}>
+            {regions.map((region) => (
+              <div 
+                key={region.id}
+                className={`${styles.regionCard} ${activeRegion === region.id ? styles.active : ''}`}
+                style={{ '--region-color': region.color }}
+              >
+                <div className={styles.cardHeader}>
+                  <region.icon size={20} />
+                  <h3>{region.name}</h3>
+                  {region.isHQ && <div className={styles.hqBadge}>HQ</div>}
+                </div>
+                
+                <p className={styles.regionDescription}>{region.description}</p>
+                
+                <div className={styles.regionStats}>
+                  {Object.entries(region.stats).map(([key, value]) => (
+                    <div key={key} className={styles.statItem}>
+                      <div className={styles.statValue}>{value}</div>
+                      <div className={styles.statLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</div>
+                    </div>
+                  ))}
+                </div>
               </div>
             ))}
           </div>
         </div>
-      ))}
-    </div>
-  </div>
-</div>
+      </div>
+      
       {/* CTA Section */}
       <div className={styles.ctaSection}>
         <div className={styles.container}>
