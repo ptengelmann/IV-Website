@@ -153,12 +153,13 @@ const Blog = () => {
     >
       <div className={styles.blogBackground}>
         <div className={styles.gridPattern}></div>
-        <div className={styles.gradientOverlay}></div>
+        <div className={styles.chevronPattern}></div>
       </div>
       
       <div className={styles.container}>
         <div className={styles.blogHeader}>
           <div className={styles.headerContent}>
+            
             <h1 className={styles.blogTitle}>Our Blog</h1>
             <p className={styles.blogSubtitle}>
               Insights, strategies, and inspiration to help you grow your brand from <span className={styles.highlight}>concept</span> to <span className={styles.highlight}>customer</span>.
@@ -315,11 +316,7 @@ const Blog = () => {
               </button>
             </form>
           </div>
-          <div className={styles.newsletterDecoration}>
-            <div className={styles.decorationElement1}></div>
-            <div className={styles.decorationElement2}></div>
-            <div className={styles.decorationElement3}></div>
-          </div>
+          <div className={styles.chevronDecoration}></div>
         </div>
       </div>
     </section>

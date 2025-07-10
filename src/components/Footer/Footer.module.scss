@@ -1,292 +1,356 @@
-  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-  // Variables
-  $primary-pink: #ec4899;
-  $primary-purple: #8b5cf6;
-  $primary-white: #ffffff;
-  $dark-bg: #0f172a;
-  $dark-card: #1e293b;
-  $dark-card-lighter: #293548;
+// IV Creative Brand Variables - exactly matching hero section
+$primary-pink: #E72D88;
+$primary-black: #101D1D;
+$primary-blue: #1B7DC2;
+$primary-white: #ffffff;
+$secondary-pink: #F95401;
+$tertiary-blue: #37BACD;
+$tertiary-purple: #9E40B1;
+$dark-bg: #101D1D;
+$dark-card: #1e293b;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
+$transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+$transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+$transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-  // Footer styles
-  .footer {
-    background-color: $dark-bg;
+// Mixins - identical to hero section
+@mixin glassmorphism($bg-color: rgba(255, 255, 255, 0.08), $blur: 15px) {
+  background: $bg-color;
+  backdrop-filter: blur($blur);
+  -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin chevron-pattern($color: $primary-pink, $opacity: 0.15) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($color, $opacity) 0,
+    rgba($color, $opacity) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
+}
+
+// Footer base styles
+.footer {
+  position: relative;
+  background-color: $dark-bg;
+  color: $primary-white;
+  font-family: 'Roboto', sans-serif;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($primary-pink, 0.1) 0%, rgba($primary-blue, 0.05) 100%);
+    z-index: 1;
+  }
+}
+
+.footerBackground {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  z-index: 0;
+  
+  .patternOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    @include chevron-pattern($primary-pink, 0.05);
+    opacity: 0.15;
+    z-index: 1;
+  }
+  
+  .grid {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: 1;
+    transform: perspective(1000px) rotateX(60deg) scale(2.5) translateY(10%);
+    transform-origin: center bottom;
+    opacity: 0.15;
+  }
+  
+  .gradientOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle at 80% 20%, rgba($primary-pink, 0.08), transparent 40%);
+    z-index: 2;
+    opacity: 0.3;
+  }
+}
+
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
+  
+  @media (max-width: 1440px) {
+    max-width: 1200px;
+  }
+  
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
+  }
+}
+
+// Contact CTA section
+.contactCta {
+  padding: 8rem 0 6rem;
+  position: relative;
+  z-index: 2;
+  
+  @media (max-width: 768px) {
+    padding: 6rem 0 4rem;
+  }
+}
+
+.ctaContent {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+// Badge styles - matching hero section
+.badgeWrapper {
+  margin-bottom: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba($primary-white, 0.9);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  
+  svg {
+    color: $primary-pink;
+  }
+}
+
+// CTA heading - matching hero section headline style
+.ctaHeading {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2.5rem, 5vw, 4rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: $primary-white;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  .headlineText {
     color: $primary-white;
-    font-family: 'Inter', sans-serif;
   }
-
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
+  
+  .headlineTextPink {
+    color: $primary-pink;
+    position: relative;
+    transition: all 0.3s ease;
     
-    @media (max-width: 768px) {
-      padding: 0 1.5rem;
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
     }
   }
-
-  // Top section
-  .topSection {
-    padding: 5rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    
-    @media (max-width: 768px) {
-      padding: 3.5rem 0;
-    }
+  
+  @media (max-width: 768px) {
+    font-size: 2rem;
   }
+}
 
-  .footerGrid {
-    display: grid;
-    grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 2.5rem;
-    
-    @media (max-width: 1024px) {
-      grid-template-columns: 1fr 1fr;
-      gap: 3rem 2rem;
-    }
-    
-    @media (max-width: 640px) {
-      grid-template-columns: 1fr;
-      gap: 2.5rem;
-    }
-  }
-
-  // Company info
-  .companyInfo {
-    @media (max-width: 1024px) {
-      grid-column: span 2;
-    }
-    
-    @media (max-width: 640px) {
-      grid-column: span 1;
-    }
-  }
-
-  .footerLogo {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 2rem;
-    text-decoration: none;
-  }
-
-  .logoIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .logoText {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $primary-white;
-  }
-
-  .contactDetails {
-    margin-top: 1.5rem;
-  }
-
-  .contactTitle {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.25rem;
+.ctaDescription {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba($primary-white, 0.8);
+  margin: 0 0 2.5rem;
+  max-width: 650px;
+  margin-left: auto;
+  margin-right: auto;
+  
+  .emphasisTextPink {
     font-weight: 600;
-    margin: 0 0 1.25rem;
-    color: $primary-white;
-  }
-
-  .contactLink {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    margin-bottom: 1rem;
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
+    color: $primary-pink;
     transition: color 0.3s ease;
     
     &:hover {
-      color: $primary-pink;
-    }
-    
-    &:last-child {
-      margin-bottom: 0;
+      text-shadow: 0 0 8px rgba($primary-pink, 0.3);
     }
   }
-
-  // Address columns
-  .addressBlock {
-    margin-bottom: 1.5rem;
-  }
-
-  .addressTitle {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 600;
-    margin: 0 0 0.5rem;
-    color: $primary-white;
-  }
-
-  .addressSubtitle {
-    font-family: 'Inter', sans-serif;
-    font-size: 0.875rem;
-    font-weight: 400;
-    color: $primary-pink;
-    margin: 0 0 1rem;
-  }
-
-  .address {
-    font-style: normal;
+  
+  @media (max-width: 768px) {
     font-size: 1rem;
-    line-height: 1.6;
-    color: rgba(255, 255, 255, 0.8);
   }
+}
 
-  // CTA
-  .ctaColumn {
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .primaryCta, 
+  .secondaryCta {
     display: flex;
-    align-items: flex-start;
-    
-    @media (max-width: 640px) {
-      justify-content: flex-start;
-    }
-  }
-
-  .ctaButton {
-    display: inline-block;
-    background: linear-gradient(135deg, $primary-pink, $primary-purple);
-    color: $primary-white;
-    font-family: 'Outfit', sans-serif;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    font-family: 'Poppins', sans-serif;
     font-size: 1rem;
     font-weight: 600;
-    padding: 0.875rem 2rem;
-    border-radius: 50px;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: $transition-bounce;
     text-decoration: none;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba($primary-pink, 0.3);
+    
+    svg {
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover svg {
+      transform: translateX(4px);
+    }
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .primaryCta {
+    background: $primary-pink;
+    color: $primary-white;
+    box-shadow: 
+      0 10px 25px -5px rgba($primary-pink, 0.5),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+      transform: translateX(-100%) skewX(-15deg);
+      transition: transform 0.5s ease;
+    }
     
     &:hover {
       transform: translateY(-3px);
-      box-shadow: 0 8px 20px rgba($primary-pink, 0.4);
+      box-shadow: 
+        0 15px 30px -5px rgba($primary-pink, 0.6),
+        0 0 0 1px rgba($primary-pink, 0.8) inset;
+        
+      &::before {
+        transform: translateX(100%) skewX(-15deg);
+      }
     }
-  }
-
-  // Nav section
-  .navSection {
-    padding: 2rem 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  }
-
-  .footerNav {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 2.5rem;
     
-    @media (max-width: 640px) {
-      flex-direction: column;
-      align-items: center;
-      gap: 1.25rem;
+    &:active {
+      transform: translateY(-1px);
     }
   }
-
-  .footerNavLink {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1rem;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.8);
-    text-decoration: none;
-    transition: color 0.3s ease;
+  
+  .secondaryCta {
+    @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+    color: $primary-white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
     
     &:hover {
-      color: $primary-pink;
-    }
-  }
-
-  // Bottom section
-  .bottomSection {
-    padding: 2rem 0;
-  }
-
-  .bottomContent {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1.5rem;
-    
-    @media (max-width: 768px) {
-      flex-direction: column;
-      align-items: center;
-    }
-  }
-
-  .copyright {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    
-    p {
-      margin: 0;
-    }
-  }
-
-  .copyrightLink {
-    color: $primary-pink;
-    text-decoration: none;
-    
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-
-  .legalLinks {
-    display: flex;
-    align-items: center;
-  }
-
-  .legalLink {
-    font-size: 0.875rem;
-    color: rgba(255, 255, 255, 0.6);
-    text-decoration: none;
-    transition: color 0.3s ease;
-    
-    &:hover {
-      color: $primary-white;
-    }
-  }
-
-  .legalSeparator {
-    display: inline-block;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.3);
-    margin: 0 1rem;
-  }
-
-  .socialLinks {
-    display: flex;
-    gap: 1rem;
-  }
-
-  .socialLink {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.8);
-    transition: all 0.3s ease;
-    
-    &:hover {
-      background: linear-gradient(135deg, $primary-pink, $primary-purple);
-      color: $primary-white;
+      background: rgba(255, 255, 255, 0.1);
       transform: translateY(-2px);
     }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
   }
+}
 
-  // Add these styles to your Footer.module.scss file
+// Top section
+.topSection {
+  padding: 6rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 2;
+  
+  @media (max-width: 768px) {
+    padding: 4rem 0;
+  }
+}
+
+.footerGrid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr 1fr 1fr;
+  gap: 2.5rem;
+  
+  @media (max-width: 1024px) {
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem 2rem;
+  }
+  
+  @media (max-width: 640px) {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+}
+
+// Company info
+.companyInfo {
+  @media (max-width: 1024px) {
+    grid-column: span 2;
+  }
+  
+  @media (max-width: 640px) {
+    grid-column: span 1;
+  }
+}
 
 .footerLogo {
   display: flex;
@@ -297,10 +361,259 @@
   .logoImage {
     height: 48px;
     width: auto;
-    transition: all 0.3s ease;
+    transition: $transition-bounce;
     
     &:hover {
       transform: translateY(-3px);
     }
   }
+}
+
+.contactDetails {
+  margin-top: 1.5rem;
+}
+
+.contactTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  color: $primary-white;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: $primary-pink;
+  }
+}
+
+.contactLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: $transition-smooth;
+  
+  svg {
+    color: $primary-pink;
+  }
+  
+  &:hover {
+    color: $primary-white;
+    transform: translateX(3px);
+    
+    svg {
+      transform: scale(1.1);
+    }
+  }
+  
+  &:last-of-type {
+    margin-bottom: 1.5rem;
+  }
+}
+
+// Social links
+.socialLinks {
+  display: flex;
+  gap: 1rem;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.8);
+  transition: $transition-bounce;
+  
+  &:hover {
+    background: $primary-pink;
+    color: $primary-white;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px -5px rgba($primary-pink, 0.4);
+  }
+}
+
+// Address columns
+.addressBlock {
+  margin-bottom: 1.5rem;
+}
+
+.addressTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 0.5rem;
+  color: $primary-white;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: $primary-pink;
+  }
+}
+
+.addressSubtitle {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 400;
+  color: $primary-pink;
+  margin: 0 0 1rem;
+}
+
+.address {
+  font-style: normal;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.8);
+  display: flex;
+  gap: 0.75rem;
+  
+  .addressIcon {
+    color: $primary-pink;
+    flex-shrink: 0;
+    margin-top: 3px;
+  }
+}
+
+// Quick Links
+.linksTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 0 0 1.25rem;
+  color: $primary-white;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -0.5rem;
+    left: 0;
+    width: 2rem;
+    height: 2px;
+    background: $primary-pink;
+  }
+}
+
+.quickLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.quickLink {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  transition: $transition-smooth;
+  display: flex;
+  align-items: center;
+  
+  &::before {
+    content: '';
+    display: inline-block;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: $primary-pink;
+    margin-right: 0.75rem;
+    transition: $transition-smooth;
+    opacity: 0.7;
+  }
+  
+  &:hover {
+    color: $primary-white;
+    transform: translateX(3px);
+    
+    &::before {
+      background-color: $primary-pink;
+      transform: scale(1.5);
+      opacity: 1;
+    }
+  }
+}
+
+// Bottom section
+.bottomSection {
+  padding: 2rem 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  position: relative;
+  z-index: 2;
+}
+
+.bottomContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+}
+
+.copyright {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  
+  p {
+    margin: 0;
+  }
+}
+
+.copyrightLink {
+  color: $primary-pink;
+  text-decoration: none;
+  transition: $transition-smooth;
+  
+  &:hover {
+    text-shadow: 0 0 8px rgba($primary-pink, 0.4);
+  }
+}
+
+.legalLinks {
+  display: flex;
+  align-items: center;
+}
+
+.legalLink {
+  font-size: 0.875rem;
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  transition: $transition-smooth;
+  
+  &:hover {
+    color: $primary-pink;
+  }
+}
+
+.legalSeparator {
+  display: inline-block;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: $primary-pink;
+  margin: 0 1rem;
+  opacity: 0.5;
 }

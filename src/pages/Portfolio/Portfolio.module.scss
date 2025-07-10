@@ -1,26 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-// Variables
-$primary-pink: #ec4899;
-$primary-purple: #8b5cf6;
-$primary-cyan: #06b6d4;
-$primary-emerald: #10b981;
+// IV Creative Brand Variables - exactly matching hero section
+$primary-pink: #E72D88;
+$primary-black: #101D1D;
+$primary-blue: #1B7DC2;
 $primary-white: #ffffff;
-$dark-bg: #0f172a;
+$secondary-pink: #F95401;
+$tertiary-blue: #37BACD;
+$tertiary-purple: #9E40B1;
+$dark-bg: #101D1D;
 $dark-card: #1e293b;
-$dark-card-lighter: #293548;
-$border-radius-sm: 12px;
-$border-radius-md: 18px;
-$border-radius-lg: 24px;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-// Mixins
+// Mixins - identical to hero section
 @mixin glassmorphism($bg-color: rgba(255, 255, 255, 0.08), $blur: 15px) {
   background: $bg-color;
   backdrop-filter: blur($blur);
   -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin chevron-pattern($color: $primary-pink, $opacity: 0.15) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($color, $opacity) 0,
+    rgba($color, $opacity) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
 }
 
 @mixin floating($duration: 6s, $distance: 15px) {
@@ -33,62 +45,58 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-@mixin shimmer($duration: 2s, $opacity: 0.5) {
-  position: relative;
-  overflow: hidden;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, $opacity),
-      transparent
-    );
-    animation: shimmer $duration infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
-  }
-}
-
 // Base styles
 .portfolioSection {
   position: relative;
-  padding: 8rem 0 6rem;
+  overflow: hidden;
   background: $dark-bg;
   color: $primary-white;
-  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  padding: 8rem 0;
   
-  // Initial state for animations
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($primary-pink, 0.1) 0%, rgba($primary-blue, 0.05) 100%);
+    z-index: 1;
+  }
+  
+  // Animate in all elements on load
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   
-  &.visible {
+  &.loaded {
     opacity: 1;
     transform: translateY(0);
   }
 }
 
-.portfolioBackground {
+.sectionBackground {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
   overflow: hidden;
-  pointer-events: none;
+  z-index: 2;
   
-  .gridPattern {
+  .patternOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    @include chevron-pattern($primary-pink, 0.05);
+    opacity: 0.3;
+    z-index: 1;
+  }
+  
+  .grid {
     position: absolute;
     top: 0;
     left: 0;
@@ -110,13 +118,13 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba($primary-pink, 0.05) 0%, rgba($primary-purple, 0.05) 33%, rgba($primary-cyan, 0.05) 66%, rgba($primary-emerald, 0.05) 100%);
+    background: radial-gradient(circle at 80% 20%, rgba($primary-pink, 0.08), transparent 40%);
     z-index: 2;
     opacity: 0;
     transition: opacity 1.5s ease;
     
-    .visible & {
-      opacity: 1;
+    .loaded & {
+      opacity: 0.5;
     }
   }
 }
@@ -137,104 +145,197 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Portfolio header section
-.portfolioHeader {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 3rem;
+// Section header styles - matching hero section typography
+.sectionHeader {
+  max-width: 900px;
+  margin: 0 0 4rem;
   
-  @media (max-width: 992px) {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 2rem;
+  @media (max-width: 768px) {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 }
 
-.headerContent {
-  max-width: 700px;
-  
-  @media (max-width: 992px) {
-    max-width: 100%;
-  }
-}
-
-.portfolioTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(3rem, 6vw, 4.5rem);
-  font-weight: 800;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: $primary-white;
-  margin: 0 0 1rem;
+// Badge styles - matching hero section
+.badgeWrapper {
+  margin-bottom: 2rem;
+  transform: translateY(-20px);
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease 0.2s;
+  transition: all 0.5s ease 0.3s;
   
-  .visible & {
-    opacity: 1;
+  .loaded & {
     transform: translateY(0);
+    opacity: 1;
   }
 }
 
-.portfolioSubtitle {
-  font-family: 'Inter', sans-serif;
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba($primary-white, 0.9);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  
+  svg {
+    color: $primary-pink;
+  }
+}
+
+// Section title - matching hero section headline style
+.sectionTitle {
+  margin: 0 0 2.5rem;
+  
+  .headlineRow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.2em;
+    
+    &:nth-child(1) {
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.5s ease 0.2s;
+      
+      .loaded & {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    &:nth-child(2) {
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.5s ease 0.3s;
+      
+      .loaded & {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      justify-content: center;
+    }
+  }
+  
+  .headlineText {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-white;
+    display: inline-block;
+  }
+  
+  .headlineTextPink {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-pink;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
+    }
+  }
+}
+
+// Subheadline styles - matching hero section
+.subheadlineWrapper {
+  margin-bottom: 2.5rem;
+  max-width: 650px;
+  position: relative;
+  z-index: 1;
+  
+  &::before {
+   content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: radial-gradient(ellipse at center, rgba($primary-pink, 0.05) 0%, transparent 70%);
+    z-index: -1;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease 1s;
+    
+    .loaded & {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.subheadline {
+  font-family: 'Roboto', sans-serif;
   font-size: clamp(1.1rem, 1.5vw, 1.25rem);
   line-height: 1.6;
   color: rgba($primary-white, 0.8);
   margin: 0;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease 0.3s;
+  transition: all 0.5s ease 0.7s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
   
-  .highlight {
-    position: relative;
-    display: inline-block;
-    z-index: 1;
+  .emphasisTextPink {
+    font-weight: 600;
+    color: $primary-pink;
+    transition: color 0.3s ease;
     
-    &::after {
-      content: '';
-      position: absolute;
-      left: -0.1em;
-      right: -0.1em;
-      bottom: 0.1em;
-      height: 0.2em;
-      background: linear-gradient(to right, $primary-pink, $primary-purple);
-      z-index: -1;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
-      border-radius: 4px;
+    &:hover {
+      text-shadow: 0 0 8px rgba($primary-pink, 0.3);
     }
-    
-    .visible & {
-      &::after {
-        transform: scaleX(1);
-      }
+  }
+  
+  @media (max-width: 768px) {
+    br {
+      display: none;
     }
   }
 }
 
+// Search container
 .searchContainer {
-  flex-shrink: 0;
-  width: 100%;
-  max-width: 400px;
+  margin: 0;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease 0.4s;
+  transition: all 0.5s ease 0.8s;
+  max-width: 500px;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
   
-  @media (max-width: 992px) {
+  @media (max-width: 768px) {
     max-width: 100%;
+    width: 100%;
+    margin-bottom: 1rem;
   }
 }
 
@@ -242,16 +343,18 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   display: flex;
   align-items: center;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
 .searchInput {
   width: 100%;
   height: 54px;
-  padding: 0 1rem 0 1.5rem;
-  background: rgba($dark-card, 0.7);
+  padding: 0 60px 0 1.5rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   color: $primary-white;
   transition: $transition-smooth;
@@ -286,7 +389,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   &:hover {
     transform: translateY(-50%) scale(1.05);
-    background: darken($primary-pink, 5%);
+    box-shadow: 0 5px 15px rgba($primary-pink, 0.3);
   }
 }
 
@@ -298,9 +401,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   margin-bottom: 3rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease 0.5s;
+  transition: all 0.5s ease 0.9s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -321,7 +424,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   scrollbar-width: none;
   -ms-overflow-style: none;
   
-  &::-webkit-scrollbar {
+&::-webkit-scrollbar {
     display: none;
   }
   
@@ -333,10 +436,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .categoryTab {
   padding: 0.5rem 1.25rem;
-  background: rgba($dark-card, 0.7);
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba($primary-white, 0.7);
@@ -346,12 +449,13 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   &:hover {
     color: $primary-white;
-    background: rgba($dark-card, 0.9);
+    background: rgba($dark-card, 0.2);
     border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
   
   &.active {
-    background: linear-gradient(135deg, $primary-pink, $primary-purple);
+    background: $primary-pink;
     color: $primary-white;
     border-color: transparent;
     box-shadow: 0 5px 15px -5px rgba($primary-pink, 0.4);
@@ -372,10 +476,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 1.25rem;
-  background: rgba($dark-card, 0.7);
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba($primary-white, 0.7);
@@ -384,8 +488,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   &:hover {
     color: $primary-white;
-    background: rgba($dark-card, 0.9);
+    background: rgba($dark-card, 0.2);
     border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
   }
   
   svg {
@@ -407,7 +512,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   top: calc(100% + 0.5rem);
   right: 0;
   width: 200px;
-  background: $dark-card;
+  @include glassmorphism(rgba($dark-card, 0.8), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: $border-radius-md;
   padding: 0.5rem;
@@ -431,7 +536,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   background: transparent;
   border: none;
   border-radius: $border-radius-sm;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   text-align: left;
   color: rgba($primary-white, 0.7);
@@ -455,9 +560,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   text-align: center;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease 0.6s;
+  transition: all 0.5s ease 1s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -467,19 +572,19 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   max-width: 500px;
   margin: 0 auto;
   padding: 3rem;
-  background: rgba($dark-card, 0.5);
+  @include glassmorphism(rgba($dark-card, 0.2), 10px);
   border-radius: $border-radius-lg;
   border: 1px solid rgba(255, 255, 255, 0.05);
   
-h3 {
-    font-family: 'Outfit', sans-serif;
+  h3 {
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0 0 1rem;
   }
   
   p {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.1rem;
     line-height: 1.6;
     color: rgba($primary-white, 0.7);
@@ -492,19 +597,42 @@ h3 {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
+  background: $primary-pink;
   border: none;
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   color: $primary-white;
   cursor: pointer;
   transition: $transition-bounce;
+  box-shadow: 
+    0 10px 25px -5px rgba($primary-pink, 0.5),
+    0 0 0 1px rgba($primary-pink, 0.8) inset;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.5s ease;
+  }
   
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+    box-shadow: 
+      0 15px 30px -5px rgba($primary-pink, 0.6),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
+      
+    &::before {
+      transform: translateX(100%) skewX(-15deg);
+    }
   }
 }
 
@@ -529,7 +657,7 @@ h3 {
 .projectCard {
   position: relative;
   border-radius: $border-radius-lg;
-  background: $dark-card;
+  @include glassmorphism(rgba($dark-card, 0.3), 10px);
   overflow: hidden;
   opacity: 0;
   transform: translateY(30px);
@@ -538,17 +666,18 @@ h3 {
   
   @for $i from 0 through 10 {
     &:nth-child(#{$i + 1}) {
-      transition-delay: #{0.6 + ($i * 0.1)}s;
+      transition-delay: #{1.1 + ($i * 0.1)}s;
     }
   }
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
   
   &:hover {
     box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
+    transform: translateY(-8px);
     
     .projectCardBorder {
       opacity: 1;
@@ -560,6 +689,15 @@ h3 {
     
     .projectOverlay {
       opacity: 1;
+    }
+    
+    .viewProject {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .cardGlow {
+      opacity: 0.4;
     }
   }
   
@@ -597,6 +735,23 @@ h3 {
   z-index: 2;
 }
 
+.cardGlow {
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(
+    circle at center,
+    rgba(var(--project-color), 0.15) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
 .projectImageWrapper {
   position: relative;
   width: 100%;
@@ -621,21 +776,25 @@ h3 {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(var(--project-color), 0.1) 0%,
-    rgba(var(--project-color), 0.5) 100%
-  );
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   transition: opacity 0.5s ease;
-  
-  svg {
-    color: $primary-white;
-    filter: drop-shadow(0 0 8px rgba(0, 0, 0, 0.3));
-  }
+}
+
+.viewProject {
+  padding: 0.75rem 1.5rem;
+  background: $primary-white;
+  color: $dark-bg;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  border-radius: 50px;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 5;
 }
 
 .projectCategories {
@@ -653,13 +812,12 @@ h3 {
   align-items: center;
   gap: 0.35rem;
   padding: 0.375rem 0.75rem;
-  background: rgba($dark-bg, 0.8);
+  @include glassmorphism(rgba($dark-bg, 0.7), 4px);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   color: $primary-white;
-  backdrop-filter: blur(4px);
   
   svg {
     color: var(--project-color);
@@ -668,13 +826,12 @@ h3 {
 
 .moreCategories {
   padding: 0.375rem 0.75rem;
-  background: rgba($dark-bg, 0.8);
+  @include glassmorphism(rgba($dark-bg, 0.7), 4px);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   color: $primary-white;
-  backdrop-filter: blur(4px);
 }
 
 .projectContent {
@@ -694,7 +851,7 @@ h3 {
 }
 
 .clientLabel {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
   font-weight: 500;
   color: rgba($primary-white, 0.5);
@@ -703,7 +860,7 @@ h3 {
 }
 
 .projectTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.5rem;
   font-weight: 700;
   color: var(--project-color);
@@ -718,11 +875,11 @@ h3 {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.75rem;
   color: rgba($primary-white, 0.6);
   padding: 0.25rem 0.75rem;
-  background: rgba($dark-card-lighter, 0.5);
+  @include glassmorphism(rgba($dark-card, 0.4), 4px);
   border-radius: 100px;
   
   svg {
@@ -733,7 +890,7 @@ h3 {
 }
 
 .projectSubtitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.125rem;
   font-weight: 600;
   color: $primary-white;
@@ -745,7 +902,7 @@ h3 {
 }
 
 .projectDescription {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: rgba($primary-white, 0.7);
@@ -763,7 +920,7 @@ h3 {
   padding: 0;
   background: none;
   border: none;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   color: var(--project-color);
@@ -798,7 +955,7 @@ h3 {
 }
 
 .detailsTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: $primary-white;
@@ -826,16 +983,17 @@ h3 {
 
 .serviceTag {
   padding: 0.375rem 0.875rem;
-  background: rgba($dark-card-lighter, 0.5);
+  @include glassmorphism(rgba($dark-card, 0.4), 4px);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.8125rem;
   color: rgba($primary-white, 0.8);
   transition: $transition-smooth;
   
   &:hover {
-    background: rgba($dark-card-lighter, 0.8);
+    background: rgba($dark-card, 0.6);
     color: $primary-white;
+    transform: translateY(-2px);
   }
 }
 
@@ -856,7 +1014,7 @@ h3 {
   display: flex;
   align-items: flex-start;
   gap: 0.75rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.9375rem;
   line-height: 1.5;
   color: rgba($primary-white, 0.8);
@@ -880,97 +1038,14 @@ h3 {
   gap: 0.75rem;
   padding: 0.875rem 1.5rem;
   background: var(--project-color);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   color: $primary-white;
   text-decoration: none;
   transition: $transition-bounce;
   box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.4);
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.5);
-    filter: brightness(0.9);
-    
-    svg {
-      transform: translateX(4px);
-    }
-  }
-  
-  svg {
-    transition: transform 0.3s ease;
-  }
-}
-
-// Portfolio footer
-.portfolioFooter {
-  position: relative;
-  padding: 4rem;
-  background: linear-gradient(135deg, rgba($primary-pink, 0.15), rgba($primary-purple, 0.15));
-  border-radius: $border-radius-lg;
-  overflow: hidden;
-  margin-top: 5rem;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
-  
-  .visible & {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  @media (max-width: 768px) {
-    padding: 3rem 2rem;
-  }
-}
-
-.footerContent {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-.footerTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin: 0 0 1rem;
-  
-  @media (max-width: 768px) {
-    font-size: 2rem;
-  }
-}
-
-.footerText {
-  font-family: 'Inter', sans-serif;
-  font-size: 1.125rem;
-  line-height: 1.6;
-  color: rgba($primary-white, 0.8);
-  margin: 0 0 2rem;
-  
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-}
-
-.contactButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-  color: $primary-white;
-  text-decoration: none;
-  transition: $transition-bounce;
-  box-shadow: 0 15px 30px -10px rgba($primary-pink, 0.4);
   position: relative;
   overflow: hidden;
   
@@ -987,35 +1062,208 @@ h3 {
   }
   
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 20px 40px -10px rgba($primary-pink, 0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 25px -5px rgba(0, 0, 0, 0.5);
     
     &::before {
       transform: translateX(100%) skewX(-15deg);
     }
     
     svg {
-      transform: translateX(5px);
+      transform: translateX(4px);
     }
   }
   
   svg {
     transition: transform 0.3s ease;
   }
+}
+
+// Contact CTA styles matching Hero section
+.contactCta {
+  position: relative;
+  padding: 4rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.02), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: $border-radius-lg;
+  overflow: hidden;
+  margin-top: 5rem;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s, transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.2s;
+  
+  .loaded & {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   @media (max-width: 768px) {
-    padding: 0.875rem 1.75rem;
+    padding: 3rem 2rem;
+  }
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaHeading {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  .headlineText {
+    color: $primary-white;
+  }
+  
+  .headlineTextPink {
+    color: $primary-pink;
+    position: relative;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+.ctaDescription {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba($primary-white, 0.8);
+  margin: 0 0 2rem;
+  
+  .emphasisTextPink {
+    font-weight: 600;
+    color: $primary-pink;
+    transition: color 0.3s ease;
+    
+    &:hover {
+      text-shadow: 0 0 8px rgba($primary-pink, 0.3);
+    }
+  }
+  
+  @media (max-width: 768px) {
     font-size: 1rem;
   }
 }
 
-.footerDecoration {
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
+  
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .primaryCta, 
+  .secondaryCta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: $transition-bounce;
+    text-decoration: none;
+    
+    svg {
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover svg {
+      transform: translateX(4px);
+    }
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+  
+  .primaryCta {
+    background: $primary-pink;
+    color: $primary-white;
+    box-shadow: 
+      0 10px 25px -5px rgba($primary-pink, 0.5),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+      transform: translateX(-100%) skewX(-15deg);
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px -5px rgba($primary-pink, 0.6),
+        0 0 0 1px rgba($primary-pink, 0.8) inset;
+        
+      &::before {
+        transform: translateX(100%) skewX(-15deg);
+      }
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+  
+  .secondaryCta {
+    @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+    color: $primary-white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
+  }
+}
+
+.ctaDecoration {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
   pointer-events: none;
+  z-index: 1;
   
   .decorationElement1,
   .decorationElement2,
@@ -1030,7 +1278,7 @@ h3 {
     height: 200px;
     bottom: -100px;
     right: -50px;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-purple, 0.4), transparent 70%);
+    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.2), transparent 70%);
     filter: blur(50px);
     animation-duration: 15s;
   }
@@ -1040,7 +1288,7 @@ h3 {
     height: 150px;
     top: -50px;
     left: -30px;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.3), transparent 70%);
+    background: radial-gradient(circle at 30% 30%, rgba($primary-blue, 0.2), transparent 70%);
     filter: blur(40px);
     animation-duration: 12s;
     animation-delay: 1s;
@@ -1051,44 +1299,43 @@ h3 {
     height: 100px;
     bottom: 20%;
     right: 20%;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-cyan, 0.25), transparent 70%);
+    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.15), transparent 70%);
     filter: blur(30px);
     animation-duration: 18s;
     animation-delay: 2s;
   }
 }
 
-// Animation keyframes
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0.7; transform: scale(1); }
-}
-
 // Media queries for additional responsive adjustments
 @media (max-width: 480px) {
-  .portfolioTitle {
-    font-size: 2.5rem;
+  .portfolioSection {
+    padding: 6rem 0 4rem;
   }
   
-  .portfolioSubtitle {
+  .sectionTitle {
+    .headlineText,
+    .headlineTextPink {
+      font-size: 2rem;
+    }
+  }
+  
+  .subheadline {
     font-size: 1rem;
+  }
+  
+  .searchInput {
+    height: 48px;
+    font-size: 0.9375rem;
+  }
+  
+  .searchButton {
+    width: 34px;
+    height: 34px;
+  }
+  
+  .categoryTab {
+    padding: 0.4rem 0.875rem;
+    font-size: 0.75rem;
   }
   
   .projectTitle {
@@ -1103,91 +1350,17 @@ h3 {
     height: 200px;
   }
   
-  .footerTitle {
+  .ctaHeading {
     font-size: 1.75rem;
   }
   
-  .footerText {
+  .ctaDescription {
     font-size: 0.9375rem;
   }
   
-  .contactButton {
-    padding: 0.75rem 1.5rem;
+  .primaryCta, 
+  .secondaryCta {
+    padding: 0.875rem 1.5rem;
     font-size: 0.9375rem;
-  }
-}
-
-.projectImageWrapper {
-  position: relative;
-  width: 100%;
-  height: 300px;
-  overflow: hidden;
-  
-  @media (max-width: 768px) {
-    height: 250px;
-  }
-}
-
-.projectImage {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.7s cubic-bezier(0.19, 1, 0.22, 1);
-}
-
-.projectOverlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to bottom,
-    rgba(0, 0, 0, 0.2),
-    rgba(0, 0, 0, 0.6)
-  );
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transition: opacity 0.5s ease;
-  
-  svg {
-    display: none; /* Hide the eye icon */
-  }
-}
-
-/* Add this new class for the View Project text */
-.viewProject {
-  padding: 0.75rem 1.5rem;
-  background: $primary-white;
-  color: $dark-bg;
-  font-family: 'Inter', sans-serif;
-  font-weight: 600;
-  font-size: 0.9375rem;
-  border-radius: 50px;
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-}
-
-.projectCard:hover {
-  box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.4);
-  
-  .projectCardBorder {
-    opacity: 1;
-  }
-  
-  .projectImage {
-    transform: scale(1.05);
-  }
-  
-  .projectOverlay {
-    opacity: 1;
-  }
-  
-  .viewProject {
-    opacity: 1;
-    transform: translateY(0);
   }
 }

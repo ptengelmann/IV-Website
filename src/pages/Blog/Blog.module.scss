@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-// Variables
-$primary-pink: #ec4899;
-$primary-purple: #8b5cf6;
-$primary-cyan: #06b6d4;
-$primary-emerald: #10b981;
+// IV Creative Brand Variables
+$primary-pink: #E72D88;
+$primary-black: #101D1D;
+$primary-blue: #1B7DC2;
 $primary-white: #ffffff;
-$dark-bg: #0f172a;
+$dark-bg: $primary-black;
 $dark-card: #1e293b;
 $dark-card-lighter: #293548;
-$border-radius-sm: 12px;
-$border-radius-md: 18px;
-$border-radius-lg: 24px;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
@@ -33,30 +32,15 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-@mixin shimmer($duration: 2s, $opacity: 0.5) {
-  position: relative;
-  overflow: hidden;
-  
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: -100%;
-    width: 50%;
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, $opacity),
-      transparent
-    );
-    animation: shimmer $duration infinite;
-  }
-  
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
-  }
+@mixin chevron-pattern($color: $primary-pink, $opacity: 0.15) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($color, $opacity) 0,
+    rgba($color, $opacity) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
 }
 
 // Base styles
@@ -66,6 +50,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   background: $dark-bg;
   color: $primary-white;
   min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
   
   // Initial state for animations
   opacity: 0;
@@ -104,20 +89,15 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     opacity: 0.2;
   }
   
-  .gradientOverlay {
+  .chevronPattern {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba($primary-pink, 0.05) 0%, rgba($primary-purple, 0.05) 33%, rgba($primary-cyan, 0.05) 66%, rgba($primary-emerald, 0.05) 100%);
+    @include chevron-pattern($primary-pink, 0.05);
+    opacity: 0.15;
     z-index: 2;
-    opacity: 0;
-    transition: opacity 1.5s ease;
-    
-    .visible & {
-      opacity: 1;
-    }
   }
 }
 
@@ -134,6 +114,47 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   @media (max-width: 768px) {
     padding: 0 1.5rem;
+  }
+}
+
+// Logo styling
+.logoSymbol {
+  position: relative;
+  width: 60px;
+  height: 60px;
+  margin-bottom: 1rem;
+  
+  .logoDiamond {
+    position: absolute;
+    top: 5px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 12px;
+    height: 12px;
+    background-color: $primary-pink;
+    transform-origin: center;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  
+  .logoChevron {
+    position: absolute;
+    bottom: 5px;
+    left: 0;
+    width: 60px;
+    height: 40px;
+    overflow: hidden;
+    
+    &:before {
+      content: '';
+      position: absolute;
+      width: 60px;
+      height: 60px;
+      bottom: 0;
+      left: 0;
+      background-color: $primary-pink;
+      transform-origin: bottom left;
+      transform: rotate(45deg) skew(15deg, 15deg);
+    }
   }
 }
 
@@ -160,9 +181,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .blogTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(3rem, 6vw, 4.5rem);
-  font-weight: 800;
+  font-weight: 700;
   line-height: 1.1;
   letter-spacing: -0.02em;
   color: $primary-white;
@@ -178,7 +199,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .blogSubtitle {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: clamp(1.1rem, 1.5vw, 1.25rem);
   line-height: 1.6;
   color: rgba($primary-white, 0.8);
@@ -193,30 +214,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   .highlight {
-    position: relative;
-    display: inline-block;
-    z-index: 1;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: -0.1em;
-      right: -0.1em;
-      bottom: 0.1em;
-      height: 0.2em;
-      background: $primary-pink;
-      z-index: -1;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.8s;
-      border-radius: 4px;
-    }
-    
-    .visible & {
-      &::after {
-        transform: scaleX(1);
-      }
-    }
+    color: $primary-pink;
+    font-weight: 500;
   }
 }
 
@@ -250,8 +249,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0 1rem 0 1.5rem;
   background: rgba($dark-card, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   color: $primary-white;
   transition: $transition-smooth;
@@ -274,7 +273,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(-50%);
   width: 38px;
   height: 38px;
-  border-radius: 50%;
+  border-radius: 8px;
   background: $primary-pink;
   border: none;
   display: flex;
@@ -323,7 +322,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   align-items: center;
   gap: 0.5rem;
   color: rgba($primary-white, 0.6);
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   white-space: nowrap;
@@ -343,8 +342,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0.5rem 1rem;
   background: rgba($dark-card, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   color: rgba($primary-white, 0.7);
   cursor: pointer;
@@ -396,6 +395,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transition: $transition-smooth;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
   height: 500px;
+  position: relative;
   
   &:hover {
     transform: translateY(-8px);
@@ -429,6 +429,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 3rem;
   display: flex;
   flex-direction: column;
+  z-index: 2;
   
   @media (max-width: 992px) {
     padding: 2rem;
@@ -441,7 +442,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .featuredLabel {
   display: inline-block;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   text-transform: uppercase;
@@ -462,7 +463,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .featuredPostTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: clamp(1.75rem, 3vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -471,7 +472,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .featuredPostExcerpt {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
   line-height: 1.6;
   color: rgba($primary-white, 0.8);
@@ -494,7 +495,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.875rem;
     color: rgba($primary-white, 0.6);
     
@@ -508,7 +509,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: $primary-white;
@@ -579,7 +580,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 .blogCard {
   display: flex;
   flex-direction: column;
-  border-radius: $border-radius-lg;
+  border-radius: $border-radius-md;
   overflow: hidden;
   background: $dark-card;
   box-shadow: 0 15px 30px -15px rgba(0, 0, 0, 0.3);
@@ -589,6 +590,20 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   color: $primary-white;
   opacity: 0;
   transform: translateY(30px);
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, $primary-pink, $primary-blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.5s ease;
+  }
   
   @for $i from 0 through 10 {
     &:nth-child(#{$i + 1}) {
@@ -605,6 +620,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     transform: translateY(-10px);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.4);
     
+    &::after {
+      transform: scaleX(1);
+    }
+    
     .blogImage {
       transform: scale(1.05);
     }
@@ -619,6 +638,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       svg {
         transform: translateX(5px);
       }
+    }
+    
+    .blogPostTitle {
+      color: $primary-pink;
     }
   }
 }
@@ -661,8 +684,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   gap: 0.5rem;
   padding: 0.5rem 1rem;
   background: rgba($dark-bg, 0.8);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.75rem;
   font-weight: 600;
   color: $primary-pink;
@@ -679,37 +702,20 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   flex-direction: column;
   padding: 1.5rem;
   position: relative;
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 1.5rem;
-    right: 1.5rem;
-    height: 1px;
-    background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.1) 50%, rgba(255, 255, 255, 0) 100%);
-  }
 }
 
 .blogPostTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.25rem;
   font-weight: 700;
   line-height: 1.3;
   margin: 0 0 1rem;
   color: $primary-white;
   transition: $transition-smooth;
-  
-  .blogCard:hover & {
-    background: linear-gradient(135deg, $primary-pink, $primary-purple);
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-  }
 }
 
 .blogPostExcerpt {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.9375rem;
   line-height: 1.6;
   color: rgba($primary-white, 0.7);
@@ -731,7 +737,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     display: flex;
     align-items: center;
     gap: 0.5rem;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 0.75rem;
     color: rgba($primary-white, 0.6);
     
@@ -747,7 +753,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.875rem;
   font-weight: 600;
   color: $primary-white;
@@ -763,7 +769,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 3rem;
   text-align: center;
   background: rgba($dark-card, 0.5);
-  border-radius: $border-radius-lg;
+  border-radius: $border-radius-md;
   border: 1px solid rgba(255, 255, 255, 0.05);
   margin-bottom: 4rem;
   opacity: 0;
@@ -776,14 +782,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0 0 1rem;
   }
   
   p {
-    font-family: 'Inter', sans-serif;
+    font-family: 'Roboto', sans-serif;
     font-size: 1.1rem;
     line-height: 1.6;
     color: rgba($primary-white, 0.7);
@@ -796,10 +802,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1.5rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
+  background: $primary-pink;
   border: none;
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   color: $primary-white;
@@ -809,6 +815,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   &:hover {
     transform: translateY(-3px);
     box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+    background: darken($primary-pink, 5%);
   }
 }
 
@@ -838,8 +845,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0 1rem;
   background: rgba($dark-card, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.875rem;
   color: rgba($primary-white, 0.7);
   cursor: pointer;
@@ -881,8 +888,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   align-items: center;
   justify-content: space-between;
   padding: 3rem;
-  background: linear-gradient(135deg, rgba($primary-pink, 0.15), rgba($primary-purple, 0.15));
-  border-radius: $border-radius-lg;
+  background: $dark-card;
+  border-radius: $border-radius-md;
   position: relative;
   overflow: hidden;
   opacity: 0;
@@ -903,21 +910,6 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @media (max-width: 576px) {
     padding: 2rem 1.5rem;
   }
-  
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-image:
-      linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
-    background-size: 20px 20px;
-    opacity: 0.5;
-    z-index: 1;
-  }
 }
 
 .newsletterContent {
@@ -932,10 +924,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .newsletterTitle {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.75rem;
   font-weight: 700;
   margin: 0 0 0.75rem;
+  color: $primary-white;
   
   @media (max-width: 576px) {
     font-size: 1.5rem;
@@ -943,11 +936,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .newsletterDescription {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 1.1rem;
   line-height: 1.6;
   color: rgba($primary-white, 0.8);
-  margin: 0;
+  margin: 0 0 1.5rem;
   
   @media (max-width: 576px) {
     font-size: 1rem;
@@ -972,10 +965,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   flex: 1;
   height: 54px;
   padding: 0 1.5rem;
-  background: rgba($dark-card, 0.7);
+  background: rgba($dark-bg, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Roboto', sans-serif;
   font-size: 1rem;
   color: $primary-white;
   transition: $transition-smooth;
@@ -997,10 +990,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
+  background: $primary-pink;
   border: none;
-  border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  border-radius: $border-radius-sm;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 600;
   color: $primary-white;
@@ -1011,7 +1004,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   overflow: hidden;
   
-&::before {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
@@ -1045,77 +1038,22 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-.newsletterDecoration {
+.chevronDecoration {
   position: absolute;
   top: 0;
   right: 0;
-  width: 100%;
+  width: 40%;
   height: 100%;
-  pointer-events: none;
+  @include chevron-pattern($primary-pink, 0.1);
+  opacity: 0.3;
   z-index: 1;
   
-  .decorationElement1,
-  .decorationElement2,
-  .decorationElement3 {
-    position: absolute;
-    border-radius: 50%;
-    @include floating();
+  @media (max-width: 992px) {
+    width: 100%;
+    height: 40%;
+    top: auto;
+    bottom: 0;
   }
-  
-  .decorationElement1 {
-    width: 150px;
-    height: 150px;
-    bottom: -50px;
-    right: -50px;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-purple, 0.4), transparent 70%);
-    filter: blur(40px);
-    animation-duration: 15s;
-  }
-  
-  .decorationElement2 {
-    width: 100px;
-    height: 100px;
-    top: -30px;
-    right: 20%;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.3), transparent 70%);
-    filter: blur(30px);
-    animation-duration: 12s;
-    animation-delay: 1s;
-  }
-  
-  .decorationElement3 {
-    width: 80px;
-    height: 80px;
-    bottom: 20%;
-    right: 30%;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-cyan, 0.25), transparent 70%);
-    filter: blur(25px);
-    animation-duration: 18s;
-    animation-delay: 2s;
-  }
-}
-
-// Additional Animation Classes
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-@keyframes slideUp {
-  from { 
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to { 
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@keyframes pulse {
-  0% { opacity: 0.7; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-  100% { opacity: 0.7; transform: scale(1); }
 }
 
 // Media queries for responsive design

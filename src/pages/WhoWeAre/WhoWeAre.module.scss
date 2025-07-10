@@ -1,26 +1,38 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-// Variables
-$primary-pink: #ec4899;
-$primary-purple: #8b5cf6;
-$primary-cyan: #06b6d4;
-$primary-emerald: #10b981;
+// Variables - Exactly matching your brand design system
+$primary-pink: #E72D88;
+$primary-black: #101D1D;
+$primary-blue: #1B7DC2;
 $primary-white: #ffffff;
-$dark-bg: #0f172a;
+$secondary-pink: #F95401;
+$tertiary-blue: #37BACD;
+$tertiary-purple: #9E40B1;
+$dark-bg: #101D1D;
 $dark-card: #1e293b;
-$dark-card-lighter: #293548;
-$border-radius-sm: 12px;
-$border-radius-md: 18px;
-$border-radius-lg: 24px;
+$border-radius-sm: 8px;
+$border-radius-md: 12px;
+$border-radius-lg: 16px;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-// Mixins
+// Mixins - identical to your other components
 @mixin glassmorphism($bg-color: rgba(255, 255, 255, 0.08), $blur: 15px) {
   background: $bg-color;
   backdrop-filter: blur($blur);
   -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin chevron-pattern($color: $primary-pink, $opacity: 0.15) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($color, $opacity) 0,
+    rgba($color, $opacity) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
 }
 
 @mixin floating($duration: 6s, $distance: 15px) {
@@ -28,79 +40,48 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   @keyframes float {
     0% { transform: translateY(0); }
-    50% { transform: translateY($distance); }
+50% { transform: translateY($distance); }
     100% { transform: translateY(0); }
   }
 }
 
-@mixin breathe($duration: 4s, $scale: 1.05) {
-  animation: breathe $duration ease-in-out infinite;
+@mixin breathing($duration: 4s, $scale: 1.05) {
+  animation: breathing $duration ease-in-out infinite;
   
-  @keyframes breathe {
+  @keyframes breathing {
     0% { transform: scale(1); }
     50% { transform: scale($scale); }
     100% { transform: scale(1); }
   }
 }
 
-@mixin shimmer($duration: 2s, $opacity: 0.5) {
+// Base styles
+.whoWeAre {
   position: relative;
   overflow: hidden;
+  background: $dark-bg;
+  color: $primary-white;
+  font-family: 'Roboto', sans-serif;
   
-  &::after {
+  &::before {
     content: '';
     position: absolute;
     top: 0;
-    left: -100%;
-    width: 50%;
+    left: 0;
+    width: 100%;
     height: 100%;
-    background: linear-gradient(
-      90deg,
-      transparent,
-      rgba(255, 255, 255, $opacity),
-      transparent
-    );
-    animation: shimmer $duration infinite;
+    background: linear-gradient(135deg, rgba($primary-pink, 0.1) 0%, rgba($primary-blue, 0.05) 100%);
+    z-index: 1;
   }
   
-  @keyframes shimmer {
-    0% { left: -100%; }
-    100% { left: 200%; }
-  }
-}
-
-// Base styles
-.whoWeAre {
-  background-color: $dark-bg;
-  color: $primary-white;
-  font-family: 'Inter', sans-serif;
-  position: relative;
-  overflow-x: hidden;
-  
-  // Initial state for animations
+  // Animate in all elements on load
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   
-  &.visible {
+  &.loaded {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-  z-index: 10;
-  
-  @media (max-width: 1440px) {
-    max-width: 1200px;
-  }
-  
-  @media (max-width: 768px) {
-    padding: 0 1.5rem;
   }
 }
 
@@ -110,11 +91,21 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
   overflow: hidden;
-  pointer-events: none;
+  z-index: 2;
   
-  .gridPattern {
+  .patternOverlay {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    @include chevron-pattern($primary-pink, 0.05);
+    opacity: 0.3;
+    z-index: 1;
+  }
+  
+  .grid {
     position: absolute;
     top: 0;
     left: 0;
@@ -136,76 +127,30 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba($primary-pink, 0.05) 0%, rgba($primary-purple, 0.05) 33%, rgba($primary-cyan, 0.05) 66%, rgba($primary-emerald, 0.05) 100%);
+    background: radial-gradient(circle at 80% 20%, rgba($primary-pink, 0.08), transparent 40%);
     z-index: 2;
     opacity: 0;
     transition: opacity 1.5s ease;
     
-    .visible & {
-      opacity: 1;
+    .loaded & {
+      opacity: 0.5;
     }
   }
 }
 
-// Side Navigation
-.sideNavigation {
-  position: fixed;
-  right: 30px;
-  top: 50%;
-  transform: translateY(-50%);
-  z-index: 100;
+.container {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
+  position: relative;
+  z-index: 10;
   
-  @media (max-width: 992px) {
-    display: none;
-  }
-}
-
-.navLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.navLink {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  background: none;
-  border: none;
-  padding: 0;
-  cursor: pointer;
-  transition: $transition-smooth;
-  
-  .navDot {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background: rgba($primary-white, 0.3);
-    transition: $transition-smooth;
+  @media (max-width: 1440px) {
+    max-width: 1200px;
   }
   
-.navLabel {
-    font-family: 'Outfit', sans-serif;
-    font-size: 14px;
-    font-weight: 600;
-    color: rgba($primary-white, 0.5);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: $transition-smooth;
-    white-space: nowrap;
-  }
-  
-  &:hover, &.active {
-    .navDot {
-      background: linear-gradient(135deg, $primary-pink, $primary-purple);
-      box-shadow: 0 0 10px rgba($primary-pink, 0.5);
-    }
-    
-    .navLabel {
-      opacity: 1;
-      transform: translateX(0);
-      color: $primary-white;
-    }
+  @media (max-width: 768px) {
+    padding: 0 1.5rem;
   }
 }
 
@@ -253,6 +198,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   text-align: center;
 }
 
+// Badge styles - matching hero section
 .badgeWrapper {
   margin-bottom: 2rem;
   transform: translateY(-20px);
@@ -261,7 +207,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   justify-content: center;
   
-  .visible & {
+  .loaded & {
     transform: translateY(0);
     opacity: 1;
   }
@@ -275,7 +221,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   font-weight: 500;
   color: rgba($primary-white, 0.9);
@@ -286,90 +232,112 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
+// Hero title - matching hero section headline style
 .heroTitle {
-  margin: 0 0 2rem;
-  font-family: 'Outfit', sans-serif;
-  font-size: clamp(3.5rem, 8vw, 7rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.02em;
-  color: $primary-white;
-  text-align: center;
-  transform: translateY(30px);
+  margin: 0 0 2.5rem;
+  
+  .titleRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.2em;
+    
+    transform: translateY(30px);
+    opacity: 0;
+    transition: all 0.5s ease 0.2s;
+    
+    .loaded & {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+  
+  .headlineText {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-white;
+    display: inline-block;
+  }
+  
+  .headlineTextPink {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-pink;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
+    }
+  }
+}
+
+// Subheadline styles - matching hero section
+.subheadlineWrapper {
+  margin-bottom: 2.5rem;
+  max-width: 650px;
+  position: relative;
+  z-index: 1;
+  margin-left: auto;
+  margin-right: auto;
+  
+  &::before {
+   content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: radial-gradient(ellipse at center, rgba($primary-pink, 0.05) 0%, transparent 70%);
+    z-index: -1;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease 1s;
+    
+    .loaded & {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+.subheadline {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+  line-height: 1.6;
+  color: rgba($primary-white, 0.8);
+  margin: 0;
   opacity: 0;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translateY(20px);
+  transition: all 0.5s ease 0.7s;
   
-  .visible & {
-    transform: translateY(0);
+  .loaded & {
     opacity: 1;
+    transform: translateY(0);
   }
   
-  .titleText {
-    position: relative;
-    display: inline-block;
-    overflow: hidden;
+  .emphasisTextPink {
+    font-weight: 600;
+    color: $primary-pink;
+    transition: color 0.3s ease;
     
-    &.animated {
-      animation: reveal 1.2s cubic-bezier(0.77, 0, 0.175, 1);
-    }
-    
-    @keyframes reveal {
-      0% { transform: translateY(100%); opacity: 0; }
-      100% { transform: translateY(0); opacity: 1; }
-    }
-  }
-  
-  .highlight {
-    background: linear-gradient(135deg, $primary-pink, $primary-purple);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    position: relative;
-    display: inline-block;
-    
-    &::after {
-      content: '';
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: 0.1em;
-      height: 0.2em;
-      background: linear-gradient(to right, rgba($primary-pink, 0.3), rgba($primary-purple, 0.3));
-      z-index: -1;
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1s;
-      border-radius: 4px;
-      
-      .visible & {
-        transform: scaleX(1);
-      }
+    &:hover {
+      text-shadow: 0 0 8px rgba($primary-pink, 0.3);
     }
   }
   
   @media (max-width: 768px) {
-    font-size: 3rem;
-    margin-bottom: 1.5rem;
-  }
-}
-
-.heroDescription {
-  opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease 0.5s;
-  
-  .visible & {
-    opacity: 1;
-    transform: translateY(0);
-  }
-  
-  p {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    color: rgba($primary-white, 0.9);
-    margin: 0;
-    
-    @media (max-width: 768px) {
-      font-size: 1.125rem;
+    br {
+      display: none;
     }
   }
 }
@@ -378,9 +346,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   margin-top: 3rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease 0.7s;
+  transition: all 0.5s ease 0.9s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -411,70 +379,57 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 // Section Headers
 .sectionHeader {
   margin-bottom: 3rem;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  
-  .chapterIndicator {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.6s ease;
-    
-    .visible & {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .chapterNumber {
-      font-family: 'Outfit', sans-serif;
-      font-size: 1.125rem;
-      font-weight: 700;
-      color: $primary-pink;
-    }
-    
-    svg {
-      color: rgba($primary-white, 0.5);
-    }
-  }
-  
-  h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 1rem;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease 0.1s, transform 0.6s ease 0.1s;
-    
-    .visible & {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    @media (max-width: 768px) {
-      font-size: 2rem;
-    }
-  }
+  text-align: center;
 }
 
-.headerLine {
-  height: 3px;
-  width: 100px;
-  background: linear-gradient(to right, $primary-pink, $primary-purple);
-  border-radius: 2px;
-  opacity: 0;
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+// Section title - matching hero section headline style
+.sectionTitle {
+  margin: 0 0 2.5rem;
   
-  .visible & {
-    opacity: 1;
-    transform: scaleX(1);
+  .headlineRow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.2em;
+    
+    &:nth-child(1) {
+      transform: translateY(30px);
+      opacity: 0;
+      transition: all 0.5s ease 0.2s;
+      
+      .loaded & {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+  }
+  
+  .headlineText {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-white;
+    display: inline-block;
+  }
+  
+  .headlineTextPink {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: $primary-pink;
+    position: relative;
+    display: inline-block;
+    transition: all 0.3s ease;
+    
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
+    }
   }
 }
 
@@ -518,7 +473,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s ease 0.3s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -561,6 +516,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       margin-bottom: 0;
     }
     
+    .emphasisTextPink {
+      font-weight: 600;
+      color: $primary-pink;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        text-shadow: 0 0 8px rgba($primary-pink, 0.3);
+      }
+    }
+    
     @media (max-width: 768px) {
       font-size: 1rem;
     }
@@ -568,14 +533,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .narrativeQuote {
-  background: linear-gradient(135deg, rgba($primary-pink, 0.1), rgba($primary-purple, 0.1));
+  background: linear-gradient(135deg, rgba($primary-pink, 0.1), rgba($primary-blue, 0.05));
   border-left: 3px solid $primary-pink;
   padding: 1.5rem 2rem;
   margin: 2.5rem 0;
   border-radius: 0 $border-radius-sm $border-radius-sm 0;
   
   p {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.25rem;
     font-weight: 500;
     font-style: italic;
@@ -594,7 +559,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s ease 0.5s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -612,8 +577,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .statCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(10px);
+  @include glassmorphism(rgba(255, 255, 255, 0.02), 10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: $border-radius-md;
   padding: 1.5rem;
@@ -628,12 +592,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .statValue {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 2.5rem;
   font-weight: 700;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: $primary-pink;
   margin-bottom: 0.5rem;
   
   @media (max-width: 768px) {
@@ -651,7 +613,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .brandsSection {
-  background: rgba($dark-card, 0.3);
+  @include glassmorphism(rgba($dark-card, 0.1), 10px);
   border-radius: $border-radius-lg;
   padding: 2rem;
   border: 1px solid rgba(255, 255, 255, 0.05);
@@ -681,15 +643,15 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .brandLogo {
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1.25rem;
   font-weight: 600;
-  color: var(--brand-color);
+  color: var(--client-color);
   transition: $transition-bounce;
   
   &:hover {
-    transform: translateY(-5px) scale(1.05);
-    text-shadow: 0 0 15px var(--brand-color);
+    transform: translateY(-5px);
+    text-shadow: 0 0 15px var(--client-color);
   }
   
   @media (max-width: 768px) {
@@ -697,7 +659,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Journey Section - Clean Version
+// Journey Section
 .journeySection {
   padding: 8rem 0;
   position: relative;
@@ -736,6 +698,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     color: $primary-white;
     margin: 0;
     
+    .emphasisTextPink {
+      font-weight: 600;
+      color: $primary-pink;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        text-shadow: 0 0 8px rgba($primary-pink, 0.3);
+      }
+    }
+    
     @media (max-width: 768px) {
       font-size: 1.125rem;
     }
@@ -747,9 +719,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   max-width: 1200px;
   margin: 0 auto;
   z-index: 2;
+  min-height: 800px;
   
   @media (max-width: 768px) {
     padding-left: 2rem;
+    min-height: 1000px;
   }
 }
 
@@ -776,32 +750,18 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, $primary-pink, $primary-purple);
+  background: $primary-pink;
   transform: scaleY(0);
   transform-origin: top;
-  transition: transform 0.6s ease;
+  transition: transform 1.2s ease 1s;
   
-  .visible & {
+  .loaded & {
     transform: scaleY(1);
-  }
-}
-
-.timelineItem {
-  position: relative;
-  margin-bottom: 8rem;
-  
-  &:last-child {
-    margin-bottom: 0;
-  }
-  
-  @media (max-width: 768px) {
-    margin-bottom: 6rem;
   }
 }
 
 .timelinePoint {
   position: absolute;
-  top: 0;
   left: 50%;
   transform: translateX(-50%);
   z-index: 3;
@@ -820,7 +780,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0.5rem 1rem;
   border-radius: 50px;
   color: $primary-white;
-  font-family: 'Outfit', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-weight: 700;
   font-size: 1rem;
   white-space: nowrap;
@@ -834,17 +794,23 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .timelineCard {
   width: 45%;
-  background: rgba($dark-card, 0.6);
-  backdrop-filter: blur(10px);
+  @include glassmorphism(rgba($dark-card, 0.1), 10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: $border-radius-lg;
   padding: 1.75rem;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-  position: relative;
+  position: absolute;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease;
+  
+  .loaded & {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   &.cardLeft {
-    margin-left: 0;
-    margin-right: auto;
+    left: 0;
     text-align: right;
     
     &::after {
@@ -865,7 +831,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     
     @media (max-width: 768px) {
       width: calc(100% - 3rem);
-      margin-left: 3rem;
+      left: 3rem;
       text-align: left;
       
       &::after {
@@ -882,8 +848,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   &.cardRight {
-    margin-left: auto;
-    margin-right: 0;
+    right: 0;
     
     &::after {
       content: '';
@@ -899,8 +864,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     
     @media (max-width: 768px) {
       width: calc(100% - 3rem);
-      margin-left: 3rem;
-      margin-right: 0;
+      left: 3rem;
+      right: auto;
       
       &::after {
         left: -10px;
@@ -911,7 +876,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0 0 0.75rem;
@@ -946,7 +911,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   align-items: center;
   gap: 0.5rem;
   padding: 0.375rem 0.75rem;
-  background: rgba($dark-card-lighter, 0.6);
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border-radius: 50px;
   transition: all 0.3s ease;
   
@@ -960,7 +925,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   &:hover {
-    background: rgba($primary-pink, 0.2);
+    background: rgba($primary-pink, 0.1);
     transform: translateY(-2px);
   }
 }
@@ -969,14 +934,23 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   z-index: 2;
   max-width: 800px;
-  margin: 6rem auto 0; // Increased margin to separate from timeline
+  margin: 6rem auto 0; 
   text-align: center;
   padding: 2.5rem;
-  background: linear-gradient(135deg, rgba($primary-pink, 0.1), rgba($primary-purple, 0.1));
+  @include glassmorphism(rgba($primary-pink, 0.03), 10px);
   border-radius: $border-radius-lg;
+  border: 1px solid rgba($primary-pink, 0.1);
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.6s ease 1.5s;
+  
+  .loaded & {
+    opacity: 1;
+    transform: translateY(0);
+  }
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.75rem;
     font-weight: 700;
     margin: 0 0 1rem;
@@ -1011,7 +985,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 30%;
     height: 100%;
-    background: radial-gradient(circle at left, rgba($primary-purple, 0.1), transparent 70%);
+    background: radial-gradient(circle at left, rgba($primary-blue, 0.1), transparent 70%);
     filter: blur(70px);
     z-index: 1;
   }
@@ -1031,7 +1005,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(20px);
   transition: all 0.6s ease 0.3s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1041,6 +1015,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     line-height: 1.7;
     color: rgba($primary-white, 0.9);
     margin: 0;
+    
+    .emphasisTextPink {
+      font-weight: 600;
+      color: $primary-pink;
+      transition: color 0.3s ease;
+      
+      &:hover {
+        text-shadow: 0 0 8px rgba($primary-pink, 0.3);
+      }
+    }
     
     @media (max-width: 768px) {
       font-size: 1.125rem;
@@ -1066,7 +1050,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s ease 0.4s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1087,34 +1071,12 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-.teamQuote {
-  background: linear-gradient(135deg, rgba($primary-purple, 0.1), rgba($primary-cyan, 0.1));
-  border-left: 3px solid $primary-purple;
-  padding: 1.5rem 2rem;
-  margin: 2.5rem 0;
-  border-radius: 0 $border-radius-sm $border-radius-sm 0;
-  
-  p {
-    font-family: 'Outfit', sans-serif;
-    font-size: 1.25rem;
-    font-weight: 500;
-    font-style: italic;
-    line-height: 1.6;
-    color: $primary-white;
-    margin: 0;
-    
-    @media (max-width: 768px) {
-      font-size: 1.125rem;
-    }
-  }
-}
-
 .teamExpertise {
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.6s ease 0.5s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1125,14 +1087,13 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   grid-template-columns: repeat(2, 1fr);
   gap: 1.5rem;
   
-  @media (max-width: 1200px) {
+ @media (max-width: 1200px) {
     grid-template-columns: 1fr;
   }
 }
 
 .expertiseCard {
-  background: linear-gradient(135deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
-  backdrop-filter: blur(10px);
+  @include glassmorphism(rgba(255, 255, 255, 0.02), 10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: $border-radius-md;
   padding: 1.5rem;
@@ -1147,12 +1108,12 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 3px;
     height: 100%;
-    background: linear-gradient(to bottom, $primary-pink, $primary-purple);
+    background: $primary-pink;
     opacity: 0.6;
     transition: opacity 0.3s ease;
   }
   
-&:hover {
+  &:hover {
     transform: translateY(-5px);
     box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.1);
@@ -1163,7 +1124,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.25rem;
     font-weight: 700;
     margin: 0 0 0.75rem;
@@ -1183,7 +1144,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .joinTeam {
-  background: linear-gradient(135deg, rgba($primary-pink, 0.1), rgba($primary-purple, 0.1));
+  @include glassmorphism(rgba($primary-pink, 0.03), 10px);
   border-radius: $border-radius-lg;
   padding: 3rem;
   text-align: center;
@@ -1193,8 +1154,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
   position: relative;
   z-index: 2;
+  border: 1px solid rgba($primary-pink, 0.1);
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1209,7 +1171,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   margin: 0 auto;
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.75rem;
     font-weight: 700;
     margin: 0 0 1rem;
@@ -1231,38 +1193,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-.joinButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1.75rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
-  color: $primary-white;
-  border-radius: 50px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-    
-    svg {
-      transform: translateX(3px);
-    }
-  }
-  
-  svg {
-    transition: transform 0.3s ease;
-  }
-}
-
 // Global Reach Section
 .globalSection {
   padding: 6rem 0;
-  background: linear-gradient(135deg, rgba($primary-cyan, 0.05), rgba($primary-emerald, 0.05));
+  background: linear-gradient(135deg, rgba($primary-blue, 0.05), rgba($primary-blue, 0.02));
   position: relative;
   
   &::before {
@@ -1295,7 +1229,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(20px);
   transition: all 0.6s ease 0.3s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1323,10 +1257,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s ease 0.4s;
   border: 1px solid rgba(255, 255, 255, 0.05);
-  background: rgba($dark-card, 0.3);
+  @include glassmorphism(rgba($dark-card, 0.1), 10px);
   z-index: 2;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1363,7 +1297,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 49%;
     width: 30%;
     height: 1px;
-    background: linear-gradient(to right, $primary-pink, $primary-purple);
+    background: linear-gradient(to right, $primary-pink, $primary-blue);
     transform-origin: left;
     transform: rotate(5deg);
     opacity: 0.5;
@@ -1377,7 +1311,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 23%;
     width: 26%;
     height: 1px;
-    background: linear-gradient(to left, $primary-pink, $primary-cyan);
+    background: linear-gradient(to left, $primary-pink, $primary-blue);
     transform-origin: right;
     transform: rotate(-5deg);
     opacity: 0.5;
@@ -1435,7 +1369,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 50%;
     transform: translateX(-50%);
     white-space: nowrap;
-    background: rgba($dark-card, 0.8);
+    @include glassmorphism(rgba($dark-card, 0.8), 10px);
     padding: 0.375rem 0.75rem;
     border-radius: 4px;
     font-size: 0.875rem;
@@ -1482,7 +1416,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s ease 0.5s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
@@ -1497,7 +1431,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 }
 
 .regionCard {
-  background: rgba($dark-card, 0.5);
+  @include glassmorphism(rgba($dark-card, 0.1), 10px);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: $border-radius-lg;
   padding: 1.75rem;
@@ -1520,7 +1454,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   &.active {
     border-color: rgba(var(--region-color, $primary-pink), 0.2);
-    background: rgba($dark-card, 0.7);
+    @include glassmorphism(rgba($dark-card, 0.2), 10px);
     box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
     transform: translateY(-5px);
     
@@ -1558,7 +1492,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.25rem;
     font-weight: 600;
     margin: 0;
@@ -1570,7 +1504,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 .hqBadge {
   font-size: 0.6875rem;
   font-weight: 700;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
+  background: $primary-pink;
   color: $primary-white;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -1593,7 +1527,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   text-align: center;
   
   .statValue {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: 1.125rem;
     font-weight: 700;
     color: var(--region-color, $primary-pink);
@@ -1610,51 +1544,86 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 // CTA Section
 .ctaSection {
-  padding: 5rem 0;
-  background: linear-gradient(to right, rgba($primary-pink, 0.2), rgba($primary-purple, 0.2));
-  text-align: center;
+  padding: 6rem 0;
   position: relative;
   overflow: hidden;
   
   @media (max-width: 768px) {
-    padding: 3rem 0;
+    padding: 4rem 0;
   }
 }
 
-.ctaContent {
-  max-width: 800px;
-  margin: 0 auto;
+.ctaCard {
   position: relative;
-  z-index: 2;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 4rem;
+  border-radius: $border-radius-lg;
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
   opacity: 0;
-  transform: translateY(20px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(30px);
+  transition: all 0.5s ease 0.2s;
   
-  .visible & {
+  .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
   
-  h2 {
-    font-family: 'Outfit', sans-serif;
-    font-size: 2.5rem;
-    font-weight: 700;
-    margin: 0 0 1rem;
+  @media (max-width: 768px) {
+    padding: 2.5rem 1.5rem;
+  }
+}
+
+.ctaContent {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.ctaHeading {
+  font-family: 'Poppins', sans-serif;
+  font-size: clamp(2rem, 3vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.2;
+  margin: 0 0 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  
+  .headlineText {
+    color: $primary-white;
+  }
+  
+  .headlineTextPink {
+    color: $primary-pink;
+    position: relative;
+    transition: all 0.3s ease;
     
-    @media (max-width: 768px) {
-      font-size: 2rem;
+    &:hover {
+      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
     }
   }
   
-  p {
-    font-size: 1.25rem;
-    line-height: 1.6;
-    margin: 0 0 1.5rem;
-    color: rgba($primary-white, 0.9);
-    
-    @media (max-width: 768px) {
-      font-size: 1.125rem;
-    }
+  @media (max-width: 768px) {
+    font-size: 1.75rem;
+  }
+}
+
+.ctaDescription {
+  font-family: 'Roboto', sans-serif;
+  font-size: clamp(1rem, 1.2vw, 1.125rem);
+  line-height: 1.6;
+  color: rgba($primary-white, 0.8);
+  margin: 0 0 2rem;
+  
+  @media (max-width: 768px) {
+    font-size: 1rem;
   }
 }
 
@@ -1662,7 +1631,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   justify-content: center;
   gap: 2rem;
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   
   .ctaFeature {
     display: flex;
@@ -1674,7 +1643,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     }
     
     span {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Roboto', sans-serif;
       font-size: 1rem;
       font-weight: 500;
       color: rgba($primary-white, 0.9);
@@ -1684,40 +1653,104 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @media (max-width: 768px) {
     flex-direction: column;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+    margin-bottom: 2rem;
+    
+    .ctaFeature {
+      justify-content: center;
+    }
   }
 }
 
-.ctaButton {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 1rem 2rem;
-  background: linear-gradient(135deg, $primary-pink, $primary-purple);
-  color: $primary-white;
-  border-radius: 50px;
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.125rem;
-  font-weight: 600;
-  text-decoration: none;
-  transition: all 0.3s ease;
+.ctaButtons {
+  display: flex;
+  justify-content: center;
+  gap: 1.25rem;
   
-  &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: center;
+    max-width: 300px;
+    margin: 0 auto;
+    width: 100%;
+  }
+  
+  .primaryCta, 
+  .secondaryCta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem 1.75rem;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: $border-radius-sm;
+    cursor: pointer;
+    transition: $transition-bounce;
     
     svg {
-      transform: translateX(3px);
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover svg {
+      transform: translateX(4px);
+    }
+    
+    @media (max-width: 768px) {
+      width: 100%;
+      justify-content: center;
     }
   }
   
-  svg {
-    transition: transform 0.3s ease;
+  .primaryCta {
+    background: $primary-pink;
+    color: $primary-white;
+    box-shadow: 
+      0 10px 25px -5px rgba($primary-pink, 0.5),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+      transform: translateX(-100%) skewX(-15deg);
+      transition: transform 0.5s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px -5px rgba($primary-pink, 0.6),
+        0 0 0 1px rgba($primary-pink, 0.8) inset;
+        
+      &::before {
+        transform: translateX(100%) skewX(-15deg);
+      }
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
   }
   
-  @media (max-width: 768px) {
-    font-size: 1rem;
-    padding: 0.875rem 1.75rem;
+  .secondaryCta {
+    @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+    color: $primary-white;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    
+    &:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-2px);
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
   }
 }
 
@@ -1728,78 +1761,186 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   width: 100%;
   height: 100%;
   pointer-events: none;
-}
-
-.ctaShape1,
-.ctaShape2,
-.ctaShape3 {
-  position: absolute;
-  border-radius: 50%;
-  @include floating();
-}
-
-.ctaShape1 {
-  width: 250px;
-  height: 250px;
-  top: -100px;
-  right: -50px;
-  background: radial-gradient(circle at 30% 30%, rgba($primary-purple, 0.4), transparent 70%);
-  filter: blur(40px);
-  animation-duration: 15s;
-}
-
-.ctaShape2 {
-  width: 200px;
-  height: 200px;
-  bottom: -80px;
-  left: -60px;
-  background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.3), transparent 70%);
-  filter: blur(35px);
-  animation-duration: 12s;
-  animation-delay: 1s;
-}
-
-.ctaShape3 {
-  width: 150px;
-  height: 150px;
-  bottom: 50px;
-  right: 15%;
-  background: radial-gradient(circle at 30% 30%, rgba($primary-cyan, 0.25), transparent 70%);
-  filter: blur(30px);
-  animation-duration: 18s;
-  animation-delay: 2s;
+  z-index: 1;
+  
+  .decorationElement1,
+  .decorationElement2,
+  .decorationElement3 {
+    position: absolute;
+    border-radius: 50%;
+    @include floating();
+  }
+  
+  .decorationElement1 {
+    width: 200px;
+    height: 200px;
+    bottom: -100px;
+    right: -50px;
+    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.2), transparent 70%);
+    filter: blur(50px);
+    animation-duration: 15s;
+  }
+  
+  .decorationElement2 {
+    width: 150px;
+    height: 150px;
+    top: -50px;
+    left: -30px;
+    background: radial-gradient(circle at 30% 30%, rgba($primary-blue, 0.2), transparent 70%);
+    filter: blur(40px);
+    animation-duration: 12s;
+    animation-delay: 1s;
+  }
+  
+  .decorationElement3 {
+    width: 100px;
+    height: 100px;
+    bottom: 20%;
+    right: 20%;
+    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.15), transparent 70%);
+    filter: blur(30px);
+    animation-duration: 18s;
+    animation-delay: 2s;
+  }
 }
 
 // Media queries for overall responsive adjustments
 @media (max-width: 480px) {
-  .sectionHeader h2 {
-    font-size: 1.75rem;
+  .container {
+    padding: 0 1.25rem;
   }
   
   .heroTitle {
-    font-size: 2.5rem;
+    .headlineText,
+    .headlineTextPink {
+      font-size: 2rem;
+    }
   }
   
-  .heroDescription p {
+  .subheadline {
     font-size: 1rem;
   }
   
-  .ctaContent {
-    h2 {
-      font-size: 1.75rem;
-    }
-    
-    p {
-      font-size: 1rem;
+  .sectionTitle {
+    .headlineText,
+    .headlineTextPink {
+      font-size: 2rem;
     }
   }
   
-  .ctaFeatures .ctaFeature {
+  .narrativeIntro {
+    font-size: 1.125rem;
+  }
+  
+  .narrativeBlock p {
+    font-size: 0.9375rem;
+  }
+  
+  .narrativeQuote p {
+    font-size: 1rem;
+  }
+  
+  .statValue {
+    font-size: 1.75rem;
+  }
+  
+  .statLabel {
     font-size: 0.875rem;
   }
   
-  .ctaButton {
+  .ctaHeading {
+    font-size: 1.75rem;
+  }
+  
+  .ctaDescription {
     font-size: 0.9375rem;
-    padding: 0.75rem 1.5rem;
+  }
+  
+  .primaryCta, 
+  .secondaryCta {
+    padding: 0.75rem 1.25rem;
+    font-size: 0.875rem;
+  }
+}
+
+// Add this CSS to the joinTeam section in the SCSS file
+
+.joinTeam {
+  @include glassmorphism(rgba($primary-pink, 0.03), 10px);
+  border-radius: $border-radius-lg;
+  padding: 3rem;
+  text-align: center;
+  margin-top: 4rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease 0.7s, transform 0.6s ease 0.7s;
+  position: relative;
+  z-index: 2;
+  border: 1px solid rgba($primary-pink, 0.1);
+  
+  .loaded & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    padding: 2rem;
+  }
+  
+  // Add direct primaryCta styling
+  .primaryCta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.5rem;
+    background: $primary-pink;
+    border: none;
+    border-radius: $border-radius-sm;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    color: $primary-white;
+    text-decoration: none;
+    transition: $transition-bounce;
+    box-shadow: 
+      0 10px 25px -5px rgba($primary-pink, 0.3),
+      0 0 0 1px rgba($primary-pink, 0.5) inset;
+    position: relative;
+    overflow: hidden;
+    
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+      transform: translateX(-100%) skewX(-15deg);
+      transition: transform 0.5s ease;
+    }
+    
+    svg {
+      transition: transform 0.3s ease;
+    }
+    
+    &:hover {
+      transform: translateY(-3px);
+      box-shadow: 
+        0 15px 30px -5px rgba($primary-pink, 0.4),
+        0 0 0 1px rgba($primary-pink, 0.5) inset;
+      
+      &::before {
+        transform: translateX(100%) skewX(-15deg);
+      }
+      
+      svg {
+        transform: translateX(4px);
+      }
+    }
+    
+    &:active {
+      transform: translateY(-1px);
+    }
   }
 }

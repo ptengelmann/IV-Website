@@ -6,15 +6,16 @@ import {
   Award, CheckCircle2, Lightbulb, MousePointer,
   Eye, CreditCard, Megaphone, Layers,
   Book, Home, Music, ShoppingBag, Briefcase,
-  Utensils, HeartPulse, Plane, Factory
+  Utensils, HeartPulse, Plane, Factory,
+  ArrowUpRight, Sparkles
 } from 'lucide-react';
 import styles from './DigitalMarketing.module.scss';
 
 const DigitalMarketing = () => {
   const [isVisible, setIsVisible] = useState(false);
   const [activeService, setActiveService] = useState(0);
-  const [scrollProgress, setScrollProgress] = useState(0);
   const [activeIndustry, setActiveIndustry] = useState(0);
+  const [visibleSections, setVisibleSections] = useState({});
   const sectionRef = useRef(null);
   const servicesRef = useRef(null);
   
@@ -24,8 +25,8 @@ const DigitalMarketing = () => {
       id: 'content',
       title: 'Content Creation',
       icon: MessageSquare,
-      color: '#ec4899',
-      gradient: 'linear-gradient(135deg, #ec4899 0%, #d946ef 100%)',
+      color: '#E72D88',
+      gradient: 'linear-gradient(135deg, #E72D88 0%, #E72D88 100%)',
       description: 'We curate excellent content for websites, blog posts and social media that drives awareness, traffic and conversions.',
       features: [
         'Strategic content planning',
@@ -36,14 +37,20 @@ const DigitalMarketing = () => {
       stats: [
         { value: '70%', label: 'higher conversion rate with quality content' },
         { value: '3x', label: 'more leads than traditional marketing' }
-      ]
+      ],
+      caseStudy: {
+        title: "How content marketing grew leads by 230%",
+        text: "For a luxury home goods brand, we implemented a comprehensive content strategy with weekly blog posts, interactive buying guides, and social media content. Within six months, organic traffic increased by 186%, conversion rates improved by 4.2%, and qualified leads grew by 230%.",
+        metric: "230%",
+        metricLabel: "Increase in qualified leads"
+      }
     },
     {
       id: 'social',
       title: 'Social Media Marketing',
       icon: Share2,
-      color: '#8b5cf6',
-      gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+      color: '#E72D88',
+      gradient: 'linear-gradient(135deg, #E72D88 0%, #1B7DC2 100%)',
       description: 'Tapping into huge networks of potential customers, and enabling two-way communication.',
       features: [
         'Platform-specific strategies',
@@ -54,14 +61,20 @@ const DigitalMarketing = () => {
       stats: [
         { value: '91%', label: 'of consumers visit brand website after social interaction' },
         { value: '78%', label: 'of consumers buy from brands they follow on social' }
-      ]
+      ],
+      caseStudy: {
+        title: "Building brand awareness through social",
+        text: "We helped a boutique fashion brand develop a cohesive social media presence across Instagram, TikTok, and Pinterest. Through targeted content, influencer collaborations, and strategic paid campaigns, we increased their following by 345% in just four months, driving a 67% increase in website traffic and a 42% boost in direct sales from social channels.",
+        metric: "67%",
+        metricLabel: "Increase in website traffic"
+      }
     },
     {
       id: 'seo',
       title: 'Search Engine Optimization',
       icon: Search,
-      color: '#06b6d4',
-      gradient: 'linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%)',
+      color: '#1B7DC2',
+      gradient: 'linear-gradient(135deg, #1B7DC2 0%, #1B7DC2 100%)',
       description: 'We make sure your products and pages are easy to find in search engines. Improve your rankings, refine your content, and drive consistent, high-quality traffic to your site.',
       features: [
         'Technical SEO audits',
@@ -72,14 +85,20 @@ const DigitalMarketing = () => {
       stats: [
         { value: '1st', label: 'page results get 95% of search traffic' },
         { value: '53%', label: 'of all website traffic comes from organic search' }
-      ]
+      ],
+      caseStudy: {
+        title: "From page 5 to position 1",
+        text: "An established homeware retailer was struggling with visibility for their key product categories. Through comprehensive technical SEO, content optimization, and strategic backlinking, we helped them climb from page 5 to position 1 for their most valuable keywords. This resulted in a 215% increase in organic traffic and a 43% improvement in conversion rates from organic search.",
+        metric: "215%",
+        metricLabel: "Increase in organic traffic"
+      }
     },
     {
       id: 'ppc',
       title: 'PPC & Paid Advertising',
       icon: Target,
-      color: '#10b981',
-      gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+      color: '#1B7DC2',
+      gradient: 'linear-gradient(135deg, #1B7DC2 0%, #E72D88 100%)',
       description: 'We plan and manage paid ads that put your products in front of the right people – driving targeted traffic, boosting sales, and making every click count.',
       features: [
         'Campaign strategy & structure',
@@ -90,7 +109,13 @@ const DigitalMarketing = () => {
       stats: [
         { value: '200%', label: 'average ROI for Google Ads campaigns' },
         { value: '65%', label: 'of high-intent searches lead to ad clicks' }
-      ]
+      ],
+      caseStudy: {
+        title: "Transforming PPC performance",
+        text: "A premium skincare brand was experiencing high ad spend with minimal returns. We restructured their account, refined their targeting parameters, and optimized their ad creatives. Within three months, we decreased their cost-per-acquisition by 58% while increasing conversion volume by 127%, resulting in a 310% improvement in overall campaign ROI.",
+        metric: "310%",
+        metricLabel: "Improvement in ROI"
+      }
     }
   ];
   
@@ -134,118 +159,91 @@ const DigitalMarketing = () => {
       id: 'education',
       title: 'eLearning',
       icon: Book,
-      color: '#ec4899',
+      color: '#E72D88',
       description: 'Engaging digital marketing strategies for online courses, educational platforms, and learning management systems.',
       features: [
         'Student acquisition campaigns',
         'Course promotion strategies',
         'Educational content marketing',
         'Learning platform optimization'
-      ]
+      ],
+      success: 'Increased enrollment by 65% for an online education platform through targeted SEO and content marketing.'
     },
     {
       id: 'realestate',
       title: 'Real Estate',
       icon: Home,
-      color: '#8b5cf6',
+      color: '#E72D88',
       description: 'Targeted digital marketing for property listings, real estate agencies, and property development companies.',
       features: [
         'Property listing optimization',
         'Virtual tour promotion',
         'Location-based targeting',
         'Buyer/seller lead generation'
-      ]
+      ],
+      success: 'Generated 3x more qualified leads for a luxury property developer through strategic PPC and social media campaigns.'
     },
     {
       id: 'entertainment',
       title: 'Media & Entertainment',
       icon: Music,
-      color: '#06b6d4',
+      color: '#1B7DC2',
       description: 'Creative digital strategies for media companies, streaming services, and entertainment brands.',
       features: [
         'Content promotion campaigns',
         'Audience growth strategies',
         'Streaming platform optimization',
         'Entertainment industry positioning'
-      ]
+      ],
+      success: 'Helped a streaming platform achieve 40% subscriber growth through targeted content marketing and paid social campaigns.'
     },
     {
       id: 'retail',
       title: 'Retail & eCommerce',
       icon: ShoppingBag,
-      color: '#10b981',
+      color: '#1B7DC2',
       description: 'Conversion-focused digital marketing for online stores, retail brands, and marketplaces.',
       features: [
         'Product campaign optimization',
         'Shopping feed management',
         'Retail-specific content strategies',
         'eCommerce platform enhancement'
-      ]
+      ],
+      success: 'Boosted online sales by 87% for a fashion retailer through integrated SEO, PPC, and social media marketing.'
+    }
+  ];
+
+  // Process steps
+  const processSteps = [
+    {
+      title: "Discover",
+      description: "We start by understanding your brand, audience, goals, and competitive landscape to develop a targeted strategy.",
+      icon: Eye,
+      color: "#E72D88"
     },
     {
-      id: 'finance',
-      title: 'Financial Services',
-      icon: Briefcase,
-      color: '#f59e0b',
-      description: 'Compliance-aware digital marketing for banks, insurance companies, and financial institutions.',
-      features: [
-        'Financial product campaigns',
-        'Trust-building content strategies',
-        'Regulatory-compliant marketing',
-        'Financial education content'
-      ]
+      title: "Plan",
+      description: "Based on insights gathered, we create a comprehensive digital marketing plan with clear KPIs and timeline.",
+      icon: Layers,
+      color: "#E72D88"
     },
     {
-      id: 'hospitality',
-      title: 'Hospitality & Tourism',
-      icon: Utensils,
-      color: '#ef4444',
-      description: 'Experience-focused digital marketing for hotels, restaurants, and tourism businesses.',
-      features: [
-        'Booking conversion optimization',
-        'Destination marketing',
-        'Hospitality experience showcasing',
-        'Travel industry partnerships'
-      ]
+      title: "Execute",
+      description: "We implement campaigns across chosen channels, creating engaging content and optimizing for maximum performance.",
+      icon: Target,
+      color: "#1B7DC2"
     },
     {
-      id: 'healthcare',
-      title: 'Healthcare',
-      icon: HeartPulse,
-      color: '#3b82f6',
-      description: 'Sensitive and compliant digital marketing for medical practices, healthcare providers, and wellness companies.',
-      features: [
-        'Patient acquisition campaigns',
-        'Healthcare service promotion',
-        'Medical content creation',
-        'Wellness program marketing'
-      ]
+      title: "Analyze",
+      description: "Our team continuously monitors performance metrics and provides transparent reporting on campaign results.",
+      icon: BarChart3,
+      color: "#1B7DC2"
     },
     {
-      id: 'travel',
-      title: 'Travel',
-      icon: Plane,
-      color: '#6366f1',
-      description: 'Engaging digital strategies for travel agencies, airlines, and vacation rental businesses.',
-      features: [
-        'Destination campaign management',
-        'Travel booking optimization',
-        'Seasonal travel promotion',
-        'Adventure experience marketing'
-      ]
-    },
-    {
-      id: 'manufacturing',
-      title: 'Manufacturing',
-      icon: Factory,
-      color: '#9333ea',
-      description: 'B2B digital marketing for manufacturing companies, industrial suppliers, and production businesses.',
-      features: [
-        'Industrial lead generation',
-        'Manufacturing expertise content',
-        'Supply chain marketing',
-        'Product specification promotion'
-      ]
+      title: "Refine",
+      description: "We use data-driven insights to optimize campaigns, improving performance and maximizing your ROI.",
+      icon: Sparkles,
+      color: "#E72D88"
     }
   ];
 
@@ -268,57 +266,30 @@ const DigitalMarketing = () => {
     };
   }, []);
   
-  // Handle scroll progress for the services section
+  // Handle section visibility for animations
   useEffect(() => {
-    const handleScroll = () => {
-      if (servicesRef.current) {
-        const rect = servicesRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Calculate how much of the section is visible
-        const visibleHeight = Math.min(windowHeight, rect.bottom) - Math.max(0, rect.top);
-        const sectionHeight = rect.height;
-        
-        // Calculate progress (0 to 1)
-        const progress = Math.max(0, Math.min(1, visibleHeight / sectionHeight));
-        setScrollProgress(progress);
-        
-        // Calculate which service cards are in view
-        const serviceCards = servicesRef.current.querySelectorAll(`.${styles.serviceCard}`);
-        if (serviceCards.length > 0) {
-          let activeIndex = 0;
-          
-          // Find the card that's most visible in the viewport
-          serviceCards.forEach((card, index) => {
-            const cardRect = card.getBoundingClientRect();
-            const cardVisibility = Math.min(windowHeight, cardRect.bottom) - Math.max(0, cardRect.top);
-            
-            if (cardVisibility > 0 && cardVisibility / cardRect.height > 0.5) {
-              activeIndex = index;
-            }
-          });
-          
-          setActiveService(activeIndex);
+    const sectionObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setVisibleSections(prev => ({
+            ...prev,
+            [entry.target.id]: true
+          }));
         }
-      }
-    };
+      });
+    }, { threshold: 0.2 });
     
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Initial check
+    const sections = document.querySelectorAll('[data-section]');
+    sections.forEach(section => {
+      sectionObserver.observe(section);
+    });
     
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      sections.forEach(section => {
+        sectionObserver.unobserve(section);
+      });
     };
   }, []);
-  
-  // Handle industry card hover
-  const handleIndustryHover = (id) => {
-    setActiveIndustry(id);
-  };
-  
-  const handleIndustryLeave = () => {
-    setActiveIndustry(null);
-  };
   
   return (
     <div 
@@ -327,13 +298,14 @@ const DigitalMarketing = () => {
     >
       <div className={styles.sectionBackground}>
         <div className={styles.gridPattern}></div>
-        <div className={styles.gradientOverlay}></div>
+        <div className={styles.chevronPattern}></div>
       </div>
       
       {/* Hero section */}
-      <div className={styles.heroSection}>
+      <div className={styles.heroSection} data-section id="hero-section">
         <div className={styles.container}>
           <div className={styles.heroContent}>
+          
             <div className={styles.badgeWrapper}>
               <div className={styles.badge}>
                 <Zap size={14} />
@@ -344,11 +316,15 @@ const DigitalMarketing = () => {
             <h1 className={styles.heroTitle}>
               <div className={styles.titleRow}>
                 <span className={styles.titleText}>Specialising in</span>
-                <span className={styles.gradientText}>content creation,</span>
+              </div>
+              <div className={styles.titleRow}>
+                <span className={styles.titleTextPink}>content creation,</span>
               </div>
               <div className={styles.titleRow}>
                 <span className={styles.titleText}>SEO, PPC and</span>
-                <span className={styles.titleTextAccent}>social media</span>
+              </div>
+              <div className={styles.titleRow}>
+                <span className={styles.titleTextPink}>social media</span>
               </div>
               <div className={styles.titleRow}>
                 <span className={styles.titleText}>marketing</span>
@@ -357,7 +333,7 @@ const DigitalMarketing = () => {
             
             <div className={styles.heroCopy}>
               <p>
-                Your brand, and our ecommerce offering, needs to be seen to be heard. That's where we can help. We'll establish whether you need to build more reach, engagement, increased web traffic or conversion; and we'll deliver.
+                Your brand needs to be seen to be heard. That's where we can help. We'll establish whether you need to build more reach, engagement, increased web traffic or conversion; and we'll deliver with our end-to-end digital marketing solutions.
               </p>
             </div>
             
@@ -385,6 +361,13 @@ const DigitalMarketing = () => {
                   <div className={styles.statLabel}>ROI on effective campaigns</div>
                 </div>
               </div>
+            </div>
+
+            <div className={styles.ctaGroup}>
+              <button className={styles.primaryCta}>
+                <span>Get in touch</span>
+                <ArrowUpRight size={18} />
+              </button>
             </div>
           </div>
           
@@ -464,15 +447,15 @@ const DigitalMarketing = () => {
                       <div className={styles.chartTitle}>Channel Performance</div>
                       <div className={styles.chartLegend}>
                         <div className={styles.legendItem}>
-                          <div className={styles.legendColor} style={{ background: '#ec4899' }}></div>
+                          <div className={styles.legendColor} style={{ background: '#E72D88' }}></div>
                           <span>Organic</span>
                         </div>
                         <div className={styles.legendItem}>
-                          <div className={styles.legendColor} style={{ background: '#8b5cf6' }}></div>
+                          <div className={styles.legendColor} style={{ background: '#1B7DC2' }}></div>
                           <span>Social</span>
                         </div>
                         <div className={styles.legendItem}>
-                          <div className={styles.legendColor} style={{ background: '#06b6d4' }}></div>
+                          <div className={styles.legendColor} style={{ background: '#37BACD' }}></div>
                           <span>PPC</span>
                         </div>
                       </div>
@@ -486,7 +469,7 @@ const DigitalMarketing = () => {
                               className={styles.chartBar} 
                               style={{ 
                                 height: `${height * 0.5}%`, 
-                                background: '#ec4899',
+                                background: '#E72D88',
                                 animationDelay: `${index * 0.1}s`
                               }}
                             ></div>
@@ -494,7 +477,7 @@ const DigitalMarketing = () => {
                               className={styles.chartBar} 
                               style={{ 
                                 height: `${height * 0.7}%`, 
-                                background: '#8b5cf6',
+                                background: '#1B7DC2',
                                 animationDelay: `${index * 0.1 + 0.05}s`
                               }}
                             ></div>
@@ -502,7 +485,7 @@ const DigitalMarketing = () => {
                               className={styles.chartBar} 
                               style={{ 
                                 height: `${height}%`, 
-                                background: '#06b6d4',
+                                background: '#37BACD',
                                 animationDelay: `${index * 0.1 + 0.1}s`
                               }}
                             ></div>
@@ -522,190 +505,179 @@ const DigitalMarketing = () => {
                   </div>
                 </div>
               </div>
-              
-              <div className={styles.visualElements}>
-                <div className={styles.visualElement1}></div>
-                <div className={styles.visualElement2}></div>
-                <div className={styles.visualElement3}></div>
-              </div>
             </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Our Process Section */}
+      <div className={styles.processSection} data-section id="process-section">
+        <div className={styles.container}>
+          <div className={styles.sectionHeader}>
+            <span className={styles.sectionTagline}>Our Approach</span>
+            <h2 className={styles.sectionTitle}>
+              How we <span className={styles.highlight}>drive results</span> for your business
+            </h2>
+          </div>
+          
+          <div className={styles.processTimeline}>
+            {processSteps.map((step, index) => (
+              <div 
+                key={index} 
+                className={styles.processStep}
+                style={{
+                  '--step-color': step.color,
+                  '--step-delay': `${index * 0.1 + 0.2}s`
+                }}
+              >
+                <div className={styles.processIconWrapper}>
+                  <step.icon size={24} />
+                </div>
+                <div className={styles.processContent}>
+                  <h3 className={styles.processTitle}>{step.title}</h3>
+                  <p className={styles.processDescription}>{step.description}</p>
+                </div>
+                {index < processSteps.length - 1 && (
+                  <div className={styles.processConnector}></div>
+                )}
+              </div>
+            ))}
           </div>
         </div>
       </div>
       
       {/* Services section */}
-      <div className={styles.servicesSection} ref={servicesRef}>
+      <div className={styles.servicesSection} data-section id="services-section" ref={servicesRef}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
             <span className={styles.sectionTagline}>Our Digital Marketing Services</span>
             <h2 className={styles.sectionTitle}>
               Strategic <span className={styles.highlight}>marketing solutions</span><br />
-              for your business growth
+              that deliver real results
             </h2>
           </div>
           
           <div className={styles.servicesWrapper}>
-            <div className={styles.servicesProgress}>
+            {services.map((service, index) => (
               <div 
-                className={styles.progressBar} 
-                style={{ 
-                  width: `${scrollProgress * 100}%`,
-                  background: services[activeService].gradient
+                key={service.id}
+                className={styles.serviceContainer}
+                style={{
+                  '--service-color': service.color,
+                  '--service-gradient': service.gradient,
+                  '--service-delay': `${index * 0.2}s`
                 }}
-              ></div>
-            </div>
-            
-            <div className={styles.servicesContainer}>
-              {services.map((service, index) => (
-                <div 
-                  key={service.id}
-                  id={`service-${service.id}`}
-                  className={`${styles.serviceCard} ${index === activeService ? styles.serviceCardActive : ''}`}
-                  style={{ 
-                    '--service-color': service.color,
-                    '--service-gradient': service.gradient
-                  }}
-                >
+              >
+                <div className={styles.serviceHeader}>
                   <div className={styles.serviceIconWrapper}>
                     <service.icon size={32} className={styles.serviceIcon} />
                     <div className={styles.serviceIconGlow}></div>
                   </div>
+                  <h3 className={styles.serviceTitle}>{service.title}</h3>
+                </div>
+                
+                <div className={styles.serviceContent}>
+                  <p className={styles.serviceDescription}>{service.description}</p>
                   
-                  <div className={styles.serviceContent}>
-                    <h3 className={styles.serviceTitle}>{service.title}</h3>
-                    <p className={styles.serviceDescription}>{service.description}</p>
-                    
-                    <div className={styles.serviceFeatures}>
-                      {service.features.map((feature, idx) => (
-                        <div key={idx} className={styles.serviceFeature}>
-                          <CheckCircle2 size={16} />
-                          <span>{feature}</span>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className={styles.serviceStats}>
-                      {service.stats.map((stat, idx) => (
-                        <div key={idx} className={styles.serviceStat}>
-                          <div className={styles.serviceStatValue}>{stat.value}</div>
-                          <div className={styles.serviceStatLabel}>{stat.label}</div>
-                        </div>
-                      ))}
-                    </div>
-                    
-                    <div className={styles.serviceAction}>
-                      <a href={`/services/digital-marketing/${service.id}`} className={styles.serviceLink}>
-                        <span>Learn more about {service.title}</span>
-                        <ArrowRight size={16} />
-                      </a>
-                    </div>
+                  <div className={styles.serviceFeatures}>
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className={styles.serviceFeature}>
+                        <CheckCircle2 size={16} />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div className={styles.serviceStats}>
+                    {service.stats.map((stat, idx) => (
+                      <div key={idx} className={styles.serviceStat}>
+                        <div className={styles.serviceStatValue}>{stat.value}</div>
+                        <div className={styles.serviceStatLabel}>{stat.label}</div>
+                      </div>
+                    ))}
                   </div>
                 </div>
-              ))}
-            </div>
+                
+                <div className={styles.serviceCaseStudy}>
+                  <h4 className={styles.caseStudyTitle}>{service.caseStudy.title}</h4>
+                  <p className={styles.caseStudyText}>{service.caseStudy.text}</p>
+                  <div className={styles.caseStudyMetric}>
+                    <div className={styles.caseStudyMetricValue}>{service.caseStudy.metric}</div>
+                    <div className={styles.caseStudyMetricLabel}>{service.caseStudy.metricLabel}</div>
+                  </div>
+                </div>
+                
+                <div className={styles.serviceAction}>
+                  <button className={styles.serviceCta}>
+                    <span>Get started with {service.title}</span>
+                    <ArrowUpRight size={16} />
+                  </button>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
       
       {/* Industries section */}
-<div className={styles.industriesSection}>
-  <div className={styles.container}>
-    <div className={styles.industriesHeader}>
-      <div className={styles.industriesBadge}>
-        <Globe size={16} />
-        <span>Industries We Support</span>
-      </div>
-      <h2 className={styles.industriesTitle}>
-        Tailored digital strategies for <span className={styles.highlightAlt}>every industry</span>
-      </h2>
-      <p className={styles.industriesDescription}>
-        Our digital marketing expertise spans across various sectors, with specialized strategies 
-        designed to meet the unique challenges and opportunities of each industry.
-      </p>
-    </div>
-    
-    {/* Industries Carousel */}
-    <div className={styles.industriesShowcase}>
-      <div className={styles.industriesNav}>
-        {industries.map((industry, index) => (
-          <button
-            key={industry.id}
-            className={`${styles.industryTab} ${activeIndustry === index ? styles.industryTabActive : ''}`}
-            onClick={() => setActiveIndustry(index)}
-            style={{ '--industry-color': industry.color }}
-          >
-            <industry.icon size={18} />
-            <span>{industry.title}</span>
-          </button>
-        ))}
-      </div>
-      
-      <div className={styles.industriesDisplay}>
-        {industries.map((industry, index) => (
-          <div 
-            key={industry.id}
-            className={`${styles.industryPanel} ${activeIndustry === index ? styles.industryPanelActive : ''}`}
-            style={{ '--industry-color': industry.color }}
-          >
-            <div className={styles.industryVisual}>
-              <div className={styles.industryIconLarge}>
-                <industry.icon size={48} />
-                <div className={styles.industryIconGlow}></div>
-              </div>
-              <div className={styles.industryPattern}></div>
+      <div className={styles.industriesSection} data-section id="industries-section">
+        <div className={styles.container}>
+          <div className={styles.industriesHeader}>
+            <div className={styles.industriesBadge}>
+              <Globe size={16} />
+              <span>Industries We Support</span>
             </div>
-            
-            <div className={styles.industryInfo}>
-              <h3 className={styles.industryPanelTitle}>{industry.title}</h3>
-              <p className={styles.industryPanelDescription}>{industry.description}</p>
-              
-              <div className={styles.industryPanelFeatures}>
-                {industry.features.map((feature, idx) => (
-                  <div key={idx} className={styles.industryPanelFeature}>
-                    <CheckCircle2 size={14} />
-                    <span>{feature}</span>
-                  </div>
-                ))}
-              </div>
-              
-              <div className={styles.industryStats}>
-                <div className={styles.industryStat}>
-                  <div className={styles.industryStatValue}>
-                    {index === 0 ? '75%' : index === 1 ? '2.3x' : index === 2 ? '40%' : '87%'}
-                  </div>
-                  <div className={styles.industryStatLabel}>
-                    {index === 0 ? 'increased conversion rates' : 
-                     index === 1 ? 'higher ROI than average' : 
-                     index === 2 ? 'growth in audience reach' : 
-                     'client satisfaction rate'}
-                  </div>
-                </div>
-                <div className={styles.industryStat}>
-                  <div className={styles.industryStatValue}>
-                    {index === 0 ? '50+' : index === 1 ? '125+' : index === 2 ? '60+' : '30+'}
-                  </div>
-                  <div className={styles.industryStatLabel}>
-                    successful projects completed
-                  </div>
-                </div>
-              </div>
-              
-              <div className={styles.industryPanelAction}>
-                <a href={`/industries/${industry.id}`} className={styles.industryPanelLink}>
-                  <span>View {industry.title} case studies</span>
-                  <ArrowRight size={16} />
-                </a>
-              </div>
-            </div>
+            <h2 className={styles.industriesTitle}>
+              Tailored digital strategies for <span className={styles.highlightAlt}>every industry</span>
+            </h2>
+            <p className={styles.industriesDescription}>
+              Our digital marketing expertise spans across various sectors, with specialized strategies 
+              designed to meet the unique challenges and opportunities of each industry.
+            </p>
           </div>
-        ))}
+          
+          <div className={styles.industriesGrid}>
+            {industries.map((industry, index) => (
+              <div 
+                key={industry.id}
+                className={styles.industryCard}
+                style={{
+                  '--industry-color': industry.color,
+                  '--industry-delay': `${index * 0.1}s`
+                }}
+              >
+                <div className={styles.industryHeader}>
+                  <div className={styles.industryIconWrapper}>
+                    <industry.icon size={24} className={styles.industryIcon} />
+                  </div>
+                  <h3 className={styles.industryTitle}>{industry.title}</h3>
+                </div>
+                
+                <p className={styles.industryDescription}>{industry.description}</p>
+                
+                <div className={styles.industryFeatures}>
+                  {industry.features.map((feature, idx) => (
+                    <div key={idx} className={styles.industryFeature}>
+                      <CheckCircle2 size={14} />
+                      <span>{feature}</span>
+                    </div>
+                  ))}
+                </div>
+                
+                <div className={styles.industrySuccess}>
+                  <div className={styles.successIcon}>
+                    <Award size={16} />
+                  </div>
+                  <p>{industry.success}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
-</div>
       
       {/* Benefits section */}
-      <div className={styles.benefitsSection}>
+      <div className={styles.benefitsSection} data-section id="benefits-section">
         <div className={styles.container}>
           <div className={styles.benefitsHeader}>
             <div className={styles.benefitsBadge}>
@@ -722,7 +694,7 @@ const DigitalMarketing = () => {
               <div 
                 key={index} 
                 className={styles.benefitCard}
-                style={{ animationDelay: `${index * 0.1}s` }}
+                style={{ '--benefit-delay': `${index * 0.1}s` }}
               >
                 <div className={styles.benefitIconWrapper}>
                   <benefit.icon size={24} className={styles.benefitIcon} />
@@ -736,7 +708,7 @@ const DigitalMarketing = () => {
       </div>
       
       {/* CTA section */}
-      <div className={styles.ctaSection}>
+      <div className={styles.ctaSection} data-section id="cta-section">
         <div className={styles.container}>
           <div className={styles.ctaCard}>
             <div className={styles.ctaContent}>
@@ -745,22 +717,14 @@ const DigitalMarketing = () => {
                 Let's discuss how our digital marketing expertise can help drive traffic, boost engagement, and increase conversions for your business.
               </p>
               <div className={styles.ctaActions}>
-                <a href="/contact" className={styles.ctaPrimary}>
+                <button className={styles.ctaPrimary}>
                   <span>Get in touch</span>
-                  <ArrowRight size={18} />
-                </a>
-                <a href="/case-studies" className={styles.ctaSecondary}>
-                  <span>View our case studies</span>
-                  <Layers size={18} />
-                </a>
+                  <ArrowUpRight size={18} />
+                </button>
               </div>
             </div>
             
-            <div className={styles.ctaDecoration}>
-              <div className={styles.ctaShape1}></div>
-              <div className={styles.ctaShape2}></div>
-              <div className={styles.ctaShape3}></div>
-            </div>
+            <div className={styles.chevronDecoration}></div>
           </div>
         </div>
       </div>

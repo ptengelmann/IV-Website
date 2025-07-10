@@ -1,5 +1,5 @@
 import React from 'react';
-import { ArrowRight, Mail, Phone, Linkedin, Instagram } from 'lucide-react';
+import { ArrowRight, Mail, Phone, Linkedin, Instagram, MapPin, Star } from 'lucide-react';
 import styles from './Footer.module.scss';
 // Import the logo image
 import logo from '../../assets/logos/logo.png';
@@ -9,6 +9,13 @@ const Footer = () => {
   
   return (
     <footer className={styles.footer}>
+      <div className={styles.footerBackground}>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
+        <div className={styles.gradientOverlay}></div>
+      </div>
+    
+      
       {/* Top section */}
       <div className={styles.topSection}>
         <div className={styles.container}>
@@ -31,6 +38,15 @@ const Footer = () => {
                   <Phone size={18} />
                   <span>+44(0)1529 300452</span>
                 </a>
+                
+                <div className={styles.socialLinks}>
+                  <a href="https://linkedin.com" className={styles.socialLink} aria-label="LinkedIn">
+                    <Linkedin size={20} />
+                  </a>
+                  <a href="https://instagram.com" className={styles.socialLink} aria-label="Instagram">
+                    <Instagram size={20} />
+                  </a>
+                </div>
               </div>
             </div>
             
@@ -40,43 +56,41 @@ const Footer = () => {
                 <h3 className={styles.addressTitle}>Fulfilment & Production Facility</h3>
                 <p className={styles.addressSubtitle}>(Deliveries)</p>
                 <address className={styles.address}>
-                  Unit 18, Sleaford Business Park,<br />
-                  Sleaford, NG34 7EQ
+                  <MapPin size={18} className={styles.addressIcon} />
+                  <span>
+                    Unit 18, Sleaford Business Park,<br />
+                    Sleaford, NG34 7EQ
+                  </span>
                 </address>
               </div>
             </div>
             
             <div className={styles.addressColumn}>
               <div className={styles.addressBlock}>
-                <h3 className={styles.addressTitle}>Head Office:</h3>
+                <h3 className={styles.addressTitle}>Head Office</h3>
                 <p className={styles.addressSubtitle}>(Registered Office Address)</p>
                 <address className={styles.address}>
-                  The Griffin, Main Road. Plumtree,<br />
-                  Nottingham, NG12 5NB
+                  <MapPin size={18} className={styles.addressIcon} />
+                  <span>
+                    The Griffin, Main Road. Plumtree,<br />
+                    Nottingham, NG12 5NB
+                  </span>
                 </address>
               </div>
             </div>
             
-            {/* CTA */}
-            <div className={styles.ctaColumn}>
-              <a href="/contact" className={styles.ctaButton}>
-                Get in touch
-              </a>
+            {/* Quick Links */}
+            <div className={styles.linksColumn}>
+              <h3 className={styles.linksTitle}>Quick Links</h3>
+              <nav className={styles.quickLinks}>
+                <a href="/" className={styles.quickLink}>Home</a>
+                <a href="/about" className={styles.quickLink}>Who We Are</a>
+                <a href="/services" className={styles.quickLink}>What We Do</a>
+                <a href="/portfolio" className={styles.quickLink}>Portfolio</a>
+                <a href="/blog" className={styles.quickLink}>Blog</a>
+              </nav>
             </div>
           </div>
-        </div>
-      </div>
-      
-      {/* Navigation section */}
-      <div className={styles.navSection}>
-        <div className={styles.container}>
-          <nav className={styles.footerNav}>
-            <a href="/" className={styles.footerNavLink}>Home</a>
-            <a href="/about" className={styles.footerNavLink}>Who We Are</a>
-            <a href="/services" className={styles.footerNavLink}>What We Do</a>
-            <a href="/portfolio" className={styles.footerNavLink}>Portfolio</a>
-            <a href="/blog" className={styles.footerNavLink}>Blog</a>
-          </nav>
         </div>
       </div>
       
@@ -92,15 +106,6 @@ const Footer = () => {
               <a href="/terms" className={styles.legalLink}>Terms And Conditions</a>
               <span className={styles.legalSeparator}></span>
               <a href="/privacy" className={styles.legalLink}>Privacy Policy</a>
-            </div>
-            
-            <div className={styles.socialLinks}>
-              <a href="https://linkedin.com" className={styles.socialLink} aria-label="LinkedIn">
-                <Linkedin size={20} />
-              </a>
-              <a href="https://instagram.com" className={styles.socialLink} aria-label="Instagram">
-                <Instagram size={20} />
-              </a>
             </div>
           </div>
         </div>

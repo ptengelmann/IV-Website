@@ -1,15 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   MessageSquare, Briefcase, Send, MapPin, Phone, Mail, 
-  Zap, ArrowRight, ArrowLeft, CheckCircle2, Calendar, Sparkles, 
+  Zap, ArrowRight, ArrowLeft, CheckCircle2, Calendar, Star, 
   ShoppingCart, Target, Paintbrush, Truck, Globe, 
   Users, Award, Shield, ChevronRight, User, DollarSign,
-  ChevronDown, X, ArrowUp
+  ChevronDown, X, ArrowUp, Sparkles
 } from 'lucide-react';
 import styles from './GetInTouch.module.scss';
 
 const GetInTouch = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedApproach, setSelectedApproach] = useState(null);
@@ -34,32 +34,28 @@ const GetInTouch = () => {
       id: 'ecommerce',
       title: 'Ecommerce Development',
       icon: ShoppingCart,
-      color: '#ec4899',
-      gradient: 'linear-gradient(135deg, #ec4899 0%, #d946ef 100%)',
+      color: '#E72D88',
       description: 'High-performance websites, mobile apps, and marketplace integrations to boost your digital presence.'
     },
     {
       id: 'digital-marketing',
       title: 'Digital Marketing',
       icon: Target,
-      color: '#8b5cf6',
-      gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
+      color: '#E72D88',
       description: 'Tailored strategies to boost visibility and drive conversions across digital channels.'
     },
     {
       id: 'design',
       title: 'Design & Production',
       icon: Paintbrush,
-      color: '#06b6d4',
-      gradient: 'linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%)',
+      color: '#1B7DC2',
       description: 'Bringing brands to life with unique designs, merchandise, and bespoke packaging solutions.'
     },
     {
       id: 'operations',
       title: 'Operations & Fulfillment',
       icon: Truck,
-      color: '#10b981',
-      gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
+      color: '#1B7DC2',
       description: 'Optimizing supply chains for efficiency with global distribution and fulfillment solutions.'
     }
   ];
@@ -118,12 +114,12 @@ const GetInTouch = () => {
   
   // Featured clients
   const clients = [
-    { name: 'Coca-Cola', color: '#FF0000' },
+    { name: 'Coca-Cola', color: '#E61A27' },
     { name: 'Renais', color: '#E5DDB2' },
     { name: 'Moonpig', color: '#FF69B4' },
-    { name: 'Who Gives A Crap', color: '#FFFFFF' },
-    { name: 'Diageo', color: '#E91E63' },
-    { name: 'Glenfiddich', color: '#D4B764' },
+    { name: 'Who Gives A Crap', color: '#4BB4E6' },
+    { name: 'Diageo', color: '#004B8D' },
+    { name: 'Glenfiddich', color: '#DFB232' },
     { name: 'Fox & Vamp', color: '#E9A23D' }
   ];
   
@@ -131,7 +127,7 @@ const GetInTouch = () => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setIsVisible(true);
+        setIsLoaded(true);
       }
     }, { threshold: 0.1 });
     
@@ -228,12 +224,12 @@ const GetInTouch = () => {
   
   return (
     <section 
-      className={styles.getInTouch}
+      className={`${styles.getInTouch} ${isLoaded ? styles.loaded : ''}`}
       ref={sectionRef}
-      data-visible={isVisible}
     >
       <div className={styles.sectionBackground}>
-        <div className={styles.gridPattern}></div>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
         <div className={styles.gradientOverlay}></div>
       </div>
       
@@ -243,26 +239,26 @@ const GetInTouch = () => {
           <div className={styles.heroContent}>
             <div className={styles.badgeWrapper}>
               <div className={styles.badge}>
-                <Sparkles size={16} />
+                <Star size={14} />
                 <span>Let's work together</span>
               </div>
             </div>
             
             <h1 className={styles.heroTitle}>
               <div className={styles.titleRow}>
-                <span className={styles.titleText}>Ready to transform your</span>
+                <span className={styles.headlineText}>Ready to transform your</span>
               </div>
               <div className={styles.titleRow}>
-                <span className={styles.titleText}>
-                  <span className={styles.titleTextAccent}>digital presence</span>?
-                </span>
+                <span className={styles.headlineTextPink}>digital presence</span>
+                <span className={styles.headlineText}>?</span>
               </div>
             </h1>
             
-            <div className={styles.heroCopy}>
-              <p>
+            <div className={styles.subheadlineWrapper}>
+              <p className={styles.subheadline}>
                 Whether you have a specific project in mind or just want to explore possibilities,
-                we're here to help turn your vision into reality.
+                we're here to help turn your <span className={styles.emphasisTextPink}>vision</span> into 
+                <span className={styles.emphasisTextPink}> reality</span>.
               </p>
             </div>
           </div>
@@ -279,8 +275,7 @@ const GetInTouch = () => {
                 <div className={styles.infoHeader}>
                   <h2>How can we help?</h2>
                   <p>
-                    From attracting and converting customers to creating and delivering 
-                    products, we provide end-to-end solutions tailored to your needs.
+                    From <span className={styles.emphasisTextPink}>attracting</span> and <span className={styles.emphasisTextPink}>converting</span> customers to <span className={styles.emphasisTextPink}>creating</span> and <span className={styles.emphasisTextPink}>delivering</span> products, we provide end-to-end solutions tailored to your needs.
                   </p>
                 </div>
                 
@@ -450,23 +445,23 @@ const GetInTouch = () => {
                           </div>
                           
                           <div className={styles.optionsToggle}>
-  <button 
-    type="button" 
-    className={styles.optionsToggleButton}
-    onClick={() => {
-      // Check if required fields are filled before proceeding
-      if (formData.name && formData.email && formData.message) {
-        goToNextStep();
-      } else {
-        // You could add validation messaging here
-        alert("Please fill in all required fields before adding more details.");
-      }
-    }}
-  >
-    <span>Add more details (optional)</span>
-    <ChevronDown size={18} />
-  </button>
-</div>  
+                            <button 
+                              type="button" 
+                              className={styles.optionsToggleButton}
+                              onClick={() => {
+                                // Check if required fields are filled before proceeding
+                                if (formData.name && formData.email && formData.message) {
+                                  goToNextStep();
+                                } else {
+                                  // You could add validation messaging here
+                                  alert("Please fill in all required fields before adding more details.");
+                                }
+                              }}
+                            >
+                              <span>Add more details (optional)</span>
+                              <ChevronDown size={18} />
+                            </button>
+                          </div>  
                           
                           <button type="submit" className={styles.submitButton}>
                             <span>Send Message</span>
@@ -589,14 +584,14 @@ const GetInTouch = () => {
                                 className={`${styles.approachCard} ${selectedApproach?.id === approach.id ? styles.selected : ''} ${approach.isPopular ? styles.popular : ''}`}
                                 onClick={() => setSelectedApproach(approach)}
                                 style={{ 
-                                  '--approach-color': approach.tier === 'BASIC' ? '#3b82f6' : 
-                                                      approach.tier === 'GROWTH' ? '#f59e0b' : 
-                                                      '#4b5563'
+                                  '--approach-color': approach.tier === 'BASIC' ? '#1B7DC2' : 
+                                                      approach.tier === 'GROWTH' ? '#E72D88' : 
+                                                      '#4B5563'
                                 }}
                               >
                                 {approach.isPopular && (
                                   <div className={styles.popularBadge}>
-                                    <Sparkles size={14} />
+                                    <Star size={14} />
                                     <span>Most Popular</span>
                                   </div>
                                 )}
@@ -733,7 +728,7 @@ const GetInTouch = () => {
                                 <div 
                                   key={interest} 
                                   className={styles.interestTag}
-                                  style={{ '--interest-color': pillar?.color || '#ec4899' }}
+                                  style={{ '--interest-color': pillar?.color || '#E72D88' }}
                                 >
                                   {pillar ? <pillar.icon size={14} /> : <Zap size={14} />}
                                   <span>{pillar?.title || interest}</span>
@@ -751,8 +746,8 @@ const GetInTouch = () => {
                             <div 
                               className={styles.approachBadge}
                               style={{ 
-                                '--approach-color': selectedApproach.tier === 'BASIC' ? '#3b82f6' : 
-                                                    selectedApproach.tier === 'GROWTH' ? '#f59e0b' : '#4b5563'
+                                '--approach-color': selectedApproach.tier === 'BASIC' ? '#1B7DC2' : 
+                                                    selectedApproach.tier === 'GROWTH' ? '#E72D88' : '#4B5563'
                               }}
                             >
                               {selectedApproach.tier}
@@ -802,7 +797,7 @@ const GetInTouch = () => {
                     </div>
                     
                     <div className={styles.successActions}>
-                      <button 
+                     <button 
                         className={styles.resetButton}
                         onClick={() => {
                           setIsSubmitted(false);
@@ -832,154 +827,160 @@ const GetInTouch = () => {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
+     
+      {/* Process Section */}
+      <div className={styles.processSection}>
+        <div className={styles.container}>
+          <div className={styles.processHeader}>
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Star size={14} />
+                <span>Our approach</span>
               </div>
-         </div>
-       </div>
-     </div>
-     
-     {/* Brands Section */}
-     <div className={styles.brandsSection}>
-       <div className={styles.container}>
-         <div className={styles.clientsHeading}>
-           <Sparkles size={16} />
-           <span>Trusted by brands of all shapes and sizes:</span>
-         </div>
-         
-         <div className={styles.clientLogos}>
-           {clients.map((client, index) => (
-             <div 
-               key={index} 
-               className={styles.clientLogo}
-               style={{ '--client-color': client.color }}
-             >
-               {client.name}
-             </div>
-           ))}
-         </div>
-       </div>
-     </div>
-
-     {/* Process Section */}
-     <div className={styles.processSection}>
-       <div className={styles.container}>
-         <div className={styles.processHeader}>
-           <div className={styles.processBadge}>
-             <Zap size={16} />
-             <span>Our Approach</span>
-           </div>
-           <h2 className={styles.processTitle}>
-             We follow a proven <span className={styles.highlight}>process</span> to deliver results
-           </h2>
-           <p className={styles.processDescription}>
-             Our systematic approach ensures we deliver exceptional outcomes for all of our clients
-           </p>
-         </div>
-         
-         <div className={styles.processStepsHorizontal}>
-           <div className={styles.timelineTrackHorizontal}></div>
-           
-           <div className={styles.stepsGridHorizontal}>
-             <div className={styles.stepHorizontal}>
-               <div className={styles.stepNumber}>1</div>
-               <div className={styles.stepContent}>
-                 <h3>Discovery</h3>
-                 <p>We dive deep to understand your business, goals, and challenges</p>
-               </div>
-             </div>
-             
-             <div className={styles.stepHorizontal}>
-               <div className={styles.stepNumber}>2</div>
-               <div className={styles.stepContent}>
-                 <h3>Strategy</h3>
-                 <p>We develop a tailored strategy to achieve your specific objectives</p>
-               </div>
-             </div>
-             
-             <div className={styles.stepHorizontal}>
-               <div className={styles.stepNumber}>3</div>
-               <div className={styles.stepContent}>
-                 <h3>Creation</h3>
-                 <p>Our team brings your vision to life with expert execution</p>
-               </div>
-             </div>
-             
-             <div className={styles.stepHorizontal}>
-               <div className={styles.stepNumber}>4</div>
-               <div className={styles.stepContent}>
-                 <h3>Launch</h3>
-                 <p>We ensure a smooth deployment and transition to market</p>
-               </div>
-             </div>
-             
-             <div className={styles.stepHorizontal}>
-               <div className={styles.stepNumber}>5</div>
-               <div className={styles.stepContent}>
-                 <h3>Growth</h3>
-                 <p>Continuous optimization and scaling to maximize your success</p>
-               </div>
-             </div>
-           </div>
-         </div>
-       </div>
-     </div>
-     
-     {/* Map Section */}
-     <div className={styles.mapSection}>
-       <div className={styles.container}>
-         <div className={styles.mapWrapper}>
-           <div className={styles.googleMap}>
-             <iframe 
-               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.5598092483874!2d-0.41105932328155073!3d52.99825997935183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4878765d6b4f49c9%3A0x1924ee029f91ed41!2sSleaford%20Business%20Park%2C%20Sleaford%20NG34%207EQ!5e0!3m2!1sen!2suk!4v1688655727945!5m2!1sen!2suk" 
-               width="100%" 
-               height="450" 
-               style={{ border: 0 }} 
-               allowFullScreen="" 
-               loading="lazy" 
-               referrerPolicy="no-referrer-when-downgrade"
-             ></iframe>
-           </div>
-         </div>
-       </div>
-     </div>
-     
-     {/* CTA Section */}
-     <div className={styles.ctaSection}>
-       <div className={styles.container}>
-         <div className={styles.ctaCard}>
-           <div className={styles.ctaContent}>
-             <h2>Ready to get started?</h2>
-             <p>Book a free consultation call with our experts</p>
-             <div className={styles.ctaFeatures}>
-               <div className={styles.ctaFeature}>
-                 <CheckCircle2 size={20} />
-                 <span>No obligation</span>
-               </div>
-               <div className={styles.ctaFeature}>
-                 <CheckCircle2 size={20} />
-                 <span>Tailored advice</span>
-               </div>
-               <div className={styles.ctaFeature}>
-                 <CheckCircle2 size={20} />
-                 <span>Clear next steps</span>
-               </div>
-             </div>
-             <button className={styles.ctaButton}>
-               <Calendar size={18} />
-               <span>Schedule a Call</span>
-               <ChevronRight size={18} />
-             </button>
-           </div>
-           
-           <div className={styles.ctaDecoration}>
-             <div className={styles.ctaShape1}></div>
-             <div className={styles.ctaShape2}></div>
-             <div className={styles.ctaShape3}></div>
-           </div>
-         </div>
-       </div>
-     </div>
-   </section>
- );
+            </div>
+            
+            <h2 className={styles.sectionTitle}>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>We follow a</span>
+                <span className={styles.headlineTextPink}> proven process</span>
+              </div>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>to deliver</span>
+                <span className={styles.headlineTextPink}> results</span>
+              </div>
+            </h2>
+            
+            <div className={styles.subheadlineWrapper}>
+              <p className={styles.subheadline}>
+                Our systematic approach ensures we deliver 
+                <span className={styles.emphasisTextPink}> exceptional outcomes</span> for all of our clients
+              </p>
+            </div>
+          </div>
+          
+          <div className={styles.processStepsHorizontal}>
+            <div className={styles.timelineTrackHorizontal}></div>
+            
+            <div className={styles.stepsGridHorizontal}>
+              <div className={styles.stepHorizontal}>
+                <div className={styles.stepNumber}>1</div>
+                <div className={styles.stepContent}>
+                  <h3>Discovery</h3>
+                  <p>We dive deep to understand your business, goals, and challenges</p>
+                </div>
+              </div>
+              
+              <div className={styles.stepHorizontal}>
+                <div className={styles.stepNumber}>2</div>
+                <div className={styles.stepContent}>
+                  <h3>Strategy</h3>
+                  <p>We develop a tailored strategy to achieve your specific objectives</p>
+                </div>
+              </div>
+              
+              <div className={styles.stepHorizontal}>
+                <div className={styles.stepNumber}>3</div>
+                <div className={styles.stepContent}>
+                  <h3>Creation</h3>
+                  <p>Our team brings your vision to life with expert execution</p>
+                </div>
+              </div>
+              
+              <div className={styles.stepHorizontal}>
+                <div className={styles.stepNumber}>4</div>
+                <div className={styles.stepContent}>
+                  <h3>Launch</h3>
+                  <p>We ensure a smooth deployment and transition to market</p>
+                </div>
+              </div>
+              
+              <div className={styles.stepHorizontal}>
+                <div className={styles.stepNumber}>5</div>
+                <div className={styles.stepContent}>
+                  <h3>Growth</h3>
+                  <p>Continuous optimization and scaling to maximize your success</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* Map Section */}
+      <div className={styles.mapSection}>
+        <div className={styles.container}>
+          <div className={styles.mapWrapper}>
+            <div className={styles.googleMap}>
+              <iframe 
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2403.5598092483874!2d-0.41105932328155073!3d52.99825997935183!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4878765d6b4f49c9%3A0x1924ee029f91ed41!2sSleaford%20Business%20Park%2C%20Sleaford%20NG34%207EQ!5e0!3m2!1sen!2suk!4v1688655727945!5m2!1sen!2suk" 
+                width="100%" 
+                height="450" 
+                style={{ border: 0 }} 
+                allowFullScreen="" 
+                loading="lazy" 
+                referrerPolicy="no-referrer-when-downgrade"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      {/* CTA Section */}
+      <div className={styles.ctaSection}>
+        <div className={styles.container}>
+          <div className={styles.ctaCard}>
+            <div className={styles.ctaContent}>
+              <h2 className={styles.ctaHeading}>
+                <span className={styles.headlineText}>Ready to</span>
+                <span className={styles.headlineTextPink}> get started</span>
+                <span className={styles.headlineText}>?</span>
+              </h2>
+              
+              <p className={styles.ctaDescription}>
+                Book a free consultation call with our experts to discuss your project
+              </p>
+              
+              <div className={styles.ctaFeatures}>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle2 size={20} />
+                  <span>No obligation</span>
+                </div>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle2 size={20} />
+                  <span>Tailored advice</span>
+                </div>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle2 size={20} />
+                  <span>Clear next steps</span>
+                </div>
+              </div>
+              
+              <div className={styles.ctaButtons}>
+                <button className={styles.primaryCta}>
+                  <Calendar size={18} />
+                  <span>Schedule a Call</span>
+                </button>
+                <button className={styles.secondaryCta}>
+                  <span>Learn more</span>
+                  <ArrowRight size={18} />
+                </button>
+              </div>
+            </div>
+            
+            <div className={styles.ctaDecoration}>
+              <div className={styles.decorationElement1}></div>
+              <div className={styles.decorationElement2}></div>
+              <div className={styles.decorationElement3}></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
 };
 
 export default GetInTouch;

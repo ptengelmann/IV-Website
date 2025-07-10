@@ -1,60 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   ShoppingBag, Zap, ArrowRight, CheckCircle2, 
-  MoveRight, Box, Layers, BarChart3, 
-  Smartphone, LayoutGrid, Share2, Search,
-  ShoppingCart, Paintbrush, Printer, MessageSquare,
-  TrendingUp, Truck, Package, RotateCcw, Globe,
-  Code, Target, Users, PenTool, Phone
+  TrendingUp, Sparkles, MoveRight, 
+  ArrowUpRight, Star, Box, Layers,
+  ShoppingCart, Globe, Monitor, Smartphone, 
+  Users, BarChart3, Heart, Rocket,
+  Target, Search, Share2, MessageSquare,
+  Paintbrush, Printer, PenTool, Truck,
+  Package, RotateCcw, Phone
 } from 'lucide-react';
 import styles from './WhatWeDo.module.scss';
 
 const WhatWeDo = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [activePillar, setActivePillar] = useState(0);
   const [isAutoScrolling, setIsAutoScrolling] = useState(true);
   const sectionRef = useRef(null);
   const timelineRef = useRef(null);
   
-  // Core pillars data
+  // Core pillars data - matching hero section naming and structure
   const pillars = [
     {
-      id: 'ecommerce',
-      title: 'Ecommerce Development',
-      icon: ShoppingCart,
-      color: '#ec4899',
-      gradient: 'linear-gradient(135deg, #ec4899 0%, #d946ef 100%)',
-      description: 'High-performance websites, mobile apps, and marketplace integrations to boost your digital presence.',
-      features: [
-        { 
-          icon: Globe, 
-          title: 'Custom Websites',
-          description: 'Bespoke ecommerce solutions built for conversion and customer experience'
-        },
-        { 
-          icon: Smartphone, 
-          title: 'Mobile Applications',
-          description: 'Native and progressive web apps that drive engagement and sales'
-        },
-        { 
-          icon: LayoutGrid, 
-          title: 'Marketplace Integration',
-          description: 'TikTok Shop, Amazon, and Tesco Marketplace setup and management'
-        },
-        { 
-          icon: Code, 
-          title: 'Platform Development',
-          description: 'Scalable solutions with cutting-edge technology and seamless UX'
-        }
-      ]
-    },
-    {
-      id: 'digital-marketing',
+      id: 'digital',
       title: 'Digital Marketing',
-      icon: Target,
-      color: '#8b5cf6',
-      gradient: 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)',
-      description: 'Tailored strategies to boost visibility and drive conversions across digital channels.',
+      icon: Zap,
+      color: '#E72D88',
+      description: 'Attract new customers through targeted digital campaigns',
       features: [
         { 
           icon: Search, 
@@ -79,12 +50,40 @@ const WhatWeDo = () => {
       ]
     },
     {
+      id: 'ecommerce',
+      title: 'E-commerce',
+      icon: ShoppingBag,
+      color: '#E72D88',
+      description: 'Convert through multichannel e-commerce solutions',
+      features: [
+        { 
+          icon: Globe, 
+          title: 'Custom Websites',
+          description: 'Bespoke ecommerce solutions built for conversion and experience'
+        },
+        { 
+          icon: Smartphone, 
+          title: 'Mobile Applications',
+          description: 'Native and progressive web apps that drive engagement and sales'
+        },
+        { 
+          icon: ShoppingCart, 
+          title: 'Marketplace Integration',
+          description: 'TikTok Shop, Amazon, and Tesco Marketplace setup and management'
+        },
+        { 
+          icon: Star, 
+          title: 'Platform Development',
+          description: 'Scalable solutions with cutting-edge technology and seamless UX'
+        }
+      ]
+    },
+    {
       id: 'design',
       title: 'Design & Production',
-      icon: Paintbrush,
-      color: '#06b6d4',
-      gradient: 'linear-gradient(135deg, #06b6d4 0%, #0ea5e9 100%)',
-      description: 'Bringing brands to life with unique designs, merchandise, and bespoke packaging solutions.',
+      icon: Layers,
+      color: '#1B7DC2',
+      description: 'Create innovative products and brand experiences',
       features: [
         { 
           icon: PenTool, 
@@ -110,11 +109,10 @@ const WhatWeDo = () => {
     },
     {
       id: 'operations',
-      title: 'Operations & Fulfillment',
-      icon: Truck,
-      color: '#10b981',
-      gradient: 'linear-gradient(135deg, #10b981 0%, #34d399 100%)',
-      description: 'Optimizing supply chains for efficiency with global distribution and fulfillment solutions.',
+      title: 'Operations',
+      icon: Box,
+      color: '#1B7DC2',
+      description: 'Fulfill and ship products with maximum efficiency',
       features: [
         { 
           icon: Package, 
@@ -144,7 +142,7 @@ const WhatWeDo = () => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setIsVisible(true);
+        setIsLoaded(true);
       }
     }, { threshold: 0.1 });
     
@@ -205,23 +203,40 @@ const WhatWeDo = () => {
   
   return (
     <section 
-      className={`${styles.whatWeDo} ${isVisible ? styles.visible : ''}`}
+      className={`${styles.whatWeDo} ${isLoaded ? styles.loaded : ''}`}
       ref={sectionRef}
     >
       <div className={styles.sectionBackground}>
-        <div className={styles.gridPattern}></div>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
         <div className={styles.gradientOverlay}></div>
       </div>
       
       <div className={styles.container}>
         <div className={styles.sectionHeader}>
-          <span className={styles.sectionTagline}>Our Services</span>
+          <div className={styles.badgeWrapper}>
+            <div className={styles.badge}>
+              <Star size={14} />
+              <span>Our core services</span>
+            </div>
+          </div>
+          
           <h2 className={styles.sectionTitle}>
-            Let's break down our <span className={styles.highlight}>core pillars</span>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineText}>Let's break down our</span>
+            </div>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineTextPink}>four integrated pillars</span>
+            </div>
           </h2>
-          <p className={styles.sectionDescription}>
-            Our approach is centered around four integrated pillars, ensuring a seamless end-to-end experience that takes your brand from initial strategy to market success.
-          </p>
+          
+          <div className={styles.subheadlineWrapper}>
+            <p className={styles.subheadline}>
+              Our approach is centered around four integrated pillars, ensuring a 
+              <span className={styles.emphasisTextPink}> seamless end-to-end experience</span> that takes your brand from 
+              <span className={styles.emphasisTextPink}> initial strategy to market success</span>.
+            </p>
+          </div>
         </div>
         
         {/* Interactive timeline */}
@@ -231,7 +246,7 @@ const WhatWeDo = () => {
               className={styles.timelineProgress} 
               style={{ 
                 width: `${(activePillar / (pillars.length - 1)) * 100}%`,
-                background: pillars[activePillar].gradient
+                background: pillars[activePillar].color
               }}
             ></div>
             
@@ -268,8 +283,7 @@ const WhatWeDo = () => {
               key={pillar.id}
               className={`${styles.pillarDetail} ${index === activePillar ? styles.pillarDetailActive : ''}`}
               style={{ 
-                '--pillar-color': pillar.color,
-                '--pillar-gradient': pillar.gradient
+                '--pillar-color': pillar.color
               }}
             >
               <div className={styles.pillarContent}>
@@ -316,7 +330,7 @@ const WhatWeDo = () => {
               <div className={styles.pillarVisualization}>
                 <div 
                   className={styles.pillarVisualBg}
-                  style={{ background: pillar.gradient }}
+                  style={{ background: `linear-gradient(135deg, ${pillar.color} 0%, ${pillar.color}99 100%)` }}
                 ></div>
                 
                 {/* Custom visualization for each pillar */}
@@ -347,7 +361,7 @@ const WhatWeDo = () => {
                     </div>
                   )}
                   
-                  {pillar.id === 'digital-marketing' && (
+                  {pillar.id === 'digital' && (
                     <div className={styles.marketingVisual}>
                       <div className={styles.analyticsGraph}>
                         <div className={styles.graphBars}>
@@ -413,20 +427,37 @@ const WhatWeDo = () => {
         </div>
         
         {/* Section footer with CTA */}
+        <div className={styles.statsSection}>
+          <div className={styles.statsGroup}>
+            <div className={styles.stat}>
+              <div className={styles.statValue}>100+</div>
+              <div className={styles.statLabel}>projects executed monthly</div>
+            </div>
+            <div className={styles.stat}>
+              <div className={styles.statValue}>4.9/5</div>
+              <div className={styles.statLabel}>client satisfaction</div>
+            </div>
+            <div className={styles.stat}>
+              <div className={styles.statValue}>24/7</div>
+              <div className={styles.statLabel}>support available</div>
+            </div>
+          </div>
+        </div>
+        
         <div className={styles.sectionFooter}>
           <p className={styles.footerText}>
             Our four pillars work seamlessly together to provide a truly end-to-end solution, 
-            from attracting and converting customers to creating and delivering products.
+            from <span className={styles.emphasisTextPink}>attracting</span> and <span className={styles.emphasisTextPink}>converting</span> customers to <span className={styles.emphasisTextPink}>creating</span> and <span className={styles.emphasisTextPink}>delivering</span> products.
           </p>
-          <div className={styles.ctaButtons}>
-            <a href="/services" className={styles.ctaButton}>
+          <div className={styles.ctaGroup}>
+            <button className={styles.primaryCta}>
               <span>Explore All Services</span>
-              <ArrowRight size={18} />
-            </a>
-            <a href="/contact" className={styles.ctaButtonSecondary}>
+              <ArrowUpRight size={18} />
+            </button>
+            <button className={styles.secondaryCta}>
               <Phone size={18} />
-              <span>Get In Touch</span>
-            </a>
+              <span>Get in Touch</span>
+            </button>
           </div>
         </div>
       </div>

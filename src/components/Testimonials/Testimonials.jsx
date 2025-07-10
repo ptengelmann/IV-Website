@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowLeft, ArrowRight } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Star } from 'lucide-react';
 import styles from './Testimonials.module.scss';
 
 const Testimonials = () => {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const sectionRef = useRef(null);
   const autoPlayRef = useRef(null);
 
@@ -48,12 +48,12 @@ const Testimonials = () => {
   useEffect(() => {
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setIsVisible(true);
+        setIsLoaded(true);
         startAutoPlay();
       } else {
         stopAutoPlay();
       }
-    }, { threshold: 0.2 });
+    }, { threshold: 0.1 });
     
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
@@ -99,33 +99,59 @@ const Testimonials = () => {
 
   return (
     <section 
-      className={`${styles.testimonialsSection} ${isVisible ? styles.visible : ''}`}
+      className={`${styles.testimonialsSection} ${isLoaded ? styles.loaded : ''}`}
       ref={sectionRef}
     >
+      <div className={styles.sectionBackground}>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
+        <div className={styles.gradientOverlay}></div>
+      </div>
+      
       <div className={styles.container}>
-        <div className={styles.sectionIntro}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Testimonials</h2>
-            <h3 className={styles.sectionSubtitle}>
-              What our <span className={styles.highlight}>clients</span> say
-            </h3>
+        <div className={styles.sectionHeader}>
+          <div className={styles.badgeWrapper}>
+            <div className={styles.badge}>
+              <Star size={14} />
+              <span>Client success stories</span>
+            </div>
           </div>
           
-          <div className={styles.navigation}>
-            <button 
-              className={styles.navButton} 
-              onClick={handlePrev}
-              aria-label="Previous testimonial"
-            >
-              <ArrowLeft size={18} />
-            </button>
-            <button 
-              className={styles.navButton} 
-              onClick={handleNext}
-              aria-label="Next testimonial"
-            >
-              <ArrowRight size={18} />
-            </button>
+          <h2 className={styles.sectionTitle}>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineText}>What our</span>
+              <span className={styles.headlineTextPink}>clients</span>
+            </div>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineText}>say about us</span>
+            </div>
+          </h2>
+          
+          <div className={styles.subheadlineWrapper}>
+            <p className={styles.subheadline}>
+              Don't just take our word for it. See what our clients have to say about their
+              <span className={styles.emphasisTextPink}> experiences</span> and 
+              <span className={styles.emphasisTextPink}> results</span> working with us.
+            </p>
+          </div>
+          
+          <div className={styles.navigationWrapper}>
+            <div className={styles.navigation}>
+              <button 
+                className={styles.navButton} 
+                onClick={handlePrev}
+                aria-label="Previous testimonial"
+              >
+                <ArrowLeft size={18} />
+              </button>
+              <button 
+                className={styles.navButton} 
+                onClick={handleNext}
+                aria-label="Next testimonial"
+              >
+                <ArrowRight size={18} />
+              </button>
+            </div>
           </div>
         </div>
         
@@ -175,6 +201,11 @@ const Testimonials = () => {
                 className={`${styles.indicator} ${index === activeIndex ? styles.active : ''}`}
                 onClick={() => goToSlide(index)}
                 aria-label={`Go to testimonial ${index + 1}`}
+                style={{
+                  background: index === activeIndex ? 
+                    `linear-gradient(to right, ${testimonials[activeIndex].color}, ${testimonials[activeIndex].color}99)` : 
+                    'rgba(255, 255, 255, 0.2)'
+                }}
               />
             ))}
           </div>

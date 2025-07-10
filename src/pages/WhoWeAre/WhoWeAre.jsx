@@ -11,10 +11,10 @@ import {
 import styles from './WhoWeAre.module.scss';
 
 // Import the banner image
-import BannerImage from '../../assets/banner-image.jpg'; // Update this path to match your image location
+import BannerImage from '../../assets/banner-image.jpg';
 
 const WhoWeAre = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [activeSection, setActiveSection] = useState('story');
   const [activeRegion, setActiveRegion] = useState('uk');
   const [animatedTitle, setAnimatedTitle] = useState(false);
@@ -33,7 +33,7 @@ const WhoWeAre = () => {
       title: "The Beginning",
       description: "Founded as Intervino, focusing on storage and distribution for retail brands.",
       icon: Building,
-      color: "#ec4899",
+      color: "#E72D88",
       achievements: ["Company founded", "First warehouse established", "Initial team of 5 employees"]
     },
     {
@@ -41,7 +41,7 @@ const WhoWeAre = () => {
       title: "Digital Expansion",
       description: "Expanded into print and packaging solutions as DPS Digital, serving major UK brands.",
       icon: Briefcase,
-      color: "#8b5cf6",
+      color: "#E72D88",
       achievements: ["Rebranded as DPS Digital", "Added print production", "Doubled workforce"]
     },
     {
@@ -49,7 +49,7 @@ const WhoWeAre = () => {
       title: "Full-Service Transition",
       description: "Evolved into IV Creative, adding digital marketing and ecommerce development.",
       icon: Award,
-      color: "#06b6d4",
+      color: "#1B7DC2",
       achievements: ["Rebranded as IV Creative", "Digital marketing", "Ecommerce development"]
     },
     {
@@ -57,7 +57,7 @@ const WhoWeAre = () => {
       title: "Global Growth",
       description: "Became a fully integrated agency with global reach, supporting major international brands.",
       icon: Globe,
-      color: "#10b981",
+      color: "#1B7DC2",
       achievements: ["Global expansion", "Enterprise clients", "Full-service agency"]
     }
   ];
@@ -69,7 +69,7 @@ const WhoWeAre = () => {
       name: "United Kingdom",
       icon: MapPin,
       position: { x: 49, y: 42 },
-      color: "#ec4899",
+      color: "#E72D88",
       isHQ: true,
       stats: {
         capacity: "50,000 sq ft",
@@ -84,7 +84,7 @@ const WhoWeAre = () => {
       name: "Europe",
       icon: Globe,
       position: { x: 54, y: 45 },
-      color: "#8b5cf6",
+      color: "#E72D88",
       stats: {
         capacity: "35,000 sq ft",
         orders: "5,000+ daily",
@@ -98,7 +98,7 @@ const WhoWeAre = () => {
       name: "North America",
       icon: Compass,
       position: { x: 23, y: 45 },
-      color: "#06b6d4",
+      color: "#1B7DC2",
       stats: {
         capacity: "42,000 sq ft",
         orders: "7,500+ daily",
@@ -112,7 +112,7 @@ const WhoWeAre = () => {
       name: "Asia Pacific",
       icon: Navigation,
       position: { x: 75, y: 53 },
-      color: "#10b981",
+      color: "#1B7DC2",
       stats: {
         capacity: "28,000 sq ft",
         orders: "4,000+ daily",
@@ -131,7 +131,7 @@ const WhoWeAre = () => {
 
     const observer = new IntersectionObserver((entries) => {
       if (entries[0].isIntersecting) {
-        setIsVisible(true);
+        setIsLoaded(true);
       }
     }, { threshold: 0.1 });
     
@@ -212,15 +212,15 @@ const WhoWeAre = () => {
 
   return (
     <section 
-      className={`${styles.whoWeAre} ${isVisible ? styles.visible : ''}`} 
+      className={`${styles.whoWeAre} ${isLoaded ? styles.loaded : ''}`} 
       ref={sectionRef}
     >
       {/* Background elements */}
       <div className={styles.sectionBackground}>
-        <div className={styles.gridPattern}></div>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
         <div className={styles.gradientOverlay}></div>
       </div>
-    
       
       {/* Hero Section with Banner Image */}
       <div className={styles.heroSection}>
@@ -232,21 +232,23 @@ const WhoWeAre = () => {
           <div className={styles.heroContent}>
             <div className={styles.badgeWrapper}>
               <div className={styles.badge}>
-                <Sparkles size={16} />
+                <Star size={14} />
                 <span>Our story since 2005</span>
               </div>
             </div>
             
             <h1 className={styles.heroTitle} ref={titleRef}>
               <div className={styles.titleRow}>
-                <span className={`${styles.titleText} ${animatedTitle ? styles.animated : ''}`}>
-                  Who <span className={styles.highlight}>We</span> Are
-                </span>
+                <span className={styles.headlineText}>Who</span>
+                <span className={styles.headlineTextPink}> We </span>
+                <span className={styles.headlineText}>Are</span>
               </div>
             </h1>
             
-            <div className={styles.heroDescription}>
-              <p>Formerly Intervino and DPS Digital, and established nearly two decades ago, we've delivered thousands of projects for retailers and brands. Our unique approach creates bespoke direct-to-consumer offerings regardless of brand shape, size, or sector.</p>
+            <div className={styles.subheadlineWrapper}>
+              <p className={styles.subheadline}>
+                Formerly Intervino and DPS Digital, and established nearly two decades ago, we've delivered thousands of projects for retailers and brands. Our unique approach creates bespoke <span className={styles.emphasisTextPink}>direct-to-consumer</span> offerings regardless of brand shape, size, or sector.
+              </p>
             </div>
             
             <div className={styles.scrollDownPrompt}>
@@ -263,12 +265,19 @@ const WhoWeAre = () => {
       <div className={styles.storySection} id="story" ref={storyRef}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.chapterIndicator}>
-              <span className={styles.chapterNumber}>01</span>
-              <Hash size={18} />
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Star size={14} />
+                <span>01</span>
+              </div>
             </div>
-            <h2>Our Story</h2>
-            <div className={styles.headerLine}></div>
+            
+            <h2 className={styles.sectionTitle}>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>Our</span>
+                <span className={styles.headlineTextPink}> Story</span>
+              </div>
+            </h2>
           </div>
           
           <div className={styles.storyContent}>
@@ -276,9 +285,9 @@ const WhoWeAre = () => {
               <p className={styles.narrativeIntro}>For over 15 years, IV Creative has supported global household brand names, transforming from a simple storage solution into a comprehensive creative powerhouse.</p>
               
               <div className={styles.narrativeBlock}>
-                <p>Initially focused on storage and distribution, we've evolved into a full-service agency specialising in e-commerce, print, personalisation, packaging, and branded gifting. Our journey has been one of constant innovation and growth, always driven by our clients' evolving needs.</p>
+                <p>Initially focused on storage and distribution, we've evolved into a full-service agency specialising in <span className={styles.emphasisTextPink}>e-commerce</span>, print, personalisation, packaging, and branded gifting. Our journey has been one of constant innovation and growth, always driven by our clients' evolving needs.</p>
                 
-                <p>With our specialist team of creatives and technical experts, we take your project from concept, to reality, to result. And with our trusted suppliers, we offer a comprehensive portfolio that supports clients in launching, managing, and expanding their online businesses across the world.</p>
+                <p>With our specialist team of creatives and technical experts, we take your project from <span className={styles.emphasisTextPink}>concept</span>, to <span className={styles.emphasisTextPink}>reality</span>, to <span className={styles.emphasisTextPink}>result</span>. And with our trusted suppliers, we offer a comprehensive portfolio that supports clients in launching, managing, and expanding their online businesses across the world.</p>
               </div>
               
               <div className={styles.narrativeQuote}>
@@ -307,24 +316,24 @@ const WhoWeAre = () => {
               
               <div className={styles.brandsSection}>
                 <div className={styles.brandsHeading}>
-                  <Sparkles size={16} />
+                  <Star size={14} />
                   <span>Trusted by brands worldwide:</span>
                 </div>
                 
                 <div className={styles.brandLogos}>
                   {[
-                    { name: 'Coca-Cola', color: '#FF0000' },
+                    { name: 'Coca-Cola', color: '#E61A27' },
                     { name: 'Renais', color: '#E5DDB2' },
                     { name: 'Moonpig', color: '#FF69B4' },
-                    { name: 'Who Gives A Crap', color: '#FFFFFF' },
-                    { name: 'Diageo', color: '#E91E63' },
+                    { name: 'Who Gives A Crap', color: '#4BB4E6' },
+                    { name: 'Diageo', color: '#004B8D' },
                     { name: 'Glenfiddich', color: '#D4B764' },
                     { name: 'Fox & Vamp', color: '#E9A23D' }
                   ].map((brand, index) => (
                     <div 
                       key={index} 
                       className={styles.brandLogo}
-                      style={{ '--brand-color': brand.color }}
+                      style={{ '--client-color': brand.color }}
                     >
                       {brand.name}
                     </div>
@@ -336,133 +345,142 @@ const WhoWeAre = () => {
         </div>
       </div>
       
-      {/* Our Journey Section - FIXED HEADER */}
+      {/* Our Journey Section */}
       <div className={styles.journeySection} id="journey" ref={journeyRef}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.chapterIndicator}>
-              <span className={styles.chapterNumber}>02</span>
-              <Hash size={18} />
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Star size={14} />
+                <span>02</span>
+              </div>
             </div>
-            <h2>Our Journey</h2>
-            <div className={styles.headerLine}></div>
+            
+            <h2 className={styles.sectionTitle}>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>Our</span>
+                <span className={styles.headlineTextPink}> Journey</span>
+              </div>
+            </h2>
           </div>
           
           <div className={styles.journeyIntro}>
-            <p>Our evolution over the years reflects our commitment to innovation and excellence. Each chapter in our story has brought new capabilities and deeper expertise.</p>
+            <p>Our <span className={styles.emphasisTextPink}>evolution</span> over the years reflects our commitment to <span className={styles.emphasisTextPink}>innovation</span> and <span className={styles.emphasisTextPink}>excellence</span>. Each chapter in our story has brought new capabilities and deeper expertise.</p>
           </div>
           
-          <div className={styles.journeyTimeline}>
-            <div className={styles.timelineLine}>
-              <div className={styles.timelineProgress}></div>
-            </div>
-            
-            {/* Timeline Points (Year Badges) */}
-            <div className={styles.timelinePoint} style={{ top: '0%' }}>
-              <div className={styles.yearBadge} style={{ backgroundColor: '#ec4899' }}>
-                <Building size={18} />
-                <span>2005</span>
-              </div>
-            </div>
-            
-            <div className={styles.timelinePoint} style={{ top: '33%' }}>
-              <div className={styles.yearBadge} style={{ backgroundColor: '#8b5cf6' }}>
-                <Briefcase size={18} />
-                <span>2010</span>
-              </div>
-            </div>
-            
-            <div className={styles.timelinePoint} style={{ top: '66%' }}>
-              <div className={styles.yearBadge} style={{ backgroundColor: '#06b6d4' }}>
-                <Award size={18} />
-                <span>2015</span>
-              </div>
-            </div>
-            
-            <div className={styles.timelinePoint} style={{ top: '90%' }}>
-              <div className={styles.yearBadge} style={{ backgroundColor: '#10b981' }}>
-                <Globe size={18} />
-                <span>2020</span>
-              </div>
-            </div>
-            
-            {/* Timeline Cards - Adjusted positions to prevent overlap */}
-            <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '0%' }}>
-              <h3>The Beginning</h3>
-              <p>Founded as Intervino, focusing on storage and distribution for retail brands.</p>
-              <div className={styles.cardAchievements}>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Company founded</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>First warehouse established</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Initial team of 5 employees</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '33%' }}>
-              <h3>Digital Expansion</h3>
-              <p>Expanded into print and packaging solutions as DPS Digital, serving major UK brands.</p>
-              <div className={styles.cardAchievements}>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Rebranded as DPS Digital</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Added print production</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Doubled workforce</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '66%' }}>
-              <h3>Full-Service Transition</h3>
-              <p>Evolved into IV Creative, adding digital marketing and ecommerce development.</p>
-              <div className={styles.cardAchievements}>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Rebranded as IV Creative</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Digital marketing</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Ecommerce development</span>
-                </div>
-              </div>
-            </div>
-            
-            <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '90%' }}>
-              <h3>Global Growth</h3>
-              <p>Became a fully integrated agency with global reach, supporting major international brands.</p>
-              <div className={styles.cardAchievements}>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Global expansion</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Enterprise clients</span>
-                </div>
-                <div className={styles.achievementTag}>
-                  <CheckCircle size={14} />
-                  <span>Full-service agency</span>
-                </div>
-              </div>
-            </div>
-          </div>
+          // Update to the journeyTimeline section in the WhoWeAre component
+
+<div className={styles.journeyTimeline}>
+  <div className={styles.timelineLine}>
+    <div className={styles.timelineProgress}></div>
+  </div>
+  
+  {/* Timeline Points (Year Badges) */}
+  <div className={styles.timelinePoint} style={{ top: '5%' }}>
+    <div className={styles.yearBadge} style={{ backgroundColor: '#E72D88' }}>
+      <Building size={18} />
+      <span>2005</span>
+    </div>
+  </div>
+  
+  <div className={styles.timelinePoint} style={{ top: '30%' }}>
+    <div className={styles.yearBadge} style={{ backgroundColor: '#E72D88' }}>
+      <Briefcase size={18} />
+      <span>2010</span>
+    </div>
+  </div>
+  
+  <div className={styles.timelinePoint} style={{ top: '55%' }}>
+    <div className={styles.yearBadge} style={{ backgroundColor: '#1B7DC2' }}>
+      <Award size={18} />
+      <span>2015</span>
+    </div>
+  </div>
+  
+  <div className={styles.timelinePoint} style={{ top: '80%' }}>
+    <div className={styles.yearBadge} style={{ backgroundColor: '#1B7DC2' }}>
+      <Globe size={18} />
+      <span>2020</span>
+    </div>
+  </div>
+  
+  {/* Timeline Cards - Fixed positions to prevent overlap */}
+  <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '0%' }}>
+    <h3>The Beginning</h3>
+    <p>Founded as Intervino, focusing on storage and distribution for retail brands.</p>
+    <div className={styles.cardAchievements}>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Company founded</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>First warehouse established</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Initial team of 5 employees</span>
+      </div>
+    </div>
+  </div>
+  
+  <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '25%' }}>
+    <h3>Digital Expansion</h3>
+    <p>Expanded into print and packaging solutions as DPS Digital, serving major UK brands.</p>
+    <div className={styles.cardAchievements}>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Rebranded as DPS Digital</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Added print production</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Doubled workforce</span>
+      </div>
+    </div>
+  </div>
+  
+  <div className={`${styles.timelineCard} ${styles.cardLeft}`} style={{ top: '50%' }}>
+    <h3>Full-Service Transition</h3>
+    <p>Evolved into IV Creative, adding digital marketing and ecommerce development.</p>
+    <div className={styles.cardAchievements}>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Rebranded as IV Creative</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Digital marketing</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Ecommerce development</span>
+      </div>
+    </div>
+  </div>
+  
+  <div className={`${styles.timelineCard} ${styles.cardRight}`} style={{ top: '75%' }}>
+    <h3>Global Growth</h3>
+    <p>Became a fully integrated agency with global reach, supporting major international brands.</p>
+    <div className={styles.cardAchievements}>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Global expansion</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Enterprise clients</span>
+      </div>
+      <div className={styles.achievementTag}>
+        <CheckCircle size={14} />
+        <span>Full-service agency</span>
+      </div>
+    </div>
+  </div>
+</div>
         </div>
         
         {/* Where We Are Today - Moved outside timeline to prevent overlap */}
@@ -474,20 +492,27 @@ const WhoWeAre = () => {
         </div>
       </div>
       
-      {/* Our Team Section - Overview Only */}
+      {/* Our Team Section */}
       <div className={styles.teamSection} id="team" ref={teamRef}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.chapterIndicator}>
-              <span className={styles.chapterNumber}>03</span>
-              <Hash size={18} />
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Star size={14} />
+                <span>03</span>
+              </div>
             </div>
-            <h2>Our Team</h2>
-            <div className={styles.headerLine}></div>
+            
+            <h2 className={styles.sectionTitle}>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>Our</span>
+                <span className={styles.headlineTextPink}> Team</span>
+              </div>
+            </h2>
           </div>
           
           <div className={styles.teamIntro}>
-            <p>Our success is built on the talent, passion, and expertise of our diverse team of specialists.</p>
+            <p>Our success is built on the <span className={styles.emphasisTextPink}>talent</span>, <span className={styles.emphasisTextPink}>passion</span>, and <span className={styles.emphasisTextPink}>expertise</span> of our diverse team of specialists.</p>
           </div>
           
           <div className={styles.teamContent}>
@@ -496,7 +521,7 @@ const WhoWeAre = () => {
               
               <p>What sets our team apart is how we work together and with our clients. We believe in true collaboration, bringing together diverse perspectives and expertise to deliver exceptional results. From strategy to execution, we're committed to excellence at every step of the journey.</p>
               
-              <div className={styles.teamQuote}>
+              <div className={styles.narrativeQuote}>
                 <p>"Great things in business are never done by one person; they're done by a team of people."</p>
               </div>
               
@@ -520,16 +545,17 @@ const WhoWeAre = () => {
             </div>
           </div>
           
-          <div className={styles.joinTeam}>
-            <div className={styles.joinContent}>
-              <h3>Join Our Team</h3>
-              <p>IV Creative is continually on the lookout for fresh talent to join our vibrant team. As we expand and take on new challenges, we're eager to welcome individuals who bring creativity, innovation, and a passion for excellence.</p>
-              <a href="/careers" className={styles.joinButton}>
-                <span>View Open Positions</span>
-                <ArrowRight size={16} />
-              </a>
-            </div>
-          </div>
+          // Update the Join Team section in the WhoWeAre component JSX
+<div className={styles.joinTeam}>
+  <div className={styles.joinContent}>
+    <h3>Join Our Team</h3>
+    <p>IV Creative is continually on the lookout for fresh talent to join our vibrant team. As we expand and take on new challenges, we're eager to welcome individuals who bring creativity, innovation, and a passion for excellence.</p>
+    <a href="/careers" className={styles.primaryCta}>
+      <span>View Open Positions</span>
+      <ArrowRight size={16} />
+    </a>
+  </div>
+</div>
         </div>
       </div>
       
@@ -537,12 +563,19 @@ const WhoWeAre = () => {
       <div className={styles.globalSection} id="global" ref={globalRef}>
         <div className={styles.container}>
           <div className={styles.sectionHeader}>
-            <div className={styles.chapterIndicator}>
-              <span className={styles.chapterNumber}>04</span>
-              <Hash size={18} />
+            <div className={styles.badgeWrapper}>
+              <div className={styles.badge}>
+                <Star size={14} />
+                <span>04</span>
+              </div>
             </div>
-            <h2>Global Reach, Local Expertise</h2>
-            <div className={styles.headerLine}></div>
+            
+            <h2 className={styles.sectionTitle}>
+              <div className={styles.headlineRow}>
+                <span className={styles.headlineText}>Global Reach,</span>
+                <span className={styles.headlineTextPink}> Local Expertise</span>
+              </div>
+            </h2>
           </div>
           
           <div className={styles.globalIntro}>
@@ -606,33 +639,50 @@ const WhoWeAre = () => {
       {/* CTA Section */}
       <div className={styles.ctaSection}>
         <div className={styles.container}>
-          <div className={styles.ctaContent}>
-            <h2>Ready to turn your ideas into results?</h2>
-            <p>Let's work together to bring your vision to life.</p>
-            <div className={styles.ctaFeatures}>
-              <div className={styles.ctaFeature}>
-                <CheckCircle size={20} />
-                <span>End-to-end solutions</span>
+          <div className={styles.ctaCard}>
+            <div className={styles.ctaContent}>
+              <h2 className={styles.ctaHeading}>
+                <span className={styles.headlineText}>Ready to turn your</span>
+                <span className={styles.headlineTextPink}> ideas </span>
+                <span className={styles.headlineText}>into results?</span>
+              </h2>
+              
+              <p className={styles.ctaDescription}>
+                Let's work together to bring your vision to life
+              </p>
+              
+              <div className={styles.ctaFeatures}>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle size={20} />
+                  <span>End-to-end solutions</span>
+                </div>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle size={20} />
+                  <span>Global capability</span>
+                </div>
+                <div className={styles.ctaFeature}>
+                  <CheckCircle size={20} />
+                  <span>Expert team</span>
+                </div>
               </div>
-              <div className={styles.ctaFeature}>
-                <CheckCircle size={20} />
-                <span>Global capability</span>
-              </div>
-              <div className={styles.ctaFeature}>
-                <CheckCircle size={20} />
-                <span>Expert team</span>
+              
+              <div className={styles.ctaButtons}>
+                <a href="/contact" className={styles.primaryCta}>
+                  <span>Get In Touch</span>
+                  <ArrowRight size={18} />
+                </a>
+                <a href="/services" className={styles.secondaryCta}>
+                  <span>Explore Our Services</span>
+                  <ArrowRight size={18} />
+                </a>
               </div>
             </div>
-            <a href="/contact" className={styles.ctaButton}>
-              <span>Get In Touch</span>
-              <ChevronRight size={18} />
-            </a>
-          </div>
-          
-          <div className={styles.ctaDecoration}>
-            <div className={styles.ctaShape1}></div>
-            <div className={styles.ctaShape2}></div>
-            <div className={styles.ctaShape3}></div>
+            
+            <div className={styles.ctaDecoration}>
+              <div className={styles.decorationElement1}></div>
+              <div className={styles.decorationElement2}></div>
+              <div className={styles.decorationElement3}></div>
+            </div>
           </div>
         </div>
       </div>

@@ -1,25 +1,37 @@
-@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-// Variables
-$primary-pink: #ec4899;
-$primary-purple: #8b5cf6;
-$primary-cyan: #06b6d4;
-$primary-emerald: #10b981;
-$primary-white: #ffffff;
-$dark-bg: #0f172a;
+// IV Creative Brand Variables - exactly matching brand palette
+$primary-pink: #E72D88;    // Hex: #E72D88, RGB: 231, 45, 136, CMYK: 6, 85, 8, 0
+$primary-black: #201D1D;   // Hex: #201D1D, RGB: 32, 29, 29, CMYK: 65, 55, 55, 65
+$primary-blue: #197DC2;    // Hex: #197DC2, RGB: 25, 125, 194, CMYK: 89, 27, 2, 0
+$primary-white: #FFFFFF;   // Hex: #FFFFFF, RGB: 255, 255, 255, CMYK: 0, 0, 0, 0
+$tertiary-blue: #37BACD;   // Hex: #37BACD, RGB: 55, 186, 205, CMYK: 68, 0, 21, 0
+$tertiary-purple: #954091; // Hex: #954091, RGB: 149, 64, 145, CMYK: 50, 85, 0, 0
+$dark-bg: #101D1D;
 $dark-card: #1e293b;
-$graphite-gray: #374151;
 $border-radius-sm: 8px;
 $border-radius-md: 12px;
 $border-radius-lg: 16px;
 $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+$transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-// Mixins
+// Mixins - identical to footer section
 @mixin glassmorphism($bg-color: rgba(255, 255, 255, 0.08), $blur: 15px) {
   background: $bg-color;
   backdrop-filter: blur($blur);
   -webkit-backdrop-filter: blur($blur);
+}
+
+@mixin chevron-pattern($color: $primary-pink, $opacity: 0.15) {
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba($color, $opacity) 0,
+    rgba($color, $opacity) 8px,
+    transparent 8px,
+    transparent 16px
+  );
+  background-size: 24px 24px;
 }
 
 // Main navbar styles
@@ -37,16 +49,55 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   
   // Scrolled state with background
   &.scrolled {
-    background: rgba($dark-bg, 0.8);
+    background: rgba($dark-bg, 0.85);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid rgba(255, 255, 255, 0.05);
     padding: 0.875rem 0;
     box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
     
+    &::before {
+      opacity: 0.6;
+    }
+    
     .logo {
       transform: scale(0.9);
     }
+  }
+  
+  // Background pattern and gradient
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba($primary-pink, 0.05) 0%, rgba($primary-blue, 0.03) 100%);
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  // Grid pattern in background - matching footer style
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 40px 40px;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  
+  &.scrolled::after {
+    opacity: 0.1;
   }
 }
 
@@ -80,28 +131,17 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   
   &:hover {
     transform: translateY(-2px);
-    
-    .logoIcon {
-      transform: rotate(-5deg);
+  }
+  
+  .logoImage {
+    height: 38px;
+    width: auto;
+    transition: transform 0.2s ease;
+    will-change: transform;
+
+    &:hover {
+      transform: scale(1.05);
     }
-  }
-  
-  .logoIcon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: $transition-bounce;
-  }
-  
-  .logoText {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 1.625rem;
-    background: linear-gradient(to right, $primary-pink, lighten($primary-pink, 10%));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: -0.02em;
   }
 }
 
@@ -120,7 +160,8 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transition: $transition-smooth;
   
   &:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba($primary-pink, 0.1);
+    color: $primary-pink;
   }
   
   @media (max-width: 991px) {
@@ -150,6 +191,31 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     transform: translateX(100%);
     transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     overflow-y: auto;
+    
+    // Background pattern and gradient for mobile menu
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      @include chevron-pattern($primary-pink, 0.03);
+      opacity: 0.5;
+      z-index: -1;
+    }
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 80% 20%, rgba($primary-pink, 0.08), transparent 40%);
+      z-index: -1;
+      opacity: 0.3;
+    }
     
     &.open {
       transform: translateX(0);
@@ -188,6 +254,7 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
       
       .dropdownIcon {
         transition: transform 0.3s ease;
+        color: $primary-pink;
       }
       
       &.active .dropdownIcon {
@@ -198,10 +265,10 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .navLink {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 500;
-  color: rgba($primary-white, 0.8);
+  color: rgba($primary-white, 0.85);
   text-decoration: none;
   padding: 0.5rem 0;
   transition: $transition-smooth;
@@ -262,6 +329,21 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   z-index: 100;
   pointer-events: none;
   
+  // Background pattern
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    @include chevron-pattern($primary-pink, 0.03);
+    opacity: 0.2;
+    z-index: -1;
+    pointer-events: none;
+    border-radius: $border-radius-md;
+  }
+  
   &::before {
     content: '';
     position: absolute;
@@ -316,14 +398,26 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   margin-bottom: 1.25rem;
   
   h3 {
-    font-family: 'Outfit', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-weight: 700;
     font-size: 1.125rem;
     color: $primary-white;
     margin: 0 0 0.375rem;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: -0.5rem;
+      left: 0;
+      width: 2rem;
+      height: 2px;
+      background: $primary-pink;
+    }
   }
   
   p {
+    font-family: 'Roboto', sans-serif;
     font-size: 0.875rem;
     color: rgba($primary-white, 0.6);
     margin: 0;
@@ -402,6 +496,7 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     flex: 1;
     
     span {
+      font-family: 'Roboto', sans-serif;
       font-size: 0.9375rem;
       font-weight: 500;
       color: rgba($primary-white, 0.8);
@@ -427,68 +522,46 @@ $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   border: 1px solid rgba($primary-pink, 0.3);
   border-radius: $border-radius-sm;
   color: $primary-pink;
-  font-family: 'Inter', sans-serif;
+  font-family: 'Poppins', sans-serif;
   font-size: 0.9375rem;
   font-weight: 600;
   text-decoration: none;
   transition: $transition-bounce;
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
+    transform: translateX(-100%) skewX(-15deg);
+    transition: transform 0.5s ease;
+  }
   
   &:hover {
     background: $primary-pink;
     color: $primary-white;
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px -5px rgba($primary-pink, 0.5);
+    box-shadow: 
+      0 8px 20px -5px rgba($primary-pink, 0.5),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
+      
+    &::before {
+      transform: translateX(100%) skewX(-15deg);
+    }
+  }
+  
+  &:active {
+    transform: translateY(-1px);
   }
   
   @media (max-width: 991px) {
     margin-top: 1rem;
     width: 100%;
     padding: 0.875rem 1.5rem;
-  }
-}
-
-// Add this to your Navbar.module.scss file
-// Logo styles update
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  text-decoration: none;
-  transition: $transition-bounce;
-  
-  &:hover {
-    transform: translateY(-2px);
-  }
-  
-  .logoImage {
-  height: 38px;
-  width: auto;
-  transition: transform 0.2s ease;
-  will-change: transform;
-
-  &:hover {
-    transform: scale(1.05); // just a slight pop
-  }
-}
-
-  
-  .logoText {
-    font-family: 'Outfit', sans-serif;
-    font-weight: 800;
-    font-size: 1.625rem;
-    background: linear-gradient(to right, $primary-pink, lighten($primary-pink, 10%));
-    -webkit-background-clip: text;
-    background-clip: text;
-    color: transparent;
-    letter-spacing: -0.02em;
-  }
-}
-
-// In the scrolled state, adjust the logo size
-.scrolled {
-  .logo {
-    .logoImage {
-      height: 32px;
-    }
   }
 }

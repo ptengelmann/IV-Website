@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Star } from 'lucide-react';
 import styles from './Projects.module.scss';
 import JuraImage from '../../assets/Jura.png';
 import CocaImage from '../../assets/Coca.png';
@@ -7,7 +7,7 @@ import WhoImage from '../../assets/Who.png';
 import MoonpigImage from '../../assets/Moonpig.png';
 
 const Projects = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
   const [activeProject, setActiveProject] = useState(null);
   const sectionRef = useRef(null);
   const projectRefs = useRef([]);
@@ -48,16 +48,13 @@ const Projects = () => {
     }
   ];
 
-  // Staggered reveal animation on scroll
+  // Handle intersection observer to trigger animations when section is visible
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -100px 0px" }
-    );
+    const observer = new IntersectionObserver((entries) => {
+      if (entries[0].isIntersecting) {
+        setIsLoaded(true);
+      }
+    }, { threshold: 0.1 });
     
     if (sectionRef.current) {
       observer.observe(sectionRef.current);
@@ -72,22 +69,49 @@ const Projects = () => {
 
   return (
     <section 
-      className={`${styles.projectsSection} ${isVisible ? styles.visible : ''}`} 
+      className={`${styles.projectsSection} ${isLoaded ? styles.loaded : ''}`} 
       ref={sectionRef}
     >
+      <div className={styles.sectionBackground}>
+        <div className={styles.patternOverlay}></div>
+        <div className={styles.grid}></div>
+        <div className={styles.gradientOverlay}></div>
+      </div>
+      
       <div className={styles.container}>
-        <div className={styles.sectionIntro}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.sectionTitle}>Projects</h2>
-            <h3 className={styles.sectionSubtitle}>
-              We <span className={styles.highlight}>empower brands</span> to turn ideas into <span className={styles.highlight}>results</span>
-            </h3>
+        <div className={styles.sectionHeader}>
+          <div className={styles.badgeWrapper}>
+            <div className={styles.badge}>
+              <Star size={14} />
+              <span>Featured work</span>
+            </div>
           </div>
           
-          <a href="/portfolio" className={styles.viewAllLink}>
-            <span>View all projects</span>
-            <ArrowRight size={18} className={styles.arrowIcon} />
-          </a>
+          <h2 className={styles.sectionTitle}>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineText}>We</span>
+              <span className={styles.headlineTextPink}>empower brands</span>
+            </div>
+            <div className={styles.headlineRow}>
+              <span className={styles.headlineText}>to turn ideas into</span>
+              <span className={styles.headlineTextPink}>results</span>
+            </div>
+          </h2>
+          
+          <div className={styles.subheadlineWrapper}>
+            <p className={styles.subheadline}>
+              Our work speaks for itself. We've helped brands of all sizes 
+              <span className={styles.emphasisTextPink}> achieve their goals</span> and 
+              <span className={styles.emphasisTextPink}> exceed expectations</span>.
+            </p>
+          </div>
+          
+          <div className={styles.viewAllWrapper}>
+            <a href="/portfolio" className={styles.viewAllLink}>
+              <span>View all projects</span>
+              <ArrowRight size={18} className={styles.arrowIcon} />
+            </a>
+          </div>
         </div>
         
         <div className={styles.projectsGrid}>
@@ -109,7 +133,7 @@ const Projects = () => {
                     className={styles.projectImage}
                     loading="lazy"
                   />
-                  <div className={styles.projectOverlay}>
+                  <div className={styles.projectOverlay} style={{ background: `linear-gradient(to bottom, rgba(0,0,0,0.1), ${project.color}99)` }}>
                     <span className={styles.viewProject}>View Project</span>
                   </div>
                 </div>
@@ -124,6 +148,7 @@ const Projects = () => {
                 </div>
               </div>
               
+              <div className={styles.projectGlow}></div>
               <div className={styles.projectBorder}></div>
             </a>
           ))}

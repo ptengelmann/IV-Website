@@ -27,10 +27,10 @@ const Navbar = () => {
       link: '/services',
       hasDropdown: true,
       dropdownItems: [
-        { name: 'Digital Marketing', link: '/services/digital-marketing', icon: Zap, color: '#ec4899' },
-        { name: 'eCommerce', link: '/services/ecommerce', icon: ShoppingBag, color: '#8b5cf6' },
-        { name: 'Design, Print & Production', link: '/services/design', icon: Layers, color: '#06b6d4' },
-        { name: 'Operations', link: '/services/operations', icon: Box, color: '#10b981' }
+        { name: 'Digital Marketing', link: '/services/digital-marketing', icon: Zap, color: '#E72D88' },
+        { name: 'eCommerce', link: '/services/ecommerce', icon: ShoppingBag, color: '#197DC2' },
+        { name: 'Design, Print & Production', link: '/services/design', icon: Layers, color: '#37BACD' },
+        { name: 'Operations', link: '/services/operations', icon: Box, color: '#954091' }
       ]
     },
     { name: 'Portfolio', link: '/portfolio' },
@@ -80,9 +80,8 @@ const Navbar = () => {
       <div className={styles.container}>
         <div className={styles.navbarContent}>
           <a href="/" className={styles.logo}>
-  <img src={logo} alt="IV Creative Logo" className={styles.logoImage} />
-</a>
-
+            <img src={logo} alt="IV Creative Logo" className={styles.logoImage} />
+          </a>
 
           <div className={styles.mobileMenuToggle} onClick={toggleMobileMenu}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
