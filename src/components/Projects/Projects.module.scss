@@ -305,7 +305,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// View All link
+// View All link - matching exactly the style from What We Do's "Explore All Services"
 .viewAllWrapper {
   opacity: 0;
   transform: translateY(20px);
@@ -321,25 +321,40 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: inline-flex;
   align-items: center;
   gap: 0.75rem;
+  padding: 0.875rem 1.5rem;
   font-family: 'Poppins', sans-serif;
   font-size: 1rem;
   font-weight: 600;
-  color: $primary-white;
+  border-radius: $border-radius-sm;
+  cursor: pointer;
+  transition: $transition-bounce;
   text-decoration: none;
-  padding: 0.5rem 0;
-  transition: color 0.3s ease;
+  
+  // Grey glassmorphism style - exactly matching the secondaryCta style
+  @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+  color: $primary-white;
+  border: 1px solid rgba(255, 255, 255, 0.1);
   
   &:hover {
-    color: $primary-pink;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-2px);
     
     .arrowIcon {
       transform: translateX(4px);
     }
   }
   
+  &:active {
+    transform: translateY(-1px);
+  }
+  
   .arrowIcon {
-    color: $primary-pink;
     transition: transform 0.3s ease;
+  }
+  
+  @media (max-width: 768px) {
+    width: auto;
+    justify-content: center;
   }
 }
 

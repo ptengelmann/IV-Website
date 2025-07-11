@@ -159,11 +159,30 @@ const Blog = () => {
       <div className={styles.container}>
         <div className={styles.blogHeader}>
           <div className={styles.headerContent}>
-            
             <h1 className={styles.blogTitle}>Our Blog</h1>
             <p className={styles.blogSubtitle}>
               Insights, strategies, and inspiration to help you grow your brand from <span className={styles.highlight}>concept</span> to <span className={styles.highlight}>customer</span>.
             </p>
+          </div>
+        </div>
+
+        <div className={styles.filtersSearchContainer}>
+          <div className={styles.categoryNav}>
+            <div className={styles.categoryFilter}>
+              <Filter size={16} />
+              <span>Filter by:</span>
+            </div>
+            <div className={styles.categoriesList}>
+              {categories.map(category => (
+                <button 
+                  key={category.id}
+                  className={`${styles.categoryButton} ${activeCategory === category.id ? styles.active : ''}`}
+                  onClick={() => setActiveCategory(category.id)}
+                >
+                  {category.label}
+                </button>
+              ))}
+            </div>
           </div>
           
           <div className={styles.searchContainer}>
@@ -181,25 +200,7 @@ const Blog = () => {
             </div>
           </div>
         </div>
-        
-        <div className={styles.categoryNav}>
-          <div className={styles.categoryFilter}>
-            <Filter size={16} />
-            <span>Filter by:</span>
-          </div>
-          <div className={styles.categoriesList}>
-            {categories.map(category => (
-              <button 
-                key={category.id}
-                className={`${styles.categoryButton} ${activeCategory === category.id ? styles.active : ''}`}
-                onClick={() => setActiveCategory(category.id)}
-              >
-                {category.label}
-              </button>
-            ))}
-          </div>
-        </div>
-        
+
         <div className={styles.featuredPost}>
           <a href={`/blog/${blogPosts[0].slug}`} className={styles.featuredPostLink}>
             <div className={styles.featuredPostContent}>
@@ -315,6 +316,9 @@ const Blog = () => {
                 <ArrowRight size={16} />
               </button>
             </form>
+            <p className={styles.newsletterLegal}>
+  By subscribing, you agree to receive email communications from IV Creative. You can unsubscribe at any time. Read our <a href="/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a>.
+</p>
           </div>
           <div className={styles.chevronDecoration}></div>
         </div>

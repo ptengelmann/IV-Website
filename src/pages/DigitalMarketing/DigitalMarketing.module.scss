@@ -402,13 +402,31 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   .stat {
+    // Add these new styles to create boxes
+    padding: 1.25rem 1.5rem;
+    @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
+    border-radius: $border-radius-md;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    min-width: 150px;
+    text-align: center;
+    
+    // Remove any transition/animation styles
+    /* transition: $transition-smooth; */
+    
+    // Remove hover animation
+    &:hover {
+      border-color: rgba(255, 255, 255, 0.1);
+      /* transform: translateY(-5px); */
+      /* box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3); */
+    }
+    
     .statValue {
       font-family: 'Poppins', sans-serif;
       font-size: 2.5rem;
       font-weight: 700;
       color: $primary-pink;
       line-height: 1;
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.75rem; // Increased margin from 0.5rem
       
       @media (max-width: 768px) {
         font-size: 2rem;
@@ -857,8 +875,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Process section
-.processSection {
+// Horizontal steps approach
+.approachSection {
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
@@ -868,168 +886,158 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-.sectionHeader {
-  text-align: center;
-  margin-bottom: 4rem;
-  
-  .sectionTagline {
-    display: inline-block;
-    font-family: 'Roboto', sans-serif;
-    font-size: 1rem;
-    font-weight: 600;
-    color: $primary-pink;
-    margin-bottom: 1rem;
-    letter-spacing: 1px;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease 0.2s;
-    
-    .visible & {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-  
-  .sectionTitle {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(2.5rem, 4vw, 3.5rem);
-    font-weight: 700;
-    line-height: 1.2;
-    margin-bottom: 0;
-    color: $primary-white;
-    opacity: 0;
-    transform: translateY(20px);
-    transition: all 0.5s ease 0.3s;
-    
-    .visible & {
-      opacity: 1;
-      transform: translateY(0);
-    }
-    
-    .highlight {
-      color: $primary-pink;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    margin-bottom: 3rem;
-    
-    .sectionTagline {
-      font-size: 0.875rem;
-    }
-    
-    .sectionTitle {
-      font-size: 2rem;
-    }
-  }
-}
-
-.processTimeline {
-  max-width: 900px;
-  margin: 0 auto;
+.horizontalSteps {
   display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 2rem;
   position: relative;
   
   &::before {
     content: '';
     position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 32px;
-    width: 2px;
-    background: linear-gradient(to bottom, $primary-pink, $primary-blue);
-    opacity: 0.5;
+    top: 50px;
+    left: 20px;
+    right: 20px;
+    height: 2px;
+    background: linear-gradient(to right, rgba($primary-pink, 0.4), rgba($primary-pink, 0.4));
+    z-index: 1;
     
-    @media (max-width: 768px) {
-      left: 24px;
+    @media (max-width: 992px) {
+      display: none;
     }
+  }
+  
+  @media (max-width: 992px) {
+    flex-direction: column;
+    gap: 2rem;
   }
 }
 
-.processStep {
-  display: flex;
-  gap: 2rem;
+.stepBlock {
+  flex: 1;
+  min-width: 160px;
+  position: relative;
+  padding: 0 1rem;
   opacity: 0;
-  transform: translateX(30px);
+  transform: translateY(20px);
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--step-delay);
   
   .visible & {
     opacity: 1;
-    transform: translateX(0);
+    transform: translateY(0);
   }
   
-  @media (max-width: 768px) {
-    gap: 1.25rem;
+  @media (max-width: 992px) {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0;
   }
 }
 
-.processIconWrapper {
-  width: 64px;
-  height: 64px;
+.stepNumber {
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
+  background: $primary-pink;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--step-color, $primary-pink);
-  color: $primary-white;
-  flex-shrink: 0;
+  margin: 0 auto 1.5rem;
   position: relative;
   z-index: 2;
-  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 5px 15px rgba($primary-pink, 0.3);
   
-  @media (max-width: 768px) {
-    width: 48px;
-    height: 48px;
-    
-    svg {
-      width: 20px;
-      height: 20px;
-    }
-  }
-}
-
-.processContent {
-  padding-bottom: 1.5rem;
-  
-  .processTitle {
+  span {
     font-family: 'Poppins', sans-serif;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--step-color, $primary-pink);
-    margin: 0 0 0.625rem;
-    
-    @media (max-width: 768px) {
-      font-size: 1.25rem;
-    }
+    color: $primary-white;
   }
   
-  .processDescription {
-    font-family: 'Roboto', sans-serif;
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: rgba($primary-white, 0.8);
+  @media (max-width: 992px) {
     margin: 0;
-    
-    @media (max-width: 768px) {
-      font-size: 0.9375rem;
-    }
+    flex-shrink: 0;
   }
 }
 
-.processConnector {
-  position: absolute;
-  bottom: 0;
-  left: 32px;
-  width: 2px;
-  height: 30px;
-  background: linear-gradient(to bottom, transparent, rgba(255, 255, 255, 0.1));
-  transform: translateX(-50%);
+.stepContent {
+  text-align: center;
+  position: relative;
+  
+  @media (max-width: 992px) {
+    text-align: left;
+    flex: 1;
+  }
+}
+
+.stepIconWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: $border-radius-sm;
+  background: rgba(255, 255, 255, 0.05);
+  margin-bottom: 0.75rem;
+  
+  .stepIcon {
+    color: $primary-pink;
+  }
+  
+  @media (max-width: 992px) {
+    width: 36px;
+    height: 36px;
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+}
+
+.stepTitle {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: $primary-white;
+  margin: 0 0 0.75rem;
   
   @media (max-width: 768px) {
-    left: 24px;
+    font-size: 1.125rem;
+    margin-bottom: 0.5rem;
+    padding-right: 45px; // Make room for the icon
+  }
+}
+
+.stepDescription {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.9375rem;
+  line-height: 1.5;
+  color: rgba($primary-white, 0.7);
+  margin: 0;
+  
+  @media (max-width: 768px) {
+    font-size: 0.875rem;
+  }
+}
+
+.stepArrow {
+  position: absolute;
+  top: 50px;
+  right: -8px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  color: $primary-pink;
+  
+  @media (max-width: 992px) {
+    display: none;
   }
 }
 
@@ -1066,12 +1074,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   transform: translateY(30px);
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   transition-delay: var(--service-delay);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
   
   .visible & {
     opacity: 1;
     transform: translateY(0);
   }
   
+  // Standardize the accent border
   &::before {
     content: '';
     position: absolute;
@@ -1079,7 +1091,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 4px;
     height: 100%;
-    background: var(--service-gradient, $primary-pink);
+    background: var(--service-color, $primary-pink);
     opacity: 0.7;
   }
   
@@ -1088,30 +1100,15 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.3);
     border-color: rgba(255, 255, 255, 0.1);
     
+  // Apply the same hover animation as industries section
     .serviceIconWrapper {
-      transform: scale(1.1);
-      background: var(--service-gradient, $primary-pink);
+      background: var(--service-color, $primary-pink);
       
       .serviceIcon {
         color: $primary-white;
-      }
-      
-      .serviceIconGlow {
-        opacity: 0.8;
-        transform: scale(1.2);
+        transform: scale(1.1);
       }
     }
-  }
-}
-
-.serviceHeader {
-  padding: 2rem 2rem 1rem;
-  display: flex;
-  align-items: center;
-  gap: 1.25rem;
-  
-  @media (max-width: 768px) {
-    padding: 1.5rem 1.5rem 0.75rem;
   }
 }
 
@@ -1133,18 +1130,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     transition: $transition-bounce;
   }
   
+  // We can remove or simplify this
   .serviceIconGlow {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(circle at center, var(--service-color, $primary-pink) 0%, transparent 70%);
-    opacity: 0.3;
-    filter: blur(10px);
-    z-index: 1;
-    transform: scale(0.8);
-    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    display: none; // Remove the glow effect
   }
   
   @media (max-width: 768px) {
@@ -1158,36 +1146,25 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-.serviceTitle {
-  font-family: 'Poppins', sans-serif;
-  font-size: 1.75rem;
-  font-weight: 700;
-  color: $primary-white;
-  margin: 0;
+.serviceHeader {
+  padding: 2rem 2rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
   
   @media (max-width: 768px) {
-    font-size: 1.5rem;
+    padding: 1.5rem 1.5rem 0.75rem;
   }
 }
 
 .serviceContent {
   padding: 0 2rem 1.5rem;
+  flex: 1; /* Allow content to fill space */
+  display: flex;
+  flex-direction: column;
   
   @media (max-width: 768px) {
     padding: 0 1.5rem 1.25rem;
-  }
-}
-
-.serviceDescription {
-  font-family: 'Roboto', sans-serif;
-  font-size: 1.1rem;
-  line-height: 1.6;
-  color: rgba($primary-white, 0.8);
-  margin: 0 0 1.5rem;
-  
-  @media (max-width: 768px) {
-    font-size: 1rem;
-    margin-bottom: 1.25rem;
   }
 }
 
@@ -1204,7 +1181,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     
     svg {
       flex-shrink: 0;
-      color: var(--service-color, $primary-pink);
+      color: $primary-pink; /* Standardize to pink */
     }
     
     span {
@@ -1228,13 +1205,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   gap: 2rem;
   margin-bottom: 1.5rem;
+  margin-top: auto; /* Push to bottom of content area */
   
   .serviceStat {
     .serviceStatValue {
       font-family: 'Poppins', sans-serif;
       font-size: 1.75rem;
       font-weight: 700;
-      color: var(--service-color, $primary-pink);
+      color: $primary-pink; /* Standardize to pink */
       line-height: 1.2;
       margin-bottom: 0.375rem;
     }
@@ -1295,7 +1273,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       font-family: 'Poppins', sans-serif;
       font-size: 2.25rem;
       font-weight: 700;
-      color: var(--service-color, $primary-pink);
+      color: $primary-pink; /* Standardize to pink */
       line-height: 1;
     }
     
@@ -1336,7 +1314,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     font-size: 0.9375rem;
     font-weight: 600;
     color: $primary-white;
-    background: var(--service-gradient, $primary-pink);
+    background: $primary-pink; /* Standardize to solid pink */
     border: none;
     border-radius: $border-radius-sm;
     cursor: pointer;
@@ -1669,7 +1647,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     line-height: 1.6;
     color: rgba($primary-white, 0.9);
     margin: 0;
-    font-style: italic;
+    font-style: normal; /* Change from italic to normal */
   }
   
   @media (max-width: 768px) {
@@ -1848,7 +1826,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// CTA section styles
+// Enhanced CTA section styles
 .ctaSection {
   padding: 6rem 0;
   position: relative;
@@ -1865,14 +1843,43 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   margin: 0 auto;
   padding: 4rem;
   border-radius: $border-radius-lg;
-  background: rgba($dark-card, 0.4);
+  background: linear-gradient(135deg, rgba($dark-card, 0.8) 0%, rgba($dark-card, 0.9) 100%);
   @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba($primary-pink, 0.1);
   overflow: hidden;
   opacity: 0;
   transform: translateY(30px);
   transition: all 0.5s ease 0.2s;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 30px 60px -12px rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba($primary-pink, 0.2);
+    
+    .ctaGlow {
+      opacity: 0.7;
+      transform: translate(-50%, -50%) scale(1.05);
+    }
+    
+    .decorationCircle,
+    .decorationSquare,
+    .decorationTriangle {
+      transform: rotate(360deg) translateY(-10px);
+    }
+    
+    .ctaIconWrapper {
+      transform: scale(1.1);
+      background: $primary-pink;
+      
+      .ctaIcon {
+        color: $primary-white;
+      }
+    }
+  }
   
   .visible & {
     opacity: 1;
@@ -1884,6 +1891,38 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
+.ctaGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba($primary-pink, 0.3) 0%, transparent 70%);
+  opacity: 0.4;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  pointer-events: none;
+}
+
+.ctaPattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: 
+    linear-gradient(45deg, rgba($primary-pink, 0.03) 25%, transparent 25%), 
+    linear-gradient(-45deg, rgba($primary-pink, 0.03) 25%, transparent 25%), 
+    linear-gradient(45deg, transparent 75%, rgba($primary-pink, 0.03) 75%), 
+    linear-gradient(-45deg, transparent 75%, rgba($primary-pink, 0.03) 75%);
+  background-size: 20px 20px;
+  background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+  z-index: 1;
+  opacity: 0.3;
+  pointer-events: none;
+}
+
 .ctaContent {
   position: relative;
   z-index: 2;
@@ -1892,12 +1931,30 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   margin: 0 auto;
 }
 
+.ctaIconWrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.5rem;
+  transition: $transition-bounce;
+  
+  .ctaIcon {
+    color: $primary-pink;
+    transition: $transition-bounce;
+  }
+}
+
 .ctaTitle {
   font-family: 'Poppins', sans-serif;
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 700;
   color: $primary-white;
   margin: 0 0 1.5rem;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
   
   @media (max-width: 768px) {
     font-size: 1.75rem;
@@ -1920,23 +1977,27 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .ctaActions {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
   
   .ctaPrimary {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    padding: 1rem 2rem;
+    padding: 1.125rem 2.5rem;
     font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
+    font-size: 1.125rem;
     font-weight: 600;
     color: $primary-white;
-    background: $primary-pink;
+    background: linear-gradient(135deg, $primary-pink 0%, darken($primary-pink, 10%) 100%);
     border: none;
-    border-radius: $border-radius-sm;
+    border-radius: 100px; // More rounded for emphasis
     cursor: pointer;
     transition: $transition-bounce;
-    box-shadow: 0 10px 25px -5px rgba($primary-pink, 0.5);
+    box-shadow: 
+      0 10px 25px -5px rgba($primary-pink, 0.5),
+      0 0 0 1px rgba($primary-pink, 0.8) inset;
     position: relative;
     overflow: hidden;
     
@@ -1957,9 +2018,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     }
     
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 0 15px 30px -5px rgba($primary-pink, 0.6);
-      
+      transform: translateY(-3px) scale(1.05);
+      box-shadow: 
+        0 15px 30px -5px rgba($primary-pink, 0.6),
+        0 0 0 1px rgba($primary-pink, 0.8) inset;
+        
       &::before {
         transform: translateX(100%) skewX(-15deg);
       }
@@ -1970,37 +2033,90 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     }
     
     &:active {
-      transform: translateY(-1px);
+      transform: translateY(-1px) scale(1.02);
+    }
+  }
+  
+  .ctaHighlight {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: rgba($primary-white, 0.8);
+    padding: 0.5rem 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 100px;
+    animation: pulse 2s infinite alternate;
+    
+    @keyframes pulse {
+      0% {
+        opacity: 0.7;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1.05);
+      }
     }
   }
   
   @media (max-width: 768px) {
     .ctaPrimary {
       width: 100%;
-      padding: 0.875rem 1.5rem;
-      font-size: 0.9375rem;
+      padding: 1rem 1.5rem;
+      font-size: 1rem;
     }
   }
 }
 
-.chevronDecoration {
+.ctaDecoration {
   position: absolute;
   top: 0;
   right: 0;
-  width: 40%;
+  width: 200px;
   height: 100%;
-  @include chevron-pattern($primary-pink, 0.1);
-  opacity: 0.3;
   z-index: 1;
+  pointer-events: none;
+  
+  .decorationCircle,
+  .decorationSquare,
+  .decorationTriangle {
+    position: absolute;
+    opacity: 0.3;
+    transition: all 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  
+  .decorationCircle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 2px solid $primary-pink;
+    top: 20%;
+    right: 20%;
+  }
+  
+  .decorationSquare {
+    width: 60px;
+    height: 60px;
+    border: 2px solid $primary-pink;
+    bottom: 30%;
+    right: 15%;
+    transform: rotate(45deg);
+  }
+  
+  .decorationTriangle {
+    width: 0;
+    height: 0;
+    border-left: 40px solid transparent;
+    border-right: 40px solid transparent;
+    border-bottom: 70px solid rgba($primary-pink, 0.2);
+    top: 40%;
+    right: 40%;
+  }
   
   @media (max-width: 768px) {
-    width: 100%;
-    height: 40%;
-    top: auto;
-    bottom: 0;
+    display: none;
   }
 }
-
 // Media queries for responsive design
 @media (max-width: 480px) {
   .container {
@@ -2120,3 +2236,76 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     font-size: 0.9375rem;
   }
 }
+
+// Add this alongside the existing badge styles
+.sectionBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1.25rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba($primary-white, 0.9);
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+  margin-bottom: 1.5rem;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: all 0.5s ease 0.2s;
+  
+  svg {
+    color: $primary-pink;
+  }
+  
+  .visible & {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  
+  @media (max-width: 768px) {
+    font-size: 0.8125rem;
+    padding: 0.625rem 1rem;
+  }
+}
+
+.sectionHeader {
+  text-align: center;
+  margin-bottom: 4rem;
+  
+  /* Remove this as it's now handled in .sectionBadge */
+  .sectionTagline {
+    display: none; /* or remove this class entirely from the SCSS */
+  }
+  
+  .sectionTitle {
+    font-family: 'Poppins', sans-serif;
+    font-size: clamp(2.5rem, 4vw, 3.5rem);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 0;
+    color: $primary-white;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.5s ease 0.3s;
+    
+    .visible & {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    .highlight {
+      color: $primary-pink;
+    }
+  }
+  
+  @media (max-width: 768px) {
+    margin-bottom: 3rem;
+    
+    .sectionTitle {
+      font-size: 2rem;
+    }
+  }
+} 

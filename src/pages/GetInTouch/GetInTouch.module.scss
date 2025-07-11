@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap');
 
-// IV Creative Brand Variables - exactly matching hero section
+// IV Creative Brand Variables
 $primary-pink: #E72D88;
 $primary-black: #101D1D;
 $primary-blue: #1B7DC2;
@@ -17,7 +17,7 @@ $transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 $transition-bounce: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
-// Mixins - identical to hero section
+// Mixins
 @mixin glassmorphism($bg-color: rgba(255, 255, 255, 0.08), $blur: 15px) {
   background: $bg-color;
   backdrop-filter: blur($blur);
@@ -144,7 +144,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Hero section styles - matching hero section
+// Hero section styles
 .heroSection {
   padding: 8rem 0 4rem;
   overflow: hidden;
@@ -161,7 +161,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   text-align: center;
 }
 
-// Badge styles - matching hero section
+// Badge styles
 .badgeWrapper {
   margin-bottom: 2rem;
   transform: translateY(-20px);
@@ -195,7 +195,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Hero title - matching hero section headline style
+// Hero title
 .heroTitle {
   margin: 0 0 2.5rem;
   
@@ -257,7 +257,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Subheadline styles - matching hero section
+// Subheadline styles
 .subheadlineWrapper {
   margin-bottom: 2.5rem;
   max-width: 650px;
@@ -312,24 +312,32 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Contact section styles
+// Contact section styles - redesigned
 .contactSection {
-  padding: 4rem 0 6rem;
+  padding: 2rem 0 6rem;
   position: relative;
   
   @media (max-width: 768px) {
-    padding: 3rem 0 5rem;
+    padding: 1rem 0 5rem;
   }
 }
 
+// New layout
 .contactLayout {
-  display: grid;
-  grid-template-columns: 1fr 1.2fr;
+  display: flex;
+  flex-direction: column;
   gap: 3rem;
+}
+
+// Container for form and info side by side
+.formAndInfoContainer {
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 2rem;
   
-  @media (max-width: 1024px) {
+  @media (max-width: 1200px) {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3rem;
   }
 }
 
@@ -344,6 +352,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     opacity: 0;
     transform: translateY(30px);
     transition: all 0.5s ease 0.3s;
+    height: 100%;
     
     .loaded & {
       opacity: 1;
@@ -926,7 +935,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     }
   }
   
-  .interestOptions {
+.interestOptions {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 1rem;
@@ -1690,101 +1699,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
-// Process section styles
-.processSection {
-  padding: 6rem 0;
-  background: $dark-bg;
+// Clients section from Hero - New addition
+.clientsSection {
   position: relative;
-  overflow: hidden;
-  
-  @media (max-width: 768px) {
-    padding: 4rem 0;
-  }
-}
-
-.processHeader {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-// Section title - matching hero section headline style
-.sectionTitle {
-  margin: 0 0 2.5rem;
-  
-  .headlineRow {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 0.2em;
-    
-    &:nth-child(1) {
-      transform: translateY(30px);
-      opacity: 0;
-      transition: all 0.5s ease 0.2s;
-      
-      .loaded & {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-    
-    &:nth-child(2) {
-      transform: translateY(30px);
-      opacity: 0;
-      transition: all 0.5s ease 0.3s;
-      
-      .loaded & {
-        transform: translateY(0);
-        opacity: 1;
-      }
-    }
-  }
-  
-  .headlineText {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: $primary-white;
-    display: inline-block;
-  }
-  
-  .headlineTextPink {
-    font-family: 'Poppins', sans-serif;
-    font-size: clamp(2.5rem, 5vw, 4rem);
-    font-weight: 700;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    color: $primary-pink;
-    position: relative;
-    display: inline-block;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
-    }
-  }
-}
-
-.processStepsHorizontal {
-  position: relative;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 2rem 0;
-}
-
-.timelineTrackHorizontal {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 3.5rem;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 2px;
-  z-index: 1;
+  z-index: 5;
+  background: rgba(0, 0, 0, 0.2);
+  backdrop-filter: blur(10px);
+  padding: 3rem 0;
+  margin-top: 2rem;
   
   &::before {
     content: '';
@@ -1793,441 +1715,75 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     left: 0;
     width: 100%;
     height: 100%;
-    background: $primary-pink;
-    border-radius: 2px;
-    transform: scaleX(0);
-    transform-origin: left;
-    transition: transform 1.2s cubic-bezier(0.16, 1, 0.3, 1) 0.5s;
-  }
-  
-  .loaded & {
-    &::before {
-      transform: scaleX(1);
-    }
+    @include chevron-pattern($primary-pink, 0.02);
+    opacity: 0.5;
+    z-index: -1;
   }
 }
 
-.stepsGridHorizontal {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-  position: relative;
-  z-index: 2;
-  
-  @media (max-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem 1rem;
-  }
-  
-  @media (max-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-  
-  @media (max-width: 480px) {
-    grid-template-columns: 1fr;
-  }
-}
-
-.stepHorizontal {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
+.clientsWrapper {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 2rem;
   opacity: 0;
   transform: translateY(20px);
-  transition: all 0.5s ease;
-  padding: 0 1rem;
-  
-  @for $i from 1 through 5 {
-    &:nth-child(#{$i}) {
-      transition-delay: 0.2s + ($i * 0.1s);
-      
-      .loaded & {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  }
-  
-  .stepNumber {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    background: $primary-pink;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Poppins', sans-serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: $primary-white;
-    box-shadow: 0 10px 20px -5px rgba($primary-pink, 0.3);
-    margin-bottom: 1.5rem;
-    position: relative;
-    z-index: 2;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: -8px;
-      left: -8px;
-      right: -8px;
-      bottom: -8px;
-      border-radius: 50%;
-      background: rgba($primary-pink, 0.1);
-      z-index: -1;
-      transform: scale(0);
-      transition: transform 0.4s ease;
-    }
-    
-    .loaded &:hover {
-      &::before {
-        transform: scale(1);
-      }
-    }
-  }
-  
-  .stepContent {
-    h3 {
-      font-family: 'Poppins', sans-serif;
-      font-size: 1.25rem;
-      font-weight: 600;
-      color: $primary-white;
-      margin: 0 0 0.75rem;
-    }
-    
-    p {
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.9375rem;
-      line-height: 1.6;
-      color: rgba($primary-white, 0.8);
-      margin: 0;
-    }
-  }
-  
-  @media (max-width: 768px) {
-    .stepNumber {
-      width: 50px;
-      height: 50px;
-      font-size: 1.25rem;
-      margin-bottom: 1.25rem;
-    }
-    
-    .stepContent {
-      h3 {
-        font-size: 1.1rem;
-      }
-      
-      p {
-        font-size: 0.875rem;
-      }
-    }
-  }
-}
-
-// Map section styles
-.mapSection {
-  padding: 6rem 0;
-  background: linear-gradient(to bottom, $dark-bg, darken($dark-bg, 3%));
-  
-  @media (max-width: 768px) {
-    padding: 4rem 0;
-  }
-}
-
-.mapWrapper {
-  border-radius: $border-radius-lg;
-  overflow: hidden;
-  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.3);
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
-  
-  .loaded & {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.googleMap {
-  width: 100%;
-  height: 0;
-  padding-bottom: 40%;
-  position: relative;
-  
-  iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-  }
-  
-  @media (max-width: 768px) {
-    padding-bottom: 60%;
-  }
-}
-
-// CTA section styles
-.ctaSection {
-  padding: 6rem 0;
-  background: linear-gradient(to bottom, $dark-bg, darken($dark-bg, 4%));
-  position: relative;
-  overflow: hidden;
-  
-  @media (max-width: 768px) {
-    padding: 4rem 0;
-  }
-}
-
-.ctaCard {
-  position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 4rem;
-  border-radius: $border-radius-lg;
-  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-  overflow: hidden;
-  opacity: 0;
-  transform: translateY(30px);
-  transition: all 0.5s ease 0.2s;
+  transition: all 0.6s ease 0.2s;
   
   .loaded & {
     opacity: 1;
     transform: translateY(0);
   }
   
-  @media (max-width: 768px) {
-    padding: 2.5rem 1.5rem;
+  @media (max-width: 1440px) {
+    max-width: 1200px;
   }
 }
 
-.ctaContent {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  max-width: 700px;
-  margin: 0 auto;
+.clientsHeading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  margin-bottom: 2.5rem;
+  color: rgba($primary-white, 0.8);
+  font-size: 0.9375rem;
+  font-weight: 500;
+  
+  svg {
+    color: $primary-pink;
+  }
 }
 
-.ctaHeading {
-  font-family: 'Poppins', sans-serif;
-  font-size: clamp(2rem, 3vw, 2.5rem);
-  font-weight: 700;
-  line-height: 1.2;
-  margin: 0 0 1.5rem;
+.clientLogos {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.5rem;
+  align-items: center;
+  gap: 2.5rem;
   
-  .headlineText {
-    color: $primary-white;
-  }
-  
-  .headlineTextPink {
-    color: $primary-pink;
-    position: relative;
-    transition: all 0.3s ease;
-    
-    &:hover {
-      text-shadow: 0 0 12px rgba($primary-pink, 0.4);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    font-size: 1.75rem;
-  }
-}
-
-.ctaDescription {
-  font-family: 'Roboto', sans-serif;
-  font-size: clamp(1rem, 1.2vw, 1.125rem);
-  line-height: 1.6;
-  color: rgba($primary-white, 0.8);
-  margin: 0 0 2rem;
-  
-  @media (max-width: 768px) {
-    font-size: 1rem;
-  }
-}
-
-.ctaFeatures {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2.5rem;
-  
-  .ctaFeature {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    
-    svg {
-      color: $primary-pink;
-    }
-    
-    span {
-      font-family: 'Roboto', sans-serif;
-      font-size: 1rem;
-      font-weight: 500;
-      color: rgba($primary-white, 0.9);
-    }
-  }
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    gap: 1rem;
-    margin-bottom: 2rem;
-    
-    .ctaFeature {
-      justify-content: center;
-    }
-  }
-}
-
-.ctaButtons {
-  display: flex;
-  justify-content: center;
-  gap: 1.25rem;
-  
-  @media (max-width: 768px) {
-    flex-direction: column;
-    align-items: center;
-    max-width: 300px;
-    margin: 0 auto;
-    width: 100%;
-  }
-  
-  .primaryCta, 
-  .secondaryCta {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-    padding: 1rem 1.75rem;
+  .clientLogo {
+    opacity: 0.7;
     font-family: 'Poppins', sans-serif;
-    font-size: 1rem;
     font-weight: 600;
-    border-radius: $border-radius-sm;
-    cursor: pointer;
-    transition: $transition-bounce;
-    
-    svg {
-      transition: transform 0.3s ease;
-    }
-    
-    &:hover svg {
-      transform: translateX(4px);
-    }
-    
-    @media (max-width: 768px) {
-      width: 100%;
-      justify-content: center;
-    }
-  }
-  
-  .primaryCta {
-    background: $primary-pink;
-    color: $primary-white;
-    box-shadow: 
-      0 10px 25px -5px rgba($primary-pink, 0.5),
-      0 0 0 1px rgba($primary-pink, 0.8) inset;
-    position: relative;
-    overflow: hidden;
-    
-    &::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 50%);
-      transform: translateX(-100%) skewX(-15deg);
-      transition: transform 0.5s ease;
-    }
+    font-size: 1.35rem;
+    color: var(--client-color, $primary-white);
+    transition: all 0.3s ease;
+    flex: 0 0 auto;
+    padding: 0.5rem 1rem;
     
     &:hover {
-      transform: translateY(-3px);
-      box-shadow: 
-        0 15px 30px -5px rgba($primary-pink, 0.6),
-        0 0 0 1px rgba($primary-pink, 0.8) inset;
-        
-      &::before {
-        transform: translateX(100%) skewX(-15deg);
-      }
+      opacity: 1;
+      transform: scale(1.05);
     }
+  }
+  
+  @media (max-width: 768px) {
+    gap: 1.5rem;
     
-    &:active {
-      transform: translateY(-1px);
+    .clientLogo {
+      font-size: 1.1rem;
+      padding: 0.375rem 0.75rem;
     }
-  }
-  
-  .secondaryCta {
-    @include glassmorphism(rgba(255, 255, 255, 0.05), 10px);
-    color: $primary-white;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    
-    &:hover {
-      background: rgba(255, 255, 255, 0.1);
-      transform: translateY(-2px);
-    }
-    
-    &:active {
-      transform: translateY(-1px);
-    }
-  }
-}
-
-.ctaDecoration {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-  
-  .decorationElement1,
-  .decorationElement2,
-  .decorationElement3 {
-    position: absolute;
-    border-radius: 50%;
-    @include floating();
-  }
-  
-  .decorationElement1 {
-    width: 200px;
-    height: 200px;
-    bottom: -100px;
-    right: -50px;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.2), transparent 70%);
-    filter: blur(50px);
-    animation-duration: 15s;
-  }
-  
-  .decorationElement2 {
-    width: 150px;
-    height: 150px;
-    top: -50px;
-    left: -30px;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-blue, 0.2), transparent 70%);
-    filter: blur(40px);
-    animation-duration: 12s;
-    animation-delay: 1s;
-  }
-  
-  .decorationElement3 {
-    width: 100px;
-    height: 100px;
-    bottom: 20%;
-    right: 20%;
-    background: radial-gradient(circle at 30% 30%, rgba($primary-pink, 0.15), transparent 70%);
-    filter: blur(30px);
-    animation-duration: 18s;
-    animation-delay: 2s;
   }
 }
 
@@ -2241,8 +1797,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     padding: 5rem 0 3rem;
   }
   
-  .heroTitle .titleText, .heroTitle .headlineTextPink {
-    font-size: 2rem;
+  .heroTitle .headlineText, .heroTitle .headlineTextPink {
+    font-size: 2.2rem;
   }
   
   .subheadline {
@@ -2250,7 +1806,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
   
   .contactSection {
-    padding: 3rem 0 4rem;
+    padding: 1rem 0 3rem;
   }
   
   .formGroup {
@@ -2315,16 +1871,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     font-size: 0.875rem;
   }
   
-  .processSection, .mapSection, .ctaSection {
-    padding: 3.5rem 0;
+  .clientsSection {
+    padding: 2rem 0;
   }
   
-  .ctaCard {
-    padding: 2rem 1.25rem;
-  }
-  
-  .primaryCta, .secondaryCta {
-    padding: 0.75rem 1.25rem;
+  .clientsHeading {
     font-size: 0.875rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .clientLogos .clientLogo {
+    font-size: 1rem;
   }
 }

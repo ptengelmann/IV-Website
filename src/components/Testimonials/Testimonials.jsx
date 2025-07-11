@@ -134,25 +134,6 @@ const Testimonials = () => {
               <span className={styles.emphasisTextPink}> results</span> working with us.
             </p>
           </div>
-          
-          <div className={styles.navigationWrapper}>
-            <div className={styles.navigation}>
-              <button 
-                className={styles.navButton} 
-                onClick={handlePrev}
-                aria-label="Previous testimonial"
-              >
-                <ArrowLeft size={18} />
-              </button>
-              <button 
-                className={styles.navButton} 
-                onClick={handleNext}
-                aria-label="Next testimonial"
-              >
-                <ArrowRight size={18} />
-              </button>
-            </div>
-          </div>
         </div>
         
         <div className={styles.testimonialSlider}>
@@ -193,6 +174,16 @@ const Testimonials = () => {
               </div>
             </div>
           ))}
+        </div>
+        
+        <div className={styles.sliderControls}>
+          <button 
+            className={styles.navButton} 
+            onClick={handlePrev}
+            aria-label="Previous testimonial"
+          >
+            <ArrowLeft size={18} />
+          </button>
           
           <div className={styles.indicators}>
             {testimonials.map((_, index) => (
@@ -209,6 +200,14 @@ const Testimonials = () => {
               />
             ))}
           </div>
+          
+          <button 
+            className={styles.navButton} 
+            onClick={handleNext}
+            aria-label="Next testimonial"
+          >
+            <ArrowRight size={18} />
+          </button>
         </div>
       </div>
     </section>

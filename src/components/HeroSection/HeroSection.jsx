@@ -36,7 +36,7 @@ const HeroSection = () => {
       id: 'design',
       title: 'Design & Production',
       icon: Layers,
-      color: '#1B7DC2',
+      color: '#E72D88',
       description: 'Create innovative products and brand experiences',
       features: ['Bespoke packaging', 'Digital print', 'Personalization']
     },
@@ -44,7 +44,7 @@ const HeroSection = () => {
       id: 'operations',
       title: 'Operations',
       icon: Box,
-      color: '#1B7DC2',
+      color: '#E72D88',
       description: 'Fulfill and ship products with maximum efficiency',
       features: ['Global distribution', 'B2B and DTC', 'Customer services']
     }
@@ -374,7 +374,6 @@ const HeroSection = () => {
       <div className={styles.clientsSection}>
         <div className={styles.clientsWrapper}>
           <div className={styles.clientsHeading}>
-            <Sparkles size={16} />
             <span>Trusted by brands of all shapes and sizes:</span>
           </div>
           

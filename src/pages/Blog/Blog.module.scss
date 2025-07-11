@@ -162,7 +162,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 .blogHeader {
   display: flex;
   justify-content: space-between;
-  align-items: flex-end;
+  align-items: flex-start;
   margin-bottom: 3rem;
   
   @media (max-width: 992px) {
@@ -174,11 +174,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .headerContent {
   max-width: 600px;
+  margin-bottom: 2rem;
   
   @media (max-width: 992px) {
     max-width: 100%;
+    margin-bottom: 1rem;
   }
 }
+
 
 .blogTitle {
   font-family: 'Poppins', sans-serif;
@@ -219,6 +222,23 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   }
 }
 
+
+
+// NEW: Container for filters and search on same line
+.filtersSearchContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  margin-bottom: 3rem;
+  
+  @media (max-width: 992px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.5rem;
+  }
+}
+
 .searchContainer {
   flex-shrink: 0;
   width: 100%;
@@ -234,6 +254,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   @media (max-width: 992px) {
     max-width: 100%;
+    order: 2; // Put search after filters on mobile
   }
 }
 
@@ -241,17 +262,18 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   display: flex;
   align-items: center;
+  height: 40px; // Match the height of category buttons
 }
 
 .searchInput {
   width: 100%;
-  height: 54px;
-  padding: 0 1rem 0 1.5rem;
+  height: 40px; // Match category button height exactly
+  padding: 0 60px 0 1.5rem;
   background: rgba($dark-card, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: $border-radius-sm;
+  border-radius: 100px;
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem; // Match category button font size
   color: $primary-white;
   transition: $transition-smooth;
   
@@ -268,12 +290,12 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .searchButton {
   position: absolute;
-  right: 8px;
+  right: 4px; // Adjust positioning
   top: 50%;
   transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 32px; // Slightly smaller to fit the reduced height
+  height: 32px;
+  border-radius: 50%;
   background: $primary-pink;
   border: none;
   display: flex;
@@ -286,6 +308,12 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   &:hover {
     transform: translateY(-50%) scale(1.05);
     background: darken($primary-pink, 5%);
+    box-shadow: 0 5px 15px rgba($primary-pink, 0.3);
+  }
+  
+  svg {
+    width: 16px; // Slightly smaller icon
+    height: 16px;
   }
 }
 
@@ -294,7 +322,6 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   align-items: center;
   gap: 1.5rem;
-  margin-bottom: 3rem;
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s ease 0.5s;
@@ -302,6 +329,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding-bottom: 0.5rem;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  flex: 1; // Take remaining space
   
   &::-webkit-scrollbar {
     display: none;
@@ -315,6 +343,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @media (max-width: 768px) {
     gap: 1rem;
   }
+  
+  @media (max-width: 992px) {
+    width: 100%;
+    order: 1; // Put filters first on mobile
+  }
 }
 
 .categoryFilter {
@@ -326,6 +359,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   font-size: 0.875rem;
   font-weight: 500;
   white-space: nowrap;
+  padding: 0.5rem 1rem;
+  background: rgba($dark-card, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 100px; // Make it rounded
 }
 
 .categoriesList {
@@ -342,7 +379,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0.5rem 1rem;
   background: rgba($dark-card, 0.7);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: $border-radius-sm;
+  border-radius: 100px; // Change to rounded like portfolio
   font-family: 'Roboto', sans-serif;
   font-size: 0.875rem;
   color: rgba($primary-white, 0.7);
@@ -354,12 +391,15 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     color: $primary-white;
     background: rgba($dark-card, 0.9);
     border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px); // Add subtle lift on hover
+    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.2); // Add shadow on hover
   }
   
   &.active {
     background: $primary-pink;
     color: $primary-white;
     border-color: $primary-pink;
+    box-shadow: 0 5px 15px -5px rgba($primary-pink, 0.4); // Add shadow for active state
   }
   
   @media (max-width: 768px) {
@@ -1119,5 +1159,30 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   
   .newsletterButton {
     padding: 0 1.25rem;
+  }
+}
+
+.newsletterLegal {
+  font-family: 'Roboto', sans-serif;
+  font-size: 0.875rem;
+  color: rgba($primary-white, 0.6);
+  margin-top: 1rem;
+  max-width: 500px;
+
+  a {
+    color: $primary-pink;
+    text-decoration: underline;
+    transition: $transition-smooth;
+
+    &:hover {
+      text-shadow: 0 0 6px rgba($primary-pink, 0.4);
+    }
+  }
+
+  @media (max-width: 576px) {
+    font-size: 0.8125rem;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
   }
 }

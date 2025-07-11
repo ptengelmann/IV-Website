@@ -82,7 +82,7 @@ const WhatWeDo = () => {
       id: 'design',
       title: 'Design & Production',
       icon: Layers,
-      color: '#1B7DC2',
+      color: '#E72D88',
       description: 'Create innovative products and brand experiences',
       features: [
         { 
@@ -111,7 +111,7 @@ const WhatWeDo = () => {
       id: 'operations',
       title: 'Operations',
       icon: Box,
-      color: '#1B7DC2',
+      color: '#E72D88',
       description: 'Fulfill and ship products with maximum efficiency',
       features: [
         { 
@@ -320,11 +320,15 @@ const WhatWeDo = () => {
                 </div>
                 
                 <div className={styles.pillarActions}>
-                  <a href={`/services/${pillar.id}`} className={styles.pillarLink}>
-                    <span>Explore {pillar.title}</span>
-                    <MoveRight size={18} />
-                  </a>
-                </div>
+  <a href={`/services/${pillar.id}`} className={styles.secondaryCta}>
+    <span>Explore {pillar.title}</span>
+    <MoveRight size={18} />
+  </a>
+  <a href="/contact" className={styles.primaryCta}>
+    <span>Let's Chat</span>
+    <ArrowUpRight size={18} />
+  </a>
+</div>
               </div>
               
               <div className={styles.pillarVisualization}>
@@ -445,21 +449,22 @@ const WhatWeDo = () => {
         </div>
         
         <div className={styles.sectionFooter}>
-          <p className={styles.footerText}>
-            Our four pillars work seamlessly together to provide a truly end-to-end solution, 
-            from <span className={styles.emphasisTextPink}>attracting</span> and <span className={styles.emphasisTextPink}>converting</span> customers to <span className={styles.emphasisTextPink}>creating</span> and <span className={styles.emphasisTextPink}>delivering</span> products.
-          </p>
-          <div className={styles.ctaGroup}>
-            <button className={styles.primaryCta}>
-              <span>Explore All Services</span>
-              <ArrowUpRight size={18} />
-            </button>
-            <button className={styles.secondaryCta}>
-              <Phone size={18} />
-              <span>Get in Touch</span>
-            </button>
-          </div>
-        </div>
+  <p className={styles.footerText}>
+    Our four pillars work seamlessly together to provide a truly end-to-end solution, 
+    from <span className={styles.emphasisTextPink}>attracting</span> and <span className={styles.emphasisTextPink}>converting</span> customers to <span className={styles.emphasisTextPink}>creating</span> and <span className={styles.emphasisTextPink}>delivering</span> products.
+  </p>
+  <div className={styles.ctaGroup}>
+    {/* Swap the button classes here - make "Get in Touch" primary */}
+    <button className={styles.secondaryCta}>
+      <span>Explore All Services</span>
+      <ArrowUpRight size={18} />
+    </button>
+    <button className={styles.primaryCta}>
+      <ArrowUpRight size={18} />
+      <span>Get in Touch</span>
+    </button>
+  </div>
+</div>
       </div>
     </section>
   );

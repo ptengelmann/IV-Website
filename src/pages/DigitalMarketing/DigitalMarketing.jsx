@@ -26,7 +26,7 @@ const DigitalMarketing = () => {
       title: 'Content Creation',
       icon: MessageSquare,
       color: '#E72D88',
-      gradient: 'linear-gradient(135deg, #E72D88 0%, #E72D88 100%)',
+      gradient:'#E72D88',
       description: 'We curate excellent content for websites, blog posts and social media that drives awareness, traffic and conversions.',
       features: [
         'Strategic content planning',
@@ -50,7 +50,7 @@ const DigitalMarketing = () => {
       title: 'Social Media Marketing',
       icon: Share2,
       color: '#E72D88',
-      gradient: 'linear-gradient(135deg, #E72D88 0%, #1B7DC2 100%)',
+      gradient: '#E72D88', 
       description: 'Tapping into huge networks of potential customers, and enabling two-way communication.',
       features: [
         'Platform-specific strategies',
@@ -73,8 +73,8 @@ const DigitalMarketing = () => {
       id: 'seo',
       title: 'Search Engine Optimization',
       icon: Search,
-      color: '#1B7DC2',
-      gradient: 'linear-gradient(135deg, #1B7DC2 0%, #1B7DC2 100%)',
+      color: '#E72D88', 
+      gradient: '#E72D88', 
       description: 'We make sure your products and pages are easy to find in search engines. Improve your rankings, refine your content, and drive consistent, high-quality traffic to your site.',
       features: [
         'Technical SEO audits',
@@ -97,8 +97,8 @@ const DigitalMarketing = () => {
       id: 'ppc',
       title: 'PPC & Paid Advertising',
       icon: Target,
-      color: '#1B7DC2',
-      gradient: 'linear-gradient(135deg, #1B7DC2 0%, #E72D88 100%)',
+      color: '#E72D88', 
+      gradient: '#E72D88', 
       description: 'We plan and manage paid ads that put your products in front of the right people – driving targeted traffic, boosting sales, and making every click count.',
       features: [
         'Campaign strategy & structure',
@@ -509,65 +509,32 @@ const DigitalMarketing = () => {
           </div>
         </div>
       </div>
-      
-      {/* Our Process Section */}
-      <div className={styles.processSection} data-section id="process-section">
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionTagline}>Our Approach</span>
-            <h2 className={styles.sectionTitle}>
-              How we <span className={styles.highlight}>drive results</span> for your business
-            </h2>
-          </div>
-          
-          <div className={styles.processTimeline}>
-            {processSteps.map((step, index) => (
-              <div 
-                key={index} 
-                className={styles.processStep}
-                style={{
-                  '--step-color': step.color,
-                  '--step-delay': `${index * 0.1 + 0.2}s`
-                }}
-              >
-                <div className={styles.processIconWrapper}>
-                  <step.icon size={24} />
-                </div>
-                <div className={styles.processContent}>
-                  <h3 className={styles.processTitle}>{step.title}</h3>
-                  <p className={styles.processDescription}>{step.description}</p>
-                </div>
-                {index < processSteps.length - 1 && (
-                  <div className={styles.processConnector}></div>
-                )}
-              </div>
-            ))}
-          </div>
-        </div>
+
+           {/* Services section */}
+<div className={styles.servicesSection} data-section id="services-section" ref={servicesRef}>
+  <div className={styles.container}>
+    <div className={styles.sectionHeader}>
+      {/* Add badge wrapper and badge here */}
+      <div className={styles.sectionBadge}>
+        <Zap size={16} />
+        <span>Our Digital Marketing Services</span>
       </div>
-      
-      {/* Services section */}
-      <div className={styles.servicesSection} data-section id="services-section" ref={servicesRef}>
-        <div className={styles.container}>
-          <div className={styles.sectionHeader}>
-            <span className={styles.sectionTagline}>Our Digital Marketing Services</span>
-            <h2 className={styles.sectionTitle}>
-              Strategic <span className={styles.highlight}>marketing solutions</span><br />
-              that deliver real results
-            </h2>
-          </div>
+      <h2 className={styles.sectionTitle}>
+        Strategic <span className={styles.highlight}>marketing solutions</span><br />
+        that deliver real results
+      </h2>
+    </div>
           
           <div className={styles.servicesWrapper}>
             {services.map((service, index) => (
-              <div 
-                key={service.id}
-                className={styles.serviceContainer}
-                style={{
-                  '--service-color': service.color,
-                  '--service-gradient': service.gradient,
-                  '--service-delay': `${index * 0.2}s`
-                }}
-              >
+            <div 
+  key={service.id}
+  className={styles.serviceContainer}
+  style={{
+    '--service-color': service.color,
+    '--service-delay': `${index * 0.2}s`
+  }}
+>
                 <div className={styles.serviceHeader}>
                   <div className={styles.serviceIconWrapper}>
                     <service.icon size={32} className={styles.serviceIcon} />
@@ -613,6 +580,77 @@ const DigitalMarketing = () => {
                     <ArrowUpRight size={16} />
                   </button>
                 </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+      
+{/* Our Approach Section - HORIZONTAL STEPS WITHOUT ARROWS */}
+<div className={styles.approachSection} data-section id="approach-section">
+  <div className={styles.container}>
+    <div className={styles.sectionHeader}>
+      <div className={styles.sectionBadge}>
+        <Award size={16} />
+        <span>Our Approach</span>
+      </div>
+      <h2 className={styles.sectionTitle}>
+        How we <span className={styles.highlight}>drive results</span> for your business
+      </h2>
+    </div>
+    
+    <div className={styles.horizontalSteps}>
+      {processSteps.map((step, index) => (
+        <div 
+          key={index} 
+          className={styles.stepBlock}
+          style={{
+            '--step-delay': `${index * 0.1}s`
+          }}
+        >
+          <div className={styles.stepNumber}>
+            <span>{index + 1}</span>
+          </div>
+          <div className={styles.stepContent}>
+            <div className={styles.stepIconWrapper}>
+              <step.icon size={20} className={styles.stepIcon} />
+            </div>
+            <h3 className={styles.stepTitle}>{step.title}</h3>
+            <p className={styles.stepDescription}>{step.description}</p>
+          </div>
+          {/* Removed the stepArrow div */}
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+      
+      
+      {/* Benefits section */}
+      <div className={styles.benefitsSection} data-section id="benefits-section">
+        <div className={styles.container}>
+          <div className={styles.benefitsHeader}>
+            <div className={styles.benefitsBadge}>
+              <Award size={16} />
+              <span>Why Choose Our Digital Marketing</span>
+            </div>
+            <h2 className={styles.benefitsTitle}>
+              Some of the ways we <span className={styles.highlightAlt}>support your brand</span>
+            </h2>
+          </div>
+          
+          <div className={styles.benefitsGrid}>
+            {benefits.map((benefit, index) => (
+              <div 
+                key={index} 
+                className={styles.benefitCard}
+                style={{ '--benefit-delay': `${index * 0.1}s` }}
+              >
+                <div className={styles.benefitIconWrapper}>
+                  <benefit.icon size={24} className={styles.benefitIcon} />
+                </div>
+                <h3 className={styles.benefitTitle}>{benefit.title}</h3>
+                <p className={styles.benefitDescription}>{benefit.description}</p>
               </div>
             ))}
           </div>
@@ -675,59 +713,41 @@ const DigitalMarketing = () => {
           </div>
         </div>
       </div>
+
+{/* Enhanced CTA section */}
+<div className={styles.ctaSection} data-section id="cta-section">
+  <div className={styles.container}>
+    <div className={styles.ctaCard}>
+      <div className={styles.ctaGlow}></div>
+      <div className={styles.ctaPattern}></div>
       
-      {/* Benefits section */}
-      <div className={styles.benefitsSection} data-section id="benefits-section">
-        <div className={styles.container}>
-          <div className={styles.benefitsHeader}>
-            <div className={styles.benefitsBadge}>
-              <Award size={16} />
-              <span>Why Choose Our Digital Marketing</span>
-            </div>
-            <h2 className={styles.benefitsTitle}>
-              Some of the ways we <span className={styles.highlightAlt}>support your brand</span>
-            </h2>
-          </div>
-          
-          <div className={styles.benefitsGrid}>
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index} 
-                className={styles.benefitCard}
-                style={{ '--benefit-delay': `${index * 0.1}s` }}
-              >
-                <div className={styles.benefitIconWrapper}>
-                  <benefit.icon size={24} className={styles.benefitIcon} />
-                </div>
-                <h3 className={styles.benefitTitle}>{benefit.title}</h3>
-                <p className={styles.benefitDescription}>{benefit.description}</p>
-              </div>
-            ))}
+      <div className={styles.ctaContent}>
+        <div className={styles.ctaIconWrapper}>
+          <Zap size={24} className={styles.ctaIcon} />
+        </div>
+        <h2 className={styles.ctaTitle}>Ready to elevate your digital presence?</h2>
+        <p className={styles.ctaDescription}>
+          Let's discuss how our digital marketing expertise can help drive traffic, boost engagement, and increase conversions for your business.
+        </p>
+        <div className={styles.ctaActions}>
+          <button className={styles.ctaPrimary}>
+            <span>Get in touch</span>
+            <ArrowUpRight size={18} />
+          </button>
+          <div className={styles.ctaHighlight}>
+            <span>Start seeing results in 30 days</span>
           </div>
         </div>
       </div>
       
-      {/* CTA section */}
-      <div className={styles.ctaSection} data-section id="cta-section">
-        <div className={styles.container}>
-          <div className={styles.ctaCard}>
-            <div className={styles.ctaContent}>
-              <h2 className={styles.ctaTitle}>Ready to elevate your digital presence?</h2>
-              <p className={styles.ctaDescription}>
-                Let's discuss how our digital marketing expertise can help drive traffic, boost engagement, and increase conversions for your business.
-              </p>
-              <div className={styles.ctaActions}>
-                <button className={styles.ctaPrimary}>
-                  <span>Get in touch</span>
-                  <ArrowUpRight size={18} />
-                </button>
-              </div>
-            </div>
-            
-            <div className={styles.chevronDecoration}></div>
-          </div>
-        </div>
+      <div className={styles.ctaDecoration}>
+        <div className={styles.decorationCircle}></div>
+        <div className={styles.decorationSquare}></div>
+        <div className={styles.decorationTriangle}></div>
       </div>
+    </div>
+  </div>
+</div>
     </div>
   );
 };

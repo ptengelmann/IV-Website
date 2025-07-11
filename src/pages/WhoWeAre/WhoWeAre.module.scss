@@ -582,11 +582,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   border-radius: $border-radius-md;
   padding: 1.5rem;
   text-align: center;
-  transition: all 0.3s ease;
   
+  /* Remove this transition that was causing the animation */
+  /* transition: all 0.3s ease; */
+  
+  /* Remove this hover animation effect */
   &:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+    /* transform: translateY(-5px); */
+    /* box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3); */
     border-color: rgba(255, 255, 255, 0.1);
   }
 }
@@ -913,7 +916,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding: 0.375rem 0.75rem;
   @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border-radius: 50px;
-  transition: all 0.3s ease;
+  
+  /* Remove this transition that was causing the animation */
+  /* transition: all 0.3s ease; */
   
   svg {
     color: $primary-pink;
@@ -924,9 +929,10 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     color: rgba($primary-white, 0.9);
   }
   
+  /* Remove the hover animation */
   &:hover {
-    background: rgba($primary-pink, 0.1);
-    transform: translateY(-2px);
+    /* background: rgba($primary-pink, 0.1); */
+    /* transform: translateY(-2px); */
   }
 }
 
@@ -1327,7 +1333,6 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 .regionMarker {
   position: absolute;
   transform: translate(-50%, -50%);
-  cursor: pointer;
   z-index: 3;
   transition: all 0.3s ease;
   
@@ -1435,10 +1440,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: $border-radius-lg;
   padding: 1.75rem;
-  transition: all 0.3s cubic-bezier(0.215, 0.61, 0.355, 1);
   position: relative;
   overflow: hidden;
-  cursor: pointer;
+  
   
   &::before {
     content: '';
@@ -1449,14 +1453,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     height: 100%;
     background: var(--region-color, $primary-pink);
     opacity: 0.6;
-    transition: opacity 0.3s ease;
+    /* Remove transition */
+    /* transition: opacity 0.3s ease; */
   }
   
   &.active {
     border-color: rgba(var(--region-color, $primary-pink), 0.2);
     @include glassmorphism(rgba($dark-card, 0.2), 10px);
-    box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4);
-    transform: translateY(-5px);
+    /* Remove shadow and transform */
+    /* box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.4); */
+    /* transform: translateY(-5px); */
     
     &::before {
       opacity: 1;
@@ -1464,7 +1470,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     
     .cardHeader {
       svg {
-        filter: drop-shadow(0 0 5px rgba(var(--region-color, $primary-pink), 0.5));
+        /* Remove filter effect */
+        /* filter: drop-shadow(0 0 5px rgba(var(--region-color, $primary-pink), 0.5)); */
       }
       
       h3 {
@@ -1473,10 +1480,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     }
   }
   
+  /* Remove hover animation */
   &:hover {
     border-color: rgba(255, 255, 255, 0.1);
-    transform: translateY(-5px);
-    box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+    /* transform: translateY(-5px); */
+    /* box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3); */
   }
 }
 
@@ -1686,6 +1694,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     border-radius: $border-radius-sm;
     cursor: pointer;
     transition: $transition-bounce;
+    /* Add this line to remove underlines */
+    text-decoration: none;
     
     svg {
       transition: transform 0.3s ease;

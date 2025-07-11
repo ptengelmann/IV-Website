@@ -325,7 +325,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   opacity: 0;
   transform: translateY(20px);
   transition: all 0.5s ease 0.8s;
-  max-width: 500px;
+  max-width: 400px;
+  flex-shrink: 0;
   
   .loaded & {
     opacity: 1;
@@ -336,6 +337,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     max-width: 100%;
     width: 100%;
     margin-bottom: 1rem;
+    order: 2; // Put search after filters on mobile
   }
 }
 
@@ -343,19 +345,18 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   position: relative;
   display: flex;
   align-items: center;
-  max-width: 500px;
-  margin: 0 auto;
+  height: 40px; // Match the height of category buttons
 }
 
 .searchInput {
   width: 100%;
-  height: 54px;
+  height: 40px; // Match category button height exactly
   padding: 0 60px 0 1.5rem;
   @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 100px;
   font-family: 'Roboto', sans-serif;
-  font-size: 1rem;
+  font-size: 0.875rem; // Match category button font size
   color: $primary-white;
   transition: $transition-smooth;
   
@@ -372,11 +373,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 
 .searchButton {
   position: absolute;
-  right: 8px;
+  right: 4px;
   top: 50%;
   transform: translateY(-50%);
-  width: 38px;
-  height: 38px;
+  width: 32px; // Slightly smaller to fit the reduced height
+  height: 32px;
   border-radius: 50%;
   background: $primary-pink;
   border: none;
@@ -391,6 +392,11 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     transform: translateY(-50%) scale(1.05);
     box-shadow: 0 5px 15px rgba($primary-pink, 0.3);
   }
+  
+  svg {
+    width: 16px; // Slightly smaller icon
+    height: 16px;
+  }
 }
 
 // Filter section
@@ -398,6 +404,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 2rem;
   margin-bottom: 3rem;
   opacity: 0;
   transform: translateY(20px);
@@ -423,14 +430,16 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   padding-bottom: 0.5rem;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  flex: 1; // Take remaining space
   
-&::-webkit-scrollbar {
+  &::-webkit-scrollbar {
     display: none;
   }
   
   @media (max-width: 768px) {
     width: 100%;
     gap: 0.5rem;
+    order: 1;
   }
 }
 
@@ -446,6 +455,9 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   cursor: pointer;
   transition: $transition-smooth;
   white-space: nowrap;
+  height: 40px; // Set explicit height to match search input
+  display: flex;
+  align-items: center;
   
   &:hover {
     color: $primary-white;
@@ -464,11 +476,17 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @media (max-width: 768px) {
     padding: 0.4rem 1rem;
     font-size: 0.8125rem;
+    height: 36px; // Slightly smaller on mobile
   }
 }
-
 .filterControls {
   position: relative;
+  flex-shrink: 0;
+  
+  @media (max-width: 768px) {
+    order: 3; // Put filter dropdown last on mobile
+    width: 100%;
+  }
 }
 
 .filterButton {
@@ -485,6 +503,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   color: rgba($primary-white, 0.7);
   cursor: pointer;
   transition: $transition-smooth;
+  height: 40px; // Match other elements
   
   &:hover {
     color: $primary-white;
@@ -504,6 +523,7 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
   @media (max-width: 768px) {
     width: 100%;
     justify-content: space-between;
+    height: 36px; // Match mobile category button height
   }
 }
 

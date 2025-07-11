@@ -316,7 +316,6 @@ const WhoWeAre = () => {
               
               <div className={styles.brandsSection}>
                 <div className={styles.brandsHeading}>
-                  <Star size={14} />
                   <span>Trusted by brands worldwide:</span>
                 </div>
                 
@@ -368,7 +367,6 @@ const WhoWeAre = () => {
             <p>Our <span className={styles.emphasisTextPink}>evolution</span> over the years reflects our commitment to <span className={styles.emphasisTextPink}>innovation</span> and <span className={styles.emphasisTextPink}>excellence</span>. Each chapter in our story has brought new capabilities and deeper expertise.</p>
           </div>
           
-          // Update to the journeyTimeline section in the WhoWeAre component
 
 <div className={styles.journeyTimeline}>
   <div className={styles.timelineLine}>
@@ -545,15 +543,10 @@ const WhoWeAre = () => {
             </div>
           </div>
           
-          // Update the Join Team section in the WhoWeAre component JSX
 <div className={styles.joinTeam}>
   <div className={styles.joinContent}>
     <h3>Join Our Team</h3>
     <p>IV Creative is continually on the lookout for fresh talent to join our vibrant team. As we expand and take on new challenges, we're eager to welcome individuals who bring creativity, innovation, and a passion for excellence.</p>
-    <a href="/careers" className={styles.primaryCta}>
-      <span>View Open Positions</span>
-      <ArrowRight size={16} />
-    </a>
   </div>
 </div>
         </div>
@@ -607,32 +600,33 @@ const WhoWeAre = () => {
             <div className={styles.connectionLines}></div>
           </div>
           
-          <div className={styles.regionDetails}>
-            {regions.map((region) => (
-              <div 
-                key={region.id}
-                className={`${styles.regionCard} ${activeRegion === region.id ? styles.active : ''}`}
-                style={{ '--region-color': region.color }}
-              >
-                <div className={styles.cardHeader}>
-                  <region.icon size={20} />
-                  <h3>{region.name}</h3>
-                  {region.isHQ && <div className={styles.hqBadge}>HQ</div>}
-                </div>
-                
-                <p className={styles.regionDescription}>{region.description}</p>
-                
-                <div className={styles.regionStats}>
-                  {Object.entries(region.stats).map(([key, value]) => (
-                    <div key={key} className={styles.statItem}>
-                      <div className={styles.statValue}>{value}</div>
-                      <div className={styles.statLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            ))}
+         <div className={styles.regionDetails}>
+  {regions.map((region) => (
+    <div 
+      key={region.id}
+      className={`${styles.regionCard} ${activeRegion === region.id ? styles.active : ''}`}
+      style={{ '--region-color': region.color }}
+    >
+      <div className={styles.cardHeader}>
+        <region.icon size={20} />
+        <h3>{region.name}</h3>
+        {region.isHQ && <div className={styles.hqBadge}>HQ</div>}
+      </div>
+      
+      <p className={styles.regionDescription}>{region.description}</p>
+      
+      {/* Remove the entire regionStats section */}
+      {/* <div className={styles.regionStats}>
+        {Object.entries(region.stats).map(([key, value]) => (
+          <div key={key} className={styles.statItem}>
+            <div className={styles.statValue}>{value}</div>
+            <div className={styles.statLabel}>{key.charAt(0).toUpperCase() + key.slice(1)}</div>
           </div>
+        ))}
+      </div> */}
+    </div>
+  ))}
+</div>
         </div>
       </div>
       

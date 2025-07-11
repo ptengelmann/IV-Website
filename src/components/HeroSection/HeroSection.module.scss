@@ -493,10 +493,8 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
 .statsGroup {
   display: flex;
   justify-content: flex-start;
-  gap: 4rem;
+  gap: 2rem; // Reduced gap to accommodate boxes
   opacity: 0;
-  transform: translateY(20px);
-  transition: all 0.5s ease 0.8s;
   
   .loaded & {
     opacity: 1;
@@ -507,30 +505,39 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     justify-content: center;
     flex-wrap: wrap;
     width: 100%;
-    gap: 2rem;
-    
-    .stat {
-      text-align: center;
-    }
+    gap: 1.5rem;
+  }
+}
+  
+.stat {
+  // Add these new styles to create boxes
+  padding: 1.25rem 1.5rem;
+  @include glassmorphism(rgba(255, 255, 255, 0.03), 10px);
+  border-radius: $border-radius-md;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 150px;
+  text-align: center;
+  
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.3);
   }
   
-  .stat {
-    .statValue {
-      font-family: 'Poppins', sans-serif;
-      font-size: 2rem;
-      font-weight: 700;
-      color: $primary-pink;
-      line-height: 1;
-      margin-bottom: 0.5rem;
-    }
-    
-    .statLabel {
-      font-family: 'Roboto', sans-serif;
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: rgba($primary-white, 0.7);
-      text-transform: lowercase;
-    }
+  .statValue {
+    font-family: 'Poppins', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: $primary-pink;
+    line-height: 1;
+    margin-bottom: 0.75rem; // Increased margin
+  }
+  
+  .statLabel {
+    font-family: 'Roboto', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: rgba($primary-white, 0.7);
+    text-transform: lowercase;
   }
 }
 
@@ -993,11 +1000,14 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
     transform: translateY(40px);
     opacity: 0;
     
-    @for $i from 1 through 4 {
-      &:nth-child(#{$i}) {
-        transition-delay: #{0.8 + ($i * 0.1)}s;
-      }
+   @for $i from 1 through 4 {
+    &:nth-child(#{$i}) {
+      /* Change from:
+      transition-delay: #{0.8 + ($i * 0.1)}s;
+      To a faster timing: */
+      transition-delay: #{0.2 + ($i * 0.05)}s;
     }
+  }
     
     .loaded & {
       transform: translateY(0);
@@ -1016,18 +1026,19 @@ $transition-spring: all 0.7s cubic-bezier(0.68, -0.6, 0.32, 1.6);
       z-index: 0;
     }
     
-    &:hover,
-    &.active {
-      transform: translateY(-8px) scale(1.02);
-      border-color: rgba(255, 255, 255, 0.1);
-      box-shadow: 
-        0 20px 40px -20px rgba(0, 0, 0, 0.6),
-        0 0 15px rgba(var(--pillar-color, $primary-pink), 0.1);
-      
-      .chevronPattern {
-        opacity: 0.1;
-      }
-      
+  /* And for hover effect to be more responsive, update this: */
+  &:hover,
+  &.active {
+    transform: translateY(-8px) scale(1.02);
+    border-color: rgba(255, 255, 255, 0.1);
+    box-shadow: 
+      0 20px 40px -20px rgba(0, 0, 0, 0.6),
+      0 0 15px rgba(var(--pillar-color, $primary-pink), 0.1);
+    
+    /* Speed up all hover animations */
+    .chevronPattern {
+      opacity: 0.1;
+    }
       .pillarIcon {
         background: var(--pillar-color, $primary-pink);
         transform: scale(1.1);
